@@ -25,6 +25,11 @@ public class Main {
 	public static void main(String[] args) {
 		//init the frame
 		frame = new JFrame();
+
+		//Makes the red X at the top actually kill the process
+		//It does not do so by default. The process keeps running
+		//without this.
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//init the panels we need for the main menu
 		buttonPanel = new JPanel();

@@ -43,7 +43,7 @@ public class Main {
 		instLabel = new JLabel("Here's some instructions");
 		
 		//now we will populate the panels
-		populatePanels();
+		initialPopulationPanels();
 		
 		//now our panels for buttons and instructions are populated
 		
@@ -56,7 +56,7 @@ public class Main {
 		frame.pack(); // if we pack then our GUI components will be tightly packed together
 	}
 	
-	public static void populatePanels(){
+	public static void initialPopulationPanels(){
 		
 		//buttons first
 		buttonPanel.setLayout(new BorderLayout()); //we set the layout

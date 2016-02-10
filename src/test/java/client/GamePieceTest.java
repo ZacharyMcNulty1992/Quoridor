@@ -2,6 +2,7 @@ package client;
 
 import java.util.Collection;
 import java.util.Arrays;
+import java.awt.Point;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 /**
  * @author Brandon Williams
- * @date   2/9/2016 - Last updated
+ * @date   2/10/2016 - Last updated
  */
 @RunWith(Parameterized.class)
 public class GamePieceInterfaceTest {
@@ -33,14 +34,14 @@ public class GamePieceInterfaceTest {
 
 	if(gamePiece instanceof Pawn) {
 	    
-	    Point[] pawnPos = {null, new Point(2,3)};
+	    Point[] pawnPos = {null, new Point(3,2)};
 
 	    assertArrayEquals(pawnPos, positions);
 	}
 
 	else if(gamePiece instanceof Wall) {
 
-	    Point wallPos = {new Point(2,3), new Point(3,3)}
+	    Point wallPos = {new Point(3,2), new Point(4,2)};
 
 	    assertArrayEquals(wallPos, positions);
 	}
@@ -52,9 +53,9 @@ public class GamePieceInterfaceTest {
     }
 
     @Parameterized.Parameters
-    public static Collection<Object[]> instancesToTest() {
+    public static Collection<GamePiece[]> instancesToTest() {
 
-	return Arrays.asList( new Object[]{new Pawn(2,3)},
-			      new Object[]{new Wall(2,3,'h')} );
+	return Arrays.asList( new GamePiece[]{new Pawn(2,3)},
+			      new GamePiece[]{new Wall(2,3,'h')} );
     }
 }

@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.Point;
+
 import org.junit.Test;
 import org.junit.Before;
 
@@ -8,7 +10,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 /**
  * @author Brandon Williams
- * @date   2/9/2016 - Last Updated
+ * @date   2/10/2016 - Last Updated
  */
 public class PawnTest {
 
@@ -29,7 +31,7 @@ public class PawnTest {
     @Test
     public void testGetPosition() throws Exception {
 
-	Point[] expectedVals = {null, new Point(2,3)};
+	Point[] expectedVals = {null, new Point(3,2)};
 
 	assertArrayEquals(expectedVals, testPawn.getPostition);
     }

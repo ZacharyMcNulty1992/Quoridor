@@ -31,8 +31,8 @@ public class WallTest {
     @Test
     public void testWallGetPosition() throws Exception {
 
-	Point[] expectedVals = {new Point(3,2), new Point(4,3)};
+	Point[] expectedVals = {new Point(3,2), new Point(4,2)};
 
-	assertArrayEquals(expectedVals, testWall.getPostition());
+	assertArrayEquals(expectedVals, testWall.getPosition());
     }
 }

@@ -33,6 +33,6 @@ public class PawnTest {
 
 	Point[] expectedVals = {null, new Point(3,2)};
 
-	assertArrayEquals(expectedVals, testPawn.getPostition);
+	assertArrayEquals(expectedVals, testPawn.getPosition());
     }
 }

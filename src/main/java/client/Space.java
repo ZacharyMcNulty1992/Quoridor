@@ -8,6 +8,7 @@ public Space Left;
 public Space Right;
 public Space Up;
 public Space Down;
+public boolean occupied;
 
 //coords on the Board
 public int x;
@@ -26,5 +27,13 @@ public Space(Space up, Space down, Space left, Space right, int x, int y){
 	this.Down = down;
 	this.Up = up;
 }//end of constructor
+
+/*
+ * setOccupied
+ * Params: boolean weather the space has a player on it or not
+ */
+  public void setOccupied(boolean x){
+	occupied = x;
+  }
 
 }//end of class

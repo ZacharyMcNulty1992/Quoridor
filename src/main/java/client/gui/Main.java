@@ -1,6 +1,8 @@
 package main.java.client.gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -41,6 +43,10 @@ public class Main {
 		SinglePlayerButton = new JButton("Single Player");
 		multiplayerButton = new JButton("Multiplayer");
 		
+		//now we add a listener to the buttons so they do something
+		SinglePlayerButton.addActionListener(new singlePlayerListener());
+		
+		
 		//allternately we can set text to a button using:
 		//SinglePlayerButton.setText("text goes here")
 		
@@ -74,5 +80,14 @@ public class Main {
 		//thats all for the initial setup of the panels
 	}
 	
+	//so this is the code that is run when a button is pressed
+	public static class singlePlayerListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent arg0) {
+			
+			System.out.println("Single player button pressed");
+		}
+		
+	}
 	
 }

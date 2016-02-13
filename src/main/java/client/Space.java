@@ -1,6 +1,6 @@
 package client;
 
-public class Space(){
+public class Space{
 
 //variables can be accessed by calling them 
 //thus we do not need getters.

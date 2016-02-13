@@ -1,6 +1,8 @@
-package client;
+package test.java.client;
 
 import java.awt.Point;
+
+import main.java.client.Pawn;
 
 import org.junit.Test;
 import org.junit.Before;

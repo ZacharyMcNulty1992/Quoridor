@@ -1,4 +1,6 @@
-package client;
+package test.java.client;
+import main.java.client.GameBoard;
+
 import org.junit.Test;
 import org.junit.Before;
 

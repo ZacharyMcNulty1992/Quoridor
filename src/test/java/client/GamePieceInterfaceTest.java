@@ -1,8 +1,12 @@
-package client;
+package test.java.client;
 
 import java.util.Collection;
 import java.util.Arrays;
 import java.awt.Point;
+
+import main.java.client.GamePiece;
+import main.java.client.Pawn;
+import main.java.client.Wall;
 
 import org.junit.Test;
 import org.junit.Before;

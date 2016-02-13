@@ -1,9 +1,4 @@
-/* Name : Michael Cataldo
-   Class: CIS 410
-   Assignment: p002 - BirthdayServer/Client <---- ****** Mike, the fuck.*****
-   Due  : 02/12/2016 */
 package client;
-
 import java.net.Socket;
 import java.util.*;
 import java.io.*;

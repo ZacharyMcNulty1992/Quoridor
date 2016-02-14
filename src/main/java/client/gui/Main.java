@@ -45,7 +45,7 @@ public class Main {
 		
 		//now we add a listener to the buttons so they do something
 		SinglePlayerButton.addActionListener(new singlePlayerListener());
-		
+		multiplayerButton.addActionListener(new multiPlayerListener());
 		
 		//allternately we can set text to a button using:
 		//SinglePlayerButton.setText("text goes here")
@@ -83,11 +83,19 @@ public class Main {
 	//so this is the code that is run when a button is pressed
 	public static class singlePlayerListener implements ActionListener{
 		
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent e) {
 			
 			System.out.println("Single player button pressed");
+			System.out.println(e.HIERARCHY_BOUNDS_EVENT_MASK);
 		}
 		
 	}
-	
+	// like super mega butt sex all the time this is a drunk comment
+	//use an action listener to run code that a button 
+	public static class multiPlayerListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent e){
+			System.out.println("butt sex");
+		}
+	}
 }

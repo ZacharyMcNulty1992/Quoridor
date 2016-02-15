@@ -90,12 +90,11 @@ public class Main {
 		}
 		
 	}
-	// like super mega butt sex all the time this is a drunk comment
 	//use an action listener to run code that a button 
 	public static class multiPlayerListener implements ActionListener{
 		
 		public void actionPerformed(ActionEvent e){
-			System.out.println("butt sex");
+			System.out.println("multiplayer");
 		}
 	}
 }

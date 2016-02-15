@@ -33,6 +33,8 @@ public class GameBoard {
     		for(int p = 0; p < 9; p++){
     			s = gameBoard.get(p+i*9); //using that temp variable we can get each node
     			
+    			s.occupied = false;
+    			
     			//here we will check if we are adding connections on the top row.
     			if(i == 0){
     				//if we are here we will not add a connection to the up pointer

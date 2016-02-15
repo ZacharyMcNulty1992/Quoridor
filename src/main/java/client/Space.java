@@ -15,19 +15,15 @@ public class Space {
 	public int y;
 
 	/*
-	 * Space
+	 * constructor
 	 * 
-	 * Params: A pointer to each adj node, x coord, y coord
+	 * Params: only the x and y coords
 	 */
-	public Space(Space up, Space down, Space left, Space right, int x, int y) {
+	public Space(int x, int y){
 		this.x = x;
 		this.y = y;
-		this.Left = left;
-		this.Right = right;
-		this.Down = down;
-		this.Up = up;
-	}// end of constructor
-
+	}
+	
 	/*
 	 * setOccupied Params: boolean weather the space has a player on it or not
 	 */

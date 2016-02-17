@@ -11,6 +11,10 @@ public class AI {
 		initGraph();
 	}
 
+	public String getMove(){
+		return ""; //sub
+	}
+	
 	public void initGraph() {
 
 		gameBoard = new ArrayList<Space>();

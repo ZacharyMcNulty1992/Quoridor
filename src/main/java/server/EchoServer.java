@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import java.util.Scanner;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 
 /**
@@ -35,9 +37,9 @@ public class EchoServer {
   public final static String ARG_MACHINE = "--machine";
 
   /** Message op-codes */
-  public final static String MSG_HELLO = "Hello";
+  public final static String MSG_HELLO = "HELLO";
   public final static String MSG_GOODBYE = "Goodbye";
-
+  static String hostname = "localhost";
 
   /** Port number of distant machine */
   private int portNumber;
@@ -83,14 +85,14 @@ public class EchoServer {
         while (cin.hasNextLine() &&
               (!(clientMessage = cin.nextLine()).equals(MSG_GOODBYE))) {
 	    
-          //if (clientMessage.equals(MSG_HELLO)) {
-            cout.format("Server saw \"%s\"\n", clientMessage);
+          if(clientMessage.equals(MSG_HELLO)) {
+            cout.println("IAM teamForTrue's Server on machine: " + hostname);
             System.out.format("Server saw \"%s\"\n", clientMessage);
-          /*} else {
-            System.err.format("Server saw \"%s\"; unknown message.\n",
-              clientMessage);
-            System.exit(1);
-          } */
+          } else {
+            System.out.format("Server saw \"%s\"\n",clientMessage);
+	    cout.format("Server saw \"%s\"\n",clientMessage);
+          } 
+	  
         }
 
         if (!clientMessage.isEmpty()) {
@@ -130,6 +132,13 @@ public class EchoServer {
      * indices; remember for arguments that have their own parameters, you
      * must advance past the value for the argument too.
      */
+    try{
+	InetAddress addr;
+	addr = InetAddress.getLocalHost();
+        hostname = addr.getHostName();
+    }catch (UnknownHostException ex){
+	System.out.println("Hostname can not be resolved");
+    }
     int argNdx = 0;
 
     while (argNdx < args.length) {

@@ -1,100 +1,68 @@
 package main.java.client.gui;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javafx.scene.*;
+import javafx.scene.layout.*;
+import javafx.scene.control.*;
+import javafx.application.*;
+import javafx.event.*;
+import javafx.stage.*;
+import javafx.geometry.*;
+import javafx.collections.*;
+import javafx.scene.text.*;
+import javafx.scene.shape.*;
+import javafx.scene.paint.*;
 
-import javax.swing.*;
+public class Main extends Application{ 
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Quoridor");
 
-public class Main {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-	//the frame
-	public static JFrame frame; //this is what all the component objects get added to 
-	
-	//Panels
-	public static JPanel buttonPanel; //where we add buttons
-	public static JPanel instPanel; //where the instructions go
-	public static JPanel BoardPanel; //where the board will be desplayed
-	public static JPanel inputPanel; //where the input will go
-	
-	//Buttons
-	public static JButton SinglePlayerButton; //button for single player menu
-	public static JButton multiplayerButton; //button for the multiplayer menu
-	
-	//labels
-	public static JLabel instLabel;
-	
-	public static void main(String[] args) {
-		//init the frame
-		frame = new JFrame();
+        /*Text scenetitle = new Text("Quoridor");
+        scenetitle.setId("Quoridor-text");
+        grid.add(scenetitle, 0, 0, 2, 1);
 
-		//Makes the red X at the top actually kill the process
-		//It does not do so by default. The process keeps running
-		//without this.
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//init the panels we need for the main menu
-		buttonPanel = new JPanel();
-		instPanel = new JPanel();
-		BoardPanel = new JPanel();
-		inputPanel = new JPanel();
-		
-		//init the buttons
-		SinglePlayerButton = new JButton("Single Player");
-		multiplayerButton = new JButton("Multiplayer");
-		
-		//now we add a listener to the buttons so they do something
-		SinglePlayerButton.addActionListener(new singlePlayerListener());
-		multiplayerButton.addActionListener(new multiPlayerListener());
-		
-		//allternately we can set text to a button using:
-		//SinglePlayerButton.setText("text goes here")
-		
-		//init our label
-		instLabel = new JLabel("Here's some instructions");
-		
-		//now we will populate the panels
-		initialPopulationPanels();
-		
-		//now our panels for buttons and instructions are populated
-		
-		//now we add the panels to the frame in the arangment we want
-		frame.setLayout(new BorderLayout()); //we add a layout manager to the frame
-		frame.add(buttonPanel, BorderLayout.SOUTH); //add the button panel to the bottom of the GUI
-		frame.add(instPanel, BorderLayout.CENTER); //add the instructions to the frame 
-		
-		frame.setVisible(true); //this makes the GUI visible 
-		frame.pack(); // if we pack then our GUI components will be tightly packed together
-	}
-	
-	public static void initialPopulationPanels(){
-		
-		//buttons first
-		buttonPanel.setLayout(new BorderLayout()); //we set the layout
-		buttonPanel.add(SinglePlayerButton, BorderLayout.WEST); //add a button to the left side of the panel
-		buttonPanel.add(multiplayerButton, BorderLayout.EAST); //add a button to the right side of the panel
-		
-		//now we add the instructions to the instPanel
-		instPanel.add(instLabel);
-		
-		//thats all for the initial setup of the panels
-	}
-	
-	//so this is the code that is run when a button is pressed
-	public static class singlePlayerListener implements ActionListener{
-		
-		public void actionPerformed(ActionEvent e) {
-			
-			System.out.println("Single player button pressed");
-			System.out.println(e.HIERARCHY_BOUNDS_EVENT_MASK);
-		}
-		
-	}
-	//use an action listener to run code that a button 
-	public static class multiPlayerListener implements ActionListener{
-		
-		public void actionPerformed(ActionEvent e){
-			System.out.println("multiplayer");
-		}
-	}
+        /*GridPane buttonGrid = new GridPane();
+        buttonGrid.setAlignment(Pos.CENTER);
+        buttonGrid.setHgap(10);
+        buttonGrid.setVgap(10);
+        buttonGrid.setPadding(new Insets(25, 25, 25, 25));*/
+
+        /*Button abtn = new Button("2 Player");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_LEFT);
+        hbBtn.getChildren().add(abtn);
+        grid.add(hbBtn, 0, 1);
+
+        Button bbtn = new Button("4 Player");
+        HBox bBtn = new HBox(10);
+        bBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        bBtn.getChildren().add(bbtn);
+        grid.add(bBtn, 1, 1);*/
+
+        grid.setGridLinesVisible(false);
+
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                grid.add(new Rectangle(50, 50, Color.WHITE), i, j);
+                grid.add(new Text(i +", " + j), i, j);
+            }
+        }
+
+        Scene scene = new Scene(grid, 800, 800);
+        //Scene btnScene = new Scene(buttonGrid, 300, 300);
+
+        primaryStage.setScene(scene);
+        //primaryStage.setScene(btnScene);
+
+        scene.getStylesheets().add
+            (Main.class.getResource("Main.css").toExternalForm());
+
+        primaryStage.show();
+    }
 }

@@ -61,7 +61,7 @@ public class Main extends Application{
         //primaryStage.setScene(btnScene);
 
         scene.getStylesheets().add
-            (Main.class.getResource("Main.css").toExternalForm());
+            (Main.class.getResource("/Main.css").toExternalForm());
 
         primaryStage.show();
     }

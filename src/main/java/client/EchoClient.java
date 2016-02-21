@@ -63,6 +63,7 @@ public class EchoClient {
 	String s1response = sin.nextLine();
 	String s2response = s2in.nextLine();
 	System.out.println(s1response);
+	System.out.println(s2response);
 	sout.println("GAME " + playerNumber + " Player1" + " Player2");
 	s2out.println("GAME " + playerNumber + " Player1" + " Player2");
 	s1response = sin.nextLine();

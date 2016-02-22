@@ -23,19 +23,20 @@ public class EchoClient {
 	    cla.add(temp[0]);
 	    cla.add(temp[1]);
 	}
-	int count = args.length;
-    	EchoClient bc = new EchoClient(cla.get(0),cla.get(1));
-	//EchoClient moveSvr2 = new EchoClient(cla.get(2),cla.get(3),server2);
+    	EchoClient bc = new EchoClient(cla);
     	bc.run();
-        //moveSvr2.run(server2);
     }
 
     private Socket server;
-    public EchoClient(String host, String port)throws Exception{
-	   
+    private Socket server2;
+    public EchoClient(ArrayList<String> cla)throws Exception{
+	   String host = cla.get(0);
+	   String host2 = cla.get(2);
 	   int portNumber = 0;
+	   int portNumber2 = 0;
 	   try{
-	        portNumber = Integer.parseInt(port);
+	        portNumber = Integer.parseInt(cla.get(1));
+	        portNumber2 = Integer.parseInt(cla.get(3));
 	        if(portNumber < 1024 || portNumber > 65535){
 	            System.out.println();
 		    throw new IndexOutOfBoundsException("Port number must be " +
@@ -43,33 +44,45 @@ public class EchoClient {
 	        }
 	    }catch(NumberFormatException e){
 	        System.out.println("\nPort number must be an Integer");
-	        System.out.println("You entered: " + port);
+	        System.out.println("You entered: " + cla);
 	        System.out.println("Exiting...");
 	        System.exit(0);
 	    }	
 	    
 	    server = new Socket(host,portNumber);
+	    server2 = new Socket(host2,portNumber2);
     }
 
     public void handShake() throws Exception{
 	PrintStream sout = new PrintStream(server.getOutputStream());
+	PrintStream s2out = new PrintStream(server2.getOutputStream());
 	Scanner sin = new Scanner(server.getInputStream());
+	Scanner s2in = new Scanner(server2.getInputStream());
 	sout.println("HELLO");
-	String response = sin.nextLine();
-	System.out.println(response);
+	s2out.println("HELLO");
+	String s1response = sin.nextLine();
+	String s2response = s2in.nextLine();
+	System.out.println(s1response);
+	System.out.println(s2response);
 	sout.println("GAME " + playerNumber + " Player1" + " Player2");
-	response = sin.nextLine();
+	s2out.println("GAME " + playerNumber + " Player1" + " Player2");
+	s1response = sin.nextLine();
+	s2response = s2in.nextLine();
     }
 
     public void run() throws Exception{
     	Scanner sin = new Scanner(server.getInputStream());
+	Scanner s2in = new Scanner(server2.getInputStream());
     	PrintStream sout = new PrintStream(server.getOutputStream());
+	PrintStream s2out = new PrintStream(server2.getOutputStream());
     	Scanner keyboard = new Scanner(System.in);
         handShake();
     	String line = keyboard.nextLine();
     	while(true){
     	    sout.println(line);
+	    s2out.println(line);
     	    String serverLine = sin.nextLine();
+	    String server2Line = s2in.nextLine();
     	    System.out.println(serverLine);
     	    line = keyboard.nextLine();
     	}

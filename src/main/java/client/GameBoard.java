@@ -1,6 +1,7 @@
 package main.java.client;
 
 import java.util.ArrayList;
+import java.awt.Point;
 
 /**
  * @author Brandon Williams
@@ -106,5 +107,57 @@ public class GameBoard {
     public ArrayList<Space> getGameBoard() {
 	
 	return gameBoard;
+    }
+
+    /**
+     * Places a GamePiece on the GameBoard.
+     * Will more than likely need to be reworked
+     * after move and place wall messages are
+     * implemented.
+     *
+     * @param piece - <p>The pawn or wall to be
+     * placed on the board</p>
+     *
+     */
+    public void placePiece(GamePiece piece) {
+
+	Point[] pos = piece.getPosition();
+	int x = -1;
+	int y = -1;
+
+	if(pos[0] == null) { //Pawn
+
+	    x = (int)piece.getPosition()[1].getX();
+	    y = (int)piece.getPosition()[1].getY();
+
+	    gameBoard.get(y + x * 9).occupied = true;
+	}
+
+	else { //Wall
+
+	    //Place wall at first point
+	    x = (int)pos[0].getX();
+	    y = (int)pos[0].getY();
+
+	    int posIndex = y + x * 9;
+	    
+	    if(pos[1].getX() > x) { //horizontal wall
+		
+		gameBoard.get(posIndex).edges
+		    .remove(gameBoard.get(posIndex+9));
+		
+		gameBoard.get(posIndex+9).edges
+		    .remove(gameBoard.get(posIndex));		
+	    }
+
+	    else if(pos[1].getY() > y) { //Vertical
+
+		gameBoard.get(posIndex).edges
+		    .remove(gameBoard.get(posIndex+1));
+		
+		gameBoard.get(posIndex+1).edges
+		    .remove(gameBoard.get(posIndex));
+	    }
+	}
     }
 }

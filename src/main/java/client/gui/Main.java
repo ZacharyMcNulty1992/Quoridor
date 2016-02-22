@@ -1,16 +1,16 @@
 package main.java.client.gui;
 
+import javafx.application.*;
+import javafx.collections.*;
+import javafx.event.*;
+import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import javafx.application.*;
-import javafx.event.*;
-import javafx.stage.*;
-import javafx.geometry.*;
-import javafx.collections.*;
 import javafx.scene.text.*;
 import javafx.scene.shape.*;
 import javafx.scene.paint.*;
+import javafx.stage.*;
 
 public class Main extends Application{ 
     @Override

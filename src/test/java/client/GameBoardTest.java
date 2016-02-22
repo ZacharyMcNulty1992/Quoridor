@@ -1,5 +1,11 @@
 package test.java.client;
 import main.java.client.GameBoard;
+import main.java.client.Space;
+import main.java.client.Pawn;
+import main.java.client.Wall;
+
+import java.awt.Point;
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -61,14 +67,14 @@ public class GameBoardTest {
 	Mockito.when(pawn.getPosition())
 	    .thenReturn(new Point[] {null, new Point(0,3)});
 
-	gb.placePiece(pawn);
+	    gb.placePiece(pawn);
 
 	ArrayList<Space> board = gb.getGameBoard();
 	
 	Space expectedSpace = board.get(3);
 
 	assertTrue("Pawn was not placed on the board correctly",
-		   expectedSpace.occupied);
+	expectedSpace.occupied);
 
 	//Test placing a wall
 	Wall wall = Mockito.mock(Wall.class);

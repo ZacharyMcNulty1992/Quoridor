@@ -64,8 +64,10 @@ public class EchoClient {
 	String s2response = s2in.nextLine();
 	System.out.println(s1response);
 	System.out.println(s2response);
-	sout.println("GAME " + playerNumber + " Player1" + " Player2");
-	s2out.println("GAME " + playerNumber + " Player1" + " Player2");
+	sout.println("GAME " + playerNumber + " "+ s1response.substring(4) + " " + 
+		     s2response.substring(4));
+	s2out.println("GAME " + playerNumber + " "+ s1response.substring(4) + " " + 
+		      s2response.substring(4));
 	s1response = sin.nextLine();
 	s2response = s2in.nextLine();
     }
@@ -84,6 +86,7 @@ public class EchoClient {
     	    String serverLine = sin.nextLine();
 	    String server2Line = s2in.nextLine();
     	    System.out.println(serverLine);
+	    System.out.println(server2Line);
     	    line = keyboard.nextLine();
     	}
     }

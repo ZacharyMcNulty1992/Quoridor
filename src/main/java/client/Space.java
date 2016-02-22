@@ -1,15 +1,13 @@
 package main.java.client;
 
 import java.awt.Point;
+import java.util.HashSet;
 
 public class Space extends Point{
     
     // variables can be accessed by calling them
     // thus we do not need getters.
-    public Space Left;
-    public Space Right;
-    public Space Up;
-    public Space Down;
+    public HashSet edges;
     public boolean occupied;
     
     /**
@@ -20,15 +18,9 @@ public class Space extends Point{
      */
     public Space(int x, int y) {
 	super(x,y);
-    }
-    
-    /**
-     * setOccupied
-     *
-     * @param x - boolean value of weather the space has a player on it or not
-     */
-    public void setOccupied(boolean x) {
-	occupied = x;
+	
+	edges = new HashSet(4);
+	occupied = false;
     }
     
 }// end of class

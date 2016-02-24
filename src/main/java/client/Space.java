@@ -7,7 +7,7 @@ public class Space extends Point{
     
     // variables can be accessed by calling them
     // thus we do not need getters.
-    public HashSet edges;
+    public HashSet<Space> edges;
     public boolean occupied;
     
     /**
@@ -17,10 +17,10 @@ public class Space extends Point{
      * @param y - the y-coordinate of the space
      */
     public Space(int x, int y) {
-	super(x,y);
+    	super(x,y);
 	
-	edges = new HashSet(4);
-	occupied = false;
+		edges = new HashSet<Space>(4);
+		occupied = false;
     }
     
 }// end of class

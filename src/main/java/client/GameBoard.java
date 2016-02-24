@@ -23,10 +23,10 @@ public class GameBoard {
     	Space s; //temp space variable
     	//create all the spaces objects
     	for(int i = 0; i < 9; i++){
-	    for(int p = 0; p < 9; p++){
-		s = new Space(i, p);
-		gameBoard.add(s);
-	    }
+    		for(int p = 0; p < 9; p++){
+    			s = new Space(i, p);
+    			gameBoard.add(s);
+    		}
     	}
     	
     	

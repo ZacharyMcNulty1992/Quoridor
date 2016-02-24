@@ -160,4 +160,8 @@ public class GameBoard {
 	    }
 	}
     }
+    
+    public Space getSpaceAt(int x, int y){
+    	return gameBoard.get(x + (y*9));
+    }
 }

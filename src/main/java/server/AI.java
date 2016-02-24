@@ -5,14 +5,41 @@ import java.util.ArrayList;
 import main.java.client.Space;
 
 public class AI {
-    public ArrayList<Space> gameBoard;
+    public ArrayList<Space> gameBoard; //the current game board
+    private ArrayList<Space> openList; //locations where we can go
+    private ArrayList<Space> closedList; //where we have been
     
-    public AI() {
-	initGraph();
+    //ai player number
+    private int playerNum;
+    
+    //current position of ai on the board
+    private int currentX; // X-coord
+    private int currentY; // Y-coord
+    
+    //current position of the player on the board
+    private int playerX; // players X-coord
+    private int playerY; // players Y-coord
+    
+    public AI(int playerNumber) {
+    	
+    	playerNum = playerNumber; //give the ai its player number
+    	
+    	//init our array lists
+    	openList = new ArrayList<Space>();
+    	closedList = new ArrayList<Space>();
+    	
+    	//create the game board here for future use
+    	initGraph();
+    }
+    
+    public ArrayList<Space> getShortestPath(int playerNum){
+    	//initialization
+    	
+    	return null;
     }
     
     public String getMove(){
-	return ""; //sub
+    	return ""; //sub
     }
     
     public void initGraph() {

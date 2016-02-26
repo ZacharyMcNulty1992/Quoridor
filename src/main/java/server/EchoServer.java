@@ -86,7 +86,7 @@ public class EchoServer {
               (!(clientMessage = cin.nextLine()).equals(MSG_GOODBYE))) {
 	    
           if(clientMessage.equals(MSG_HELLO)) {
-            cout.println("IAM TFT:" + hostname);
+            cout.println("IAM 4tr:" + hostname);
             System.out.format("Server saw \"%s\"\n", clientMessage);
           } else {
             System.out.format("Server saw \"%s\"\n",clientMessage);

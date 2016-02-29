@@ -15,109 +15,106 @@ import javafx.scene.input.*;
 
 public class Main extends Application{
 
-  public static void main(String[] args) {
-    Application.launch(args);
-  }
-
-  @Override
-  public void start(final Stage primaryStage) {
-
-    Pane root = new Pane();
-
-    GridPane gridPane = new GridPane();
-    gridPane.setAlignment(Pos.CENTER);
-    gridPane.setHgap(10);
-    gridPane.setVgap(10);
-    gridPane.setPadding(new Insets(25, 25, 25, 25));
-    gridPane.setGridLinesVisible(false);
-
-    for(int i = 0; i < 9; i++) {
-      for(int j = 0; j < 9; j++) {
-        Rectangle r = new Rectangle(50, 50, Color.GREEN);
-        gridPane.add(r, i, j);
-        r.setMouseTransparent(false);
-        GridPane.setRowIndex(r, i);
-        GridPane.setColumnIndex(r, j);
-      }
+    public static void main(String[] args) {
+        Application.launch(args);
     }
 
-    root.getChildren().add(gridPane);
+    @Override
+    public void start(final Stage primaryStage) {
 
-    Scene scene = new Scene(root, 600, 600, Color.WHITE);
-    primaryStage.setScene(scene);
+        // Root pane to add other panes to
+        Pane root = new Pane();
 
-    primaryStage.show();
+        // Creates a gridPane for the board squares
+        GridPane board = new GridPane();
+        board.setAlignment(Pos.CENTER);
+        board.setHgap(10);
+        board.setVgap(10);
+        board.setPadding(new Insets(25, 25, 25, 25));
+        board.setGridLinesVisible(false);
 
-    gridPane.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent e) {
+        // Creates a gridPane with spacing for verticle walls
+        GridPane vWallGrid = new GridPane();
+        vWallGrid.setAlignment(Pos.CENTER);
+        vWallGrid.setHgap(50);
+        vWallGrid.setVgap(10);
+        vWallGrid.setPadding(new Insets(25, 25, 25, 25));
 
-        for( Node node: gridPane.getChildren()) {
+        // Creates a gridPane with spacing for horizontal walls
+        GridPane hWallGrid = new GridPane();
+        hWallGrid.setAlignment(Pos.CENTER);
+        hWallGrid.setHgap(10);
+        hWallGrid.setVgap(50);
+        hWallGrid.setPadding(new Insets(25, 25, 25, 25));
 
-          if( node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
-            System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
-          }
-        }
-      }
-    });
 
-  }
-}
-/* @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Quoridor");
-
-        Group root = new Group();
-        Scene theScene = new Scene(root);
-        primaryStage.setScene(theScene);
-
-        theScene.getStylesheets().add
-            (Quoridor.class.getResource("Quoridor.css").toExternalForm());
-
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-
-        root.getChildren().add(grid);
-
-        GridPane vGrid = new GridPane();
-        vGrid.setAlignment(Pos.CENTER);
-        vGrid.setHgap(50);
-        vGrid.setVgap(10);
-        vGrid.setPadding(new Insets(25, 25, 25, 25));
-
-        root.getChildren().add(vGrid);
-
-        GridPane hGrid = new GridPane();
-        hGrid.setAlignment(Pos.CENTER);
-        hGrid.setHgap(10);
-        hGrid.setVgap(50);
-        hGrid.setPadding(new Insets(25, 25, 25, 25));
-
-        root.getChildren().add(hGrid);
-
-        grid.setGridLinesVisible(false);
-
+        // Loop to create the board
         for(int i = 0; i < 9; i++) {
             for(int j = 0; j < 9; j++) {
-                grid.add(new Rectangle(50, 50, Color.GREEN), i, j);
-                grid.add(new Text(i +", " + j), i, j);
+                Rectangle r = new Rectangle(50, 50, Color.GREEN);
+                board.add(r, i, j);
+                //r.setMouseTransparent(true);
+                //GridPane.setRowIndex(r, i);
+                //GridPane.setColumnIndex(r, j);
             }
         }
 
+        // Loop to create locations for vertical walls 
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j < 9; j++) {
-                vGrid.add(new Rectangle(10, 50, Color.RED), i+ 1, j);
+                vWallGrid.add(new Rectangle(10, 50, Color.TRANSPARENT), i+ 1, j);
             }
         } 
 
+        // Loop to create locations for horizontal walls
         for(int i = 0; i < 9; i++) {
             for(int j = 0; j < 8; j++) {
-                hGrid.add(new Rectangle(50, 10, Color.BLUE), i, j + 1);
+                hWallGrid.add(new Rectangle(50, 10, Color.TRANSPARENT), i, j + 1);
             }
         }
 
+        // Adds the grip panes to the root pane which will be displayed
+        root.getChildren().add(board);
+        root.getChildren().add(vWallGrid);
+        root.getChildren().add(hWallGrid);
+
+        // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
+        Scene scene = new Scene(root, 600, 600, Color.WHITE);
+        primaryStage.setScene(scene);
+
+        // Display primaryStage
         primaryStage.show();
-    }*/
+
+        // Handles click events for the game
+        root.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+
+                // returns coordinate on the board when a square is clicked
+                for(Node node: board.getChildren()) {
+
+                    if(node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
+                        System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
+                    }
+                }
+
+                // returns coordinate on the board when a vertical wall is clicked
+                for(Node node: vWallGrid.getChildren()) {
+
+                    if(node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
+                        System.out.println("v "+ GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
+                    }
+                }
+
+                // returns coordinate on the board when a horizontal wall is clicked
+                for(Node node: hWallGrid.getChildren()) {
+
+                    if(node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
+                        System.out.println("h "+ GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
+                    }
+                }
+            }
+        });
+
+    }
+}

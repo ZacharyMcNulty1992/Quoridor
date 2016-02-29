@@ -1,4 +1,4 @@
-package main.java.client.gui;
+package client.gui;
 
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -15,55 +15,55 @@ import javafx.scene.input.*;
 
 public class Main extends Application{
 
-    public static void main(String[] args) {
-        Application.launch(args);
+  public static void main(String[] args) {
+    Application.launch(args);
+  }
+
+  @Override
+  public void start(final Stage primaryStage) {
+
+    Pane root = new Pane();
+
+    GridPane gridPane = new GridPane();
+    gridPane.setAlignment(Pos.CENTER);
+    gridPane.setHgap(10);
+    gridPane.setVgap(10);
+    gridPane.setPadding(new Insets(25, 25, 25, 25));
+    gridPane.setGridLinesVisible(false);
+
+    for(int i = 0; i < 9; i++) {
+      for(int j = 0; j < 9; j++) {
+        Rectangle r = new Rectangle(50, 50, Color.GREEN);
+        gridPane.add(r, i, j);
+        r.setMouseTransparent(false);
+        GridPane.setRowIndex(r, i);
+        GridPane.setColumnIndex(r, j);
+      }
     }
 
-    @Override
-    public void start(final Stage primaryStage) {
+    root.getChildren().add(gridPane);
 
-        Pane root = new Pane();
+    Scene scene = new Scene(root, 600, 600, Color.WHITE);
+    primaryStage.setScene(scene);
 
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(25, 25, 25, 25));
-        gridPane.setGridLinesVisible(false);
+    primaryStage.show();
 
-        for(int i = 0; i < 9; i++) {
-            for(int j = 0; j < 9; j++) {
-                Rectangle r = new Rectangle(50, 50, Color.GREEN);
-                gridPane.add(r, i, j);
-                r.setMouseTransparent(false);
-                GridPane.setRowIndex(r, i);
-                GridPane.setColumnIndex(r, j);
-            }
+    gridPane.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent e) {
+
+        for( Node node: gridPane.getChildren()) {
+
+          if( node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
+            System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
+          }
         }
+      }
+    });
 
-        root.getChildren().add(gridPane);
-
-        Scene scene = new Scene(root, 600, 600, Color.WHITE);
-        primaryStage.setScene(scene);
-
-        primaryStage.show();
-
-        gridPane.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-
-                for( Node node: gridPane.getChildren()) {
-
-                    if( node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
-                        System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
-                    }
-                }
-            }
-        });
-
-    }
+  }
 }
-   /* @Override
+/* @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Quoridor");
 

@@ -1,4 +1,4 @@
-package main.java.server;
+package server;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -69,7 +69,7 @@ public class EchoServer {
     try {
       ServerSocket server = new ServerSocket(portNumber);
       System.out.format("Server now accepting connections on port %d\n",
-        portNumber);
+          portNumber);
 
       Socket client;
 
@@ -80,24 +80,24 @@ public class EchoServer {
         PrintStream cout = new PrintStream(client.getOutputStream());
 
         String clientMessage = "";
-	//String serverMessage = "";
+        //String serverMessage = "";
 
         while (cin.hasNextLine() &&
-              (!(clientMessage = cin.nextLine()).equals(MSG_GOODBYE))) {
-	    
+            (!(clientMessage = cin.nextLine()).equals(MSG_GOODBYE))) {
+
           if(clientMessage.equals(MSG_HELLO)) {
             cout.println("IAM 4tr:" + hostname);
             System.out.format("Server saw \"%s\"\n", clientMessage);
           } else {
             System.out.format("Server saw \"%s\"\n",clientMessage);
-	    cout.format(hostname +" Server saw \"%s\"\n",clientMessage);
+            cout.format(hostname +" Server saw \"%s\"\n",clientMessage);
           } 
-	  
+
         }
 
         if (!clientMessage.isEmpty()) {
           System.out.format("Server saw \"%s\" and is exiting.\n",
-            clientMessage);
+              clientMessage);
         }
 
         cout.close();
@@ -116,7 +116,7 @@ public class EchoServer {
    */
   private static void usage() {
     System.err.print("usage: java FirstServer [options]\n" +
-      "       where options:\n" + "       --port port\n");
+        "       where options:\n" + "       --port port\n");
   }
 
   /**
@@ -133,11 +133,11 @@ public class EchoServer {
      * must advance past the value for the argument too.
      */
     try{
-	InetAddress addr;
-	addr = InetAddress.getLocalHost();
-        hostname = addr.getHostName();
+      InetAddress addr;
+      addr = InetAddress.getLocalHost();
+      hostname = addr.getHostName();
     }catch (UnknownHostException ex){
-	System.out.println("Hostname can not be resolved");
+      System.out.println("Hostname can not be resolved");
     }
     int argNdx = 0;
 

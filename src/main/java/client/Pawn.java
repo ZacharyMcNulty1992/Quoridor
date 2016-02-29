@@ -1,4 +1,4 @@
-package main.java.client;
+package client;
 
 import java.awt.Point;
 
@@ -8,24 +8,24 @@ import java.awt.Point;
  */
 public class Pawn implements GamePiece {
 
-    private Point position;
+  private Point position;
 
-    /**
-     * Constructs a pawn for the player at the given coordinates.
-     *
-     * @param y - the column coordinate of the pawn.
-     * @param x - the row coordinate of the pawn.
-     */
-    public Pawn(int y, int x) {
+  /**
+   * Constructs a pawn for the player at the given coordinates.
+   *
+   * @param y - the column coordinate of the pawn.
+   * @param x - the row coordinate of the pawn.
+   */
+  public Pawn(int y, int x) {
 
-	position = new Point(x, y); 
-    }
+    position = new Point(x, y); 
+  }
 
-    /**
-     * @return The position of the Pawn
-     */ 
-    public Point[] getPosition() {
+  /**
+   * @return The position of the Pawn
+   */ 
+  public Point[] getPosition() {
 
-	return new Point[]{null, position};
-    }
+    return new Point[]{null, position};
+  }
 }

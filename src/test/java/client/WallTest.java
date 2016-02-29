@@ -1,8 +1,6 @@
-package test.java.client;
+package client;
 
 import java.awt.Point;
-
-import main.java.client.Wall;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -16,25 +14,25 @@ import static org.junit.Assert.assertArrayEquals;
  */
 public class WallTest {
 
-    private Wall testWall;
-    
-    @Before
-    public void setup() {
+  private Wall testWall;
 
-	testWall = new Wall(2,3,'h');
-    }
+  @Before
+  public void setup() {
 
-    @Test
-    public void testWallConstructor() throws Exception {
+    testWall = new Wall(2,3,'h');
+  }
 
-	assertNotNull(testWall);
-    }
+  @Test
+  public void testWallConstructor() throws Exception {
 
-    @Test
-    public void testWallGetPosition() throws Exception {
+    assertNotNull(testWall);
+  }
 
-	Point[] expectedVals = {new Point(3,2), new Point(4,2)};
+  @Test
+  public void testWallGetPosition() throws Exception {
 
-	assertArrayEquals(expectedVals, testWall.getPosition());
-    }
+    Point[] expectedVals = {new Point(3,2), new Point(4,2)};
+
+    assertArrayEquals(expectedVals, testWall.getPosition());
+  }
 }

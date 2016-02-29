@@ -1,8 +1,6 @@
-package test.java.client;
+package client;
 
 import java.awt.Point;
-
-import main.java.client.Pawn;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -16,25 +14,25 @@ import static org.junit.Assert.assertArrayEquals;
  */
 public class PawnTest {
 
-    private Pawn testPawn;
-    
-    @Before
-    public void setup() {
+  private Pawn testPawn;
 
-	testPawn = new Pawn(2,3);
-    }
+  @Before
+  public void setup() {
 
-    @Test
-    public void testPawnConstructor() throws Exception {
+    testPawn = new Pawn(2,3);
+  }
 
-	assertNotNull(testPawn);
-    }
+  @Test
+  public void testPawnConstructor() throws Exception {
 
-    @Test
-    public void testGetPosition() throws Exception {
+    assertNotNull(testPawn);
+  }
 
-	Point[] expectedVals = {null, new Point(3,2)};
+  @Test
+  public void testGetPosition() throws Exception {
 
-	assertArrayEquals(expectedVals, testPawn.getPosition());
-    }
+    Point[] expectedVals = {null, new Point(3,2)};
+
+    assertArrayEquals(expectedVals, testPawn.getPosition());
+  }
 }

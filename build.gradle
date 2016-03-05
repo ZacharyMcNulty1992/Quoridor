@@ -12,3 +12,4 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-core', version: '1.10.+'
     testCompile "org.powermock:powermock-mockito-release-full:1.6.+"
 }
+

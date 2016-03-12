@@ -26,6 +26,14 @@ import static org.junit.Assert.*;
 	private Pawn testPawn;
 	private Wall testWall;
 	
+	Interpreter testInt1;
+	Interpreter testInt2; 
+	Interpreter testInt3;
+	Interpreter testInt4;
+	Interpreter testInt5;
+	Interpreter testInt6;
+	
+	@Before
 	public void setup() {
 		
 		//strings to test for
@@ -37,18 +45,18 @@ import static org.junit.Assert.*;
 		testString6 = "TTESUJI [(2,6), h]";
 		
 		//constructors
-		Interpreter testInt1 = new Interpreter(testString1);
-		Interpreter testInt2 = new Interpreter(testString2);
-		Interpreter testInt3 = new Interpreter(testString3);
-		Interpreter testInt4 = new Interpreter(testString4);
-		Interpreter testInt5 = new Interpreter(testString5);
-		Interpreter testInt6 = new Interpreter(testString6);
+		testInt1 = new Interpreter(testString1);
+		testInt2 = new Interpreter(testString2);
+		testInt3 = new Interpreter(testString3);
+		testInt4 = new Interpreter(testString4);
+		testInt5 = new Interpreter(testString5);
+		testInt6 = new Interpreter(testString6);
 		
 		//Pawn that should be returned
-		testPawn = new Pawn(1,3);
+		Pawn testPawn = new Pawn(1,3);
 		
 		//Wall that should be returned
-		testWall1 = new Wall(2,6,h);
+		Wall testWall1 = new Wall(2,6,'h');
 		
 	}
 	
@@ -71,7 +79,7 @@ import static org.junit.Assert.*;
 		assertTrue(testInt1.respProt());
 		assertTrue(testInt2.respProt());
 		assertTrue(testInt3.respProt());
-		assertTrue(testInt4.respProt());
+		assertFalse(testInt4.respProt());
 		assertFalse(testInt5.respProt());
 		assertFalse(testInt6.respProt());
 		
@@ -84,9 +92,9 @@ import static org.junit.Assert.*;
 	@Test
 	public void testInterpreterGetPiece() throws Exception {
 		
-		Point[] expectedVals1 = {null, new Point(1,3)};
-		Point[] expectedVals2 = {null, new Point(1,9)};
-		Point[] expectedVals3 = {new Point(2,6), new Point(3,6)};
+		Point[] expectedVals1 = {null, new Point(3,1)};
+		Point[] expectedVals2 = {null, new Point(9,1)};
+		Point[] expectedVals3 = {new Point(6,2), new Point(7,2)};
 		
 		assertArrayEquals(expectedVals1, testInt1.getPiece().getPosition());
 		assertArrayEquals(expectedVals2, testInt2.getPiece().getPosition());
@@ -94,41 +102,23 @@ import static org.junit.Assert.*;
 		assertNull(testInt4.getPiece());
 		assertNull(testInt5.getPiece());
 		assertNull(testInt6.getPiece());
-		
 	}
 	
 	//getInString() returns input string
+	@Test
 	public void testInterpreterGetInString() throws Exception {
 		
 		
-		assertArrayEquals(testString1.toCharArray(), testInt1.getPiece().getInString().toCharArray());
-		assertArrayEquals(testString2.toCharArray(), testInt2.getPiece().getInString().toCharArray());
-		assertArrayEquals(testString3.toCharArray(), testInt3.getPiece().getInString().toCharArray());
-		assertArrayEquals(testString4.toCharArray(), testInt3.getPiece().getInString().toCharArray());
-		assertArrayEquals(testString5.toCharArray(), testInt3.getPiece().getInString().toCharArray());
-		assertArrayEquals(testString6.toCharArray(), testInt3.getPiece().getInString().toCharArray());
-		
-	}
-	
-	//getOutString() returns the ATARI outstring
-	//returns null if parse error
-	public void testInterpreterGetOutString() throws Exception {
-		
-		expString1 = "ATARI (1,3)";
-		expString2 = "ATARI (1,9)";
-		expString3 = "ATARI [(2,6), h]";
-		
-		assertArrayEquals(expString1.toCharArray(), testInt1.getPiece().getOutString().toCharArray());
-		assertArrayEquals(expString2.toCharArray(), testInt2.getPiece().getOutString().toCharArray());
-		assertArrayEquals(expString3.toCharArray(), testInt3.getPiece().getOutString().toCharArray());
-		assertArrayNull(testInt4.getPiece().getOutString());
-		assertArrayNull(testInt5.getPiece().getOutString());
-		assertArrayNull(testInt6.getPiece().getOutString());
+		assertArrayEquals(testString1.toCharArray(), testInt1.getInString().toCharArray());
+		assertArrayEquals(testString2.toCharArray(), testInt2.getInString().toCharArray());
+		assertArrayEquals(testString3.toCharArray(), testInt3.getInString().toCharArray());
+		assertArrayEquals(testString4.toCharArray(), testInt4.getInString().toCharArray());
+		assertArrayEquals(testString5.toCharArray(), testInt5.getInString().toCharArray());
+		assertArrayEquals(testString6.toCharArray(), testInt6.getInString().toCharArray());
 		
 	}
 	
 	
 	
  
-	
- }
+}

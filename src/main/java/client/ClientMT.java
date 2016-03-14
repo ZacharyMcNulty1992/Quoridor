@@ -24,14 +24,10 @@ public class ClientMT {
       String [] temp = args[i].split(":");
       cla.add(temp[0]);
       cla.add(temp[1]);
-      //Socket cSocket = new Socket(temp[0],temp[1]);
       ClientThread client = new ClientThread(++playerNumber,cla,temp);
       client.start();
     }
-    //ClientMT bc = new ClientMT(cla);
-    //bc.run();
   }
-
 }  
 
   class ClientThread extends Thread{
@@ -77,11 +73,6 @@ public class ClientMT {
     }catch(IOException e){
 	System.out.println(e);
     }
-    /*sout.println("HELLO");
-    String s1response = sin.nextLine();
-    System.out.println(s1response);
-    sout.println("GAME " + clientID + " "+ s1response.substring(4));
-    s1response = sin.nextLine();*/
   }
 
   public void run(){

@@ -2,13 +2,10 @@ package client.gui;
 
 import javafx.scene.*;
 import javafx.scene.layout.*;
-import javafx.scene.control.*;
 import javafx.application.*;
 import javafx.event.*;
 import javafx.stage.*;
 import javafx.geometry.*;
-import javafx.collections.*;
-import javafx.scene.text.*;
 import javafx.scene.shape.*;
 import javafx.scene.paint.*;
 import javafx.scene.input.*;
@@ -33,7 +30,7 @@ public class Main extends Application{
         board.setPadding(new Insets(25, 25, 25, 25));
         board.setGridLinesVisible(false);
 
-        // Creates a gridPane with spacing for verticle walls
+        // Creates a gridPane with spacing for vertical walls
         GridPane vWallGrid = new GridPane();
         vWallGrid.setAlignment(Pos.CENTER);
         vWallGrid.setHgap(50);

@@ -6,7 +6,6 @@ import java.awt.Point;
 
 import org.junit.Test;
 import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertArrayEquals;

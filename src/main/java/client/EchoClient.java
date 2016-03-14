@@ -1,4 +1,4 @@
-package main.java.client;
+package client;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;

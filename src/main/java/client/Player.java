@@ -5,6 +5,7 @@ import java.awt.Point;
 /**
  * 
  * @author Brandon
+ * @date 3/16/16
  *
  */
 public class Player {
@@ -31,46 +32,32 @@ public class Player {
   }
 
   /**
-   * 
-   * @return true if the pawn is in the appropriate
-   * win position else return false.
+   *
+   * @param column - The column position that the pawn
+   *        will move to
+   *
+   * @param row - The row position that the pawn will
+   *        move to.
+   *
+   * @return The opCode to be sent to the servers. 
+   *         If a valid move was made "ATARI" is
+   *         returned. "KIKASHI" if it is a winning
+   *         move or "GOTE" if it was an illegal
+   *         move
    */
-  public boolean hasWon() {
+    public String movePawn(int column, int row) {
 
-    if((playerNumber == 1 && pawnPos.y == 8) ||
-        (playerNumber == 2 && pawnPos.y == 0) ||
-        (playerNumber == 3 && pawnPos.x == 8) ||
-        (playerNumber == 4 && pawnPos.x == 0)) {
+	Point movePos = new Point(row, column);
 
-      return true;
+	if(!isValidMove())
+	    return "GOTE";
+
+	pawnPos = movePos;
+
+	//Update GUI goes here
+
+	return hasWon()
     }
-
-    return false;
-  }
-
-  /**
-   * 
-   *
-   * @param piece The 
-   *
-   */
-  public void placePawn() {
-
- 
-  }
-  
-  /**
-   * Does not verify that the path has to the end has not been
-   * blocked yet! Need shortest path algorithm to determine.
-   * 
-   * @param piece - The game piece to be placed on the board
-   * @return False if the wall placed is intersecting another
-   * wall or the same wall is placed. Else, return true.
-   */
-  private boolean isValidPlacement(GamePiece piece) {
-
-   return true;
-  }
   
   /**
    * Sets the initial position of the pawn based on
@@ -86,5 +73,43 @@ public class Player {
       pawnPos = new Point(0, 4);
     else
       pawnPos = new Point(8, 4);
+  }
+
+  /**
+   * Does not verify that the path has to the end has not been
+   * blocked yet! Need shortest path algorithm to determine.
+   * 
+   * @param piece - The game piece to be placed on the board
+   * @return False if the wall placed is intersecting another
+   * wall or the same wall is placed. Else, return true.
+   */
+  private boolean isValidMove(Point movePos) {
+
+      if( (movePos.x == pawnPos.x && movePos.y == pawnPos.y + 1) ||
+	  (movePos.y == pawnPos.y && movePos.x == pawnPos.x + 1)) {
+	  
+	  return true;
+      }
+
+      return false;
+  }
+
+  /**
+   * Checks to see if the player has won
+   * 
+   * @return "KIKASHI" if the pawn is in the appropriate
+   * win position else return "ATARI" (A legal pawn move).
+   */
+  private String hasWon() {
+
+    if((playerNumber == 1 && pawnPos.y == 8) ||
+        (playerNumber == 2 && pawnPos.y == 0) ||
+        (playerNumber == 3 && pawnPos.x == 8) ||
+        (playerNumber == 4 && pawnPos.x == 0)) {
+
+      return "KIKASHI";
+    }
+
+    return "ATARI";
   }
 }

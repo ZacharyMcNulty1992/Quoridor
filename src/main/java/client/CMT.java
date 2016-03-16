@@ -8,9 +8,9 @@ import java.io.*;
 public class CMT {
   static String hostname = "localhost";
   static int playerNumber;
+  static int playerCount;
   private static ArrayList<ClientThread> threadList = 
 	                                 new ArrayList<ClientThread>();
-
   public static void main(String[] args) throws Exception{
     try{
       InetAddress addr;
@@ -21,7 +21,7 @@ public class CMT {
     }
     playerNumber = 0;
     int portNumber = 0;
-    ArrayList<String> cla = new ArrayList<String>();
+    playerCount = args.length;
     Socket clientSocket;    
     for(int i = 0; i < args.length; i++){
       String [] temp = args[i].split(":");
@@ -35,17 +35,30 @@ public class CMT {
             }
       }catch(NumberFormatException e){
             System.out.println("\nPort number must be an Integer");
-            System.out.println("You entered: " + cla);
+            System.out.println("You entered: " + temp[0]);
             System.out.println("Exiting...");
             System.exit(0);
       }
       clientSocket = new Socket(hostname,portNumber);
-      ClientThread client = new ClientThread(++playerNumber,cla,clientSocket);
+      ClientThread client = new ClientThread(++playerNumber,
+		                             playerCount,clientSocket);
       threadList.add(client);
       client.start();
     }
+ 
+    ArrayList<String> playerNames = new ArrayList<String>();
+    for(ClientThread c: threadList){
+	playerNames.add(c.handShake());
+    }
+
+    for(ClientThread c: threadList){
+	c.write("GAME " + playerCount + " " + playerNames);
+    }
+
     Scanner keyboard = new Scanner(System.in);
     String line = keyboard.nextLine();
+    //IDEA FOR LATER: ADD MYOUSHU, TESUJI(SERVERSIDE) AND ATARI METHODS.
+    //                CALL EACH METHOD PER THREAD IN LIST                
     while(true){
 	for(ClientThread c : threadList)
 	    c.write(line);
@@ -60,28 +73,27 @@ public class CMT {
     Socket clientSocket;
     int clientID = -1;
     int portNumber = 3939;
-    ArrayList<String> cla = new ArrayList<String>();
+    int playerCount;
     static String hostname =  "localhost";
  
-    ClientThread(int i, ArrayList<String> a, Socket s)throws Exception {
+    ClientThread(int i, int j, Socket s)throws Exception {
         clientID = i;
-	cla = a;
+	playerCount = j;
 	clientSocket = s;
   }
 
-  public void handShake() throws Exception{
+  public String handShake() throws Exception{
     try{
         PrintStream sout = new PrintStream(clientSocket.getOutputStream());
         Scanner sin = new Scanner(clientSocket.getInputStream());
         sout.println("HELLO");
-        String s1response = sin.nextLine();
-        System.out.println(s1response);
-        sout.println("GAME " + clientID + " "+ s1response.substring(4));
-        s1response = sin.nextLine();
-
+        String response = sin.nextLine();
+        System.out.println(response);
+	return response.substring(4)+clientID;
     }catch(IOException e){
 	System.out.println(e);
     }
+    return "Player name failure";
   }
 
   public void write(String message) throws Exception{
@@ -103,7 +115,6 @@ public class CMT {
         Scanner sin = new Scanner(clientSocket.getInputStream());
         PrintStream sout = new PrintStream(clientSocket.getOutputStream());
         Scanner keyboard = new Scanner(System.in);
-        handShake();
     }catch(IOException e){
 	System.out.println(e);
     }catch(Exception j){

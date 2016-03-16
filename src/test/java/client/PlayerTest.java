@@ -1,6 +1,10 @@
 package client;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.awt.Point;
+import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +20,7 @@ public class PlayerTest {
   @Before
   public void setup() {
     
-    player = PowerMockito.spy(new Player(1, "playerName"));
+    player = PowerMockito.spy(new Player(1, "playerName", 10));
   }
   
   @Test
@@ -25,7 +29,7 @@ public class PlayerTest {
    Assert.assertNotNull(player);
    
    Point pawnPos = Whitebox.getInternalState(player, "pawnPos");
-   Point expectedPos = new Point(3,0);
+   Point expectedPos = new Point(4,0);
    Assert.assertEquals(expectedPos, pawnPos);
    
    String playerName = Whitebox.getInternalState(player, "playerName");
@@ -43,5 +47,18 @@ public class PlayerTest {
   public void testHasWon() {
     
     Assert.assertFalse(player.hasWon());
+  }
+  
+  
+  @Test
+  public void testMovePawn() throws Exception {
+
+    
+  }
+  
+  @Test
+  public void testIsValidPlacement() throws Exception {
+
+    
   }
 }

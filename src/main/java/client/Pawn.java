@@ -6,6 +6,7 @@ import java.awt.Point;
  * @author Brandon Williams
  * @date   2/10/2016 - Last Updated
  */
+@Deprecated 
 public class Pawn implements GamePiece {
 
   private Point position;

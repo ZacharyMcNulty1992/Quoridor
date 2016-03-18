@@ -6,79 +6,77 @@ import java.util.*;
 import java.io.*;
 
 public class CMT {
-  static String hostname = "localhost";
-  static int playerNumber;
-  static int playerCount;
-  private static ArrayList<ClientThread> threadList = 
+
+    static String hostname = "localhost";
+    static int playerNumber;
+    static int playerCount;
+    private static ArrayList<ClientThread> threadList = 
 	                                 new ArrayList<ClientThread>();
-  public static void main(String[] args) throws Exception{
-    try{
-      InetAddress addr;
-      addr = InetAddress.getLocalHost();
-      hostname = addr.getHostName();
-    }catch(UnknownHostException ex){
-      System.out.println("Hostname can not be resolved");
-    }
-    playerNumber = 0;
-    int portNumber = 0;
-    playerCount = args.length;
-    Socket clientSocket;    
-    for(int i = 0; i < args.length; i++){
-      String [] temp = args[i].split(":");
-      try{
-            portNumber = Integer.parseInt(temp[1]);
-            hostname = temp[0];
-            if(portNumber < 1024 || portNumber > 65535){
-                System.out.println();
-                throw new IndexOutOfBoundsException("Port number must be " +
-                                         "between 1024 and 65535 inclusive");
+
+    public static void main(String[] args) throws Exception{
+        try{
+            InetAddress addr;
+            addr = InetAddress.getLocalHost();
+            hostname = addr.getHostName();
+        }catch(UnknownHostException ex){
+            System.out.println("Hostname can not be resolved");
+        }
+
+        playerNumber = 0;
+        int portNumber = 0;
+        playerCount = args.length;
+        Socket clientSocket;
+    
+        for(int i = 0; i < args.length; i++){
+            String [] temp = args[i].split(":");
+            try{
+                portNumber = Integer.parseInt(temp[1]);
+                hostname = temp[0];
+                if(portNumber < 1024 || portNumber > 65535){
+                    System.out.println();
+                    throw new IndexOutOfBoundsException("Port number must be " +
+                                             "between 1024 and 65535 inclusive");
+                }
+            }catch(NumberFormatException e){
+                System.out.println("\nPort number must be an Integer");
+                System.out.println("You entered: " + temp[0]);
+                System.out.println("Exiting...");
+                System.exit(0);
             }
-      }catch(NumberFormatException e){
-            System.out.println("\nPort number must be an Integer");
-            System.out.println("You entered: " + temp[0]);
-            System.out.println("Exiting...");
-            System.exit(0);
-      }
-      clientSocket = new Socket(hostname,portNumber);
-      ClientThread client = new ClientThread(++playerNumber,
-		                             playerCount,clientSocket);
-      threadList.add(client);
-      client.start();
-    }
+            clientSocket = new Socket(hostname,portNumber);
+            ClientThread client = new ClientThread(++playerNumber,clientSocket);
+            threadList.add(client);
+            client.start();
+        }
  
-    ArrayList<String> playerNames = new ArrayList<String>();
-    for(ClientThread c: threadList){
-	playerNames.add(c.handShake());
+        ArrayList<String> playerNames = new ArrayList<String>();
+        for(ClientThread c: threadList){
+	    playerNames.add(c.handShake());
+        }
+
+        for(ClientThread c: threadList){
+	    c.write("GAME " + playerCount + " " + playerNames);
+        }
+
+        Scanner keyboard = new Scanner(System.in);
+        String line = keyboard.nextLine();
+        //IDEA FOR LATER: ADD MYOUSHU, TESUJI(SERVERSIDE) AND ATARI METHODS.
+        //                CALL EACH METHOD PER THREAD IN LIST                
+        while(true){
+	    for(ClientThread c : threadList)
+	        c.write(line);
+            line = keyboard.nextLine();
+        }
     }
-
-    for(ClientThread c: threadList){
-	c.write("GAME " + playerCount + " " + playerNames);
-    }
-
-    Scanner keyboard = new Scanner(System.in);
-    String line = keyboard.nextLine();
-    //IDEA FOR LATER: ADD MYOUSHU, TESUJI(SERVERSIDE) AND ATARI METHODS.
-    //                CALL EACH METHOD PER THREAD IN LIST                
-    while(true){
-	for(ClientThread c : threadList)
-	    c.write(line);
-        line = keyboard.nextLine();
-    }
-
-  }
-
 }  
+
   class ClientThread extends Thread{
 
     Socket clientSocket;
     int clientID = -1;
-    int portNumber = 3939;
-    int playerCount;
-    static String hostname =  "localhost";
  
-    ClientThread(int i, int j, Socket s)throws Exception {
+    ClientThread(int i, Socket s)throws Exception {
         clientID = i;
-	playerCount = j;
 	clientSocket = s;
   }
 

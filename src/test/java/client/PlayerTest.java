@@ -15,7 +15,7 @@ import org.powermock.reflect.Whitebox;
 
 /**
  * @author Brandon
- * @date 3/16/16
+ * @date 3/18/16
  */
 public class PlayerTest {
     
@@ -68,20 +68,28 @@ public class PlayerTest {
 	
 	Assert.assertEquals("GOTE", player.movePawn(3,1));	
   }
-  
+
+    /**
+     * Tests both placeWall and isValidWallPlacement()
+     */
     @Test
-    public void testIsValidMove() throws Exception {
+    public void testPlaceWall() {
 
-	Assert.assertTrue(Whitebox
-			  .invokeMethod(player, "isValidMove",
-					new Point(3, 1)
-					)
-			  );
+	// Test that you cannot place walls at the bottom or right 
+	// edge of the board
+	Assert.assertEquals("GOTE", player.placeWall(4,8,'v'));
+	Assert.assertEquals("GOTE", player.placeWall(4,8,'h'));
+	Assert.assertEquals("GOTE", player.placeWall(8,4,'v'));
+	Assert.assertEquals("GOTE", player.placeWall(8,4,'h'));
+	Assert.assertEquals(10, Whitebox.getInternalState(player, "wallCount"));
 
-	Assert.assertFalse(Whitebox
-			   .invokeMethod(player, "isValidMove",
-					 new Point(4, 0)
-					 )
-			   );
+	Assert.assertEquals("ATARI", player.placeWall(4,7,'v'));
+	Assert.assertEquals(9, Whitebox.getInternalState(player, "wallCount"));
+
+	//Test that you cannot place intersecting walls
+	Assert.assertEquals("GOTE", player,placeWall(4,7,'h'));
+	//or the same wall
+	Assert.assertEquals("GOTE", player,placeWall(4,7,'v'));
+	Assert.assertEquals(9, Whitebox.getInternalState(player, "wallCount"));
     }
 }

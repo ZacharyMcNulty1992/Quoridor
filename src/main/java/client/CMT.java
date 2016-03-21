@@ -16,8 +16,10 @@ public class CMT {
     public static void main(String[] args) throws Exception{
 
 	playerNumber = 0;
-        playerCount = args.length;
+        String names = "";
+	playerCount = args.length;
         Socket clientSocket;
+	ArrayList<String> playerNames = new ArrayList<String>();
 	Scanner keyboard = new Scanner(System.in);
 
         try{
@@ -36,13 +38,16 @@ public class CMT {
             client.start();
         }
  
-        ArrayList<String> playerNames = new ArrayList<String>();
         for(ClientThread c: threadList){
 	    playerNames.add(c.handShake());
         }
+	
+	for(int i = 0; i < playerNames.size(); i++) {
+            names += playerNames.get(i) + " ";
+        }
 
         for(ClientThread c: threadList){
-	    c.write("GAME " + ++playerNumber + " " + playerNames);
+	    c.write("GAME " + ++playerNumber + " " + names);
         }
 
         String line = keyboard.nextLine();

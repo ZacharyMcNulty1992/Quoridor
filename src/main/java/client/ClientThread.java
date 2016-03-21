@@ -6,10 +6,10 @@ import java.io.*;
 class ClientThread extends Thread{
 
     Socket clientSocket;
-    int clientID = -1;
+    //int clientID = -1;
 
-    ClientThread(int i, Socket s)throws Exception {
-        clientID = i;
+    ClientThread(Socket s)throws Exception {
+      //  clientID = i;
         clientSocket = s;
     }
 
@@ -20,7 +20,7 @@ class ClientThread extends Thread{
             sout.println("HELLO");
             String response = sin.nextLine();
             System.out.println(response);
-            return response.substring(4)+clientID;
+            return response.substring(4);
         }catch(IOException e){
             System.out.println(e);
         }

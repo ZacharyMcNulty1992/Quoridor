@@ -27,7 +27,7 @@ public class AI {
     closedList = new ArrayList<Space>();
 
     //create the game board here for future use
-    gameBoard = new GameBoard();
+    gameBoard = GameBoard.getInstance();
   }
 
   public ArrayList<Space> getShortestPath(int playerNum){

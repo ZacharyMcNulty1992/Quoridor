@@ -1,19 +1,12 @@
 package client;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import org.junit.Test;
-import org.junit.Assert;
 import org.junit.Before;
-
-import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * @author Brandon Williams
@@ -26,7 +19,7 @@ public class GameBoardTest {
   @Before //This runs when the class is initialized
   public void setup() {
 
-    gb = new GameBoard();
+    gb = GameBoard.getInstance();
   }
 
   @Test

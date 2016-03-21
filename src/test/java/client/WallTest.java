@@ -2,8 +2,8 @@ package client;
 
 import java.awt.Point;
 
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertArrayEquals;
@@ -12,6 +12,7 @@ import static org.junit.Assert.assertArrayEquals;
  * @author Brandon Williams
  * @date   2/10/2016 - Last Updated
  */
+@Deprecated
 public class WallTest {
 
   private Wall testWall;
@@ -22,13 +23,13 @@ public class WallTest {
     testWall = new Wall(2,3,'h');
   }
 
-  @Test
+  @Ignore
   public void testWallConstructor() throws Exception {
 
     assertNotNull(testWall);
   }
 
-  @Test
+  @Ignore
   public void testWallGetPosition() throws Exception {
 
     Point[] expectedVals = {new Point(3,2), new Point(4,2)};

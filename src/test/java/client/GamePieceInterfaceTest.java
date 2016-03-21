@@ -4,9 +4,7 @@ import java.util.Collection;
 import java.util.Arrays;
 import java.awt.Point;
 
-import org.junit.Test;
-import org.junit.runners.Parameterized;
-import org.junit.runner.RunWith;
+import org.junit.Ignore;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
@@ -15,17 +13,18 @@ import static org.junit.Assert.fail;
  * @author Brandon Williams
  * @date   2/10/2016 - Last updated
  */
-@RunWith(Parameterized.class)
+@Deprecated
 public class GamePieceInterfaceTest {
 
   private GamePiece gamePiece;
 
+  @Deprecated
   public GamePieceInterfaceTest(GamePiece gamePiece) {
 
     this.gamePiece = gamePiece;
   }
 
-  @Test
+  @Ignore
   public void testGamePieceGetPosition() throws Exception {
 
     Point[] positions = gamePiece.getPosition();
@@ -50,7 +49,7 @@ public class GamePieceInterfaceTest {
     }
   }
 
-  @Parameterized.Parameters
+  @Ignore 
   public static Collection<Object[]> instancesToTest() {
 
     return Arrays.asList( new Object[]{new Pawn(2,3)},

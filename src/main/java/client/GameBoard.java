@@ -5,17 +5,31 @@ import java.awt.Point;
 
 /**
  * @author Brandon Williams
- * @date   2/29/2016 - Last updated
- * @edited by Zachary McNulty
+ * @date   3/18/16
+ * @edited Brandon Williams
  */
 public class GameBoard {
 
+  private static GameBoard instance = null;
   private ArrayList<Space> gameBoard;
+
+  /**
+   * Singleton implementation of GameBoard
+   * @return A new GameBoard on first execution or the
+   *         GameBoard created on the first execution.
+   */
+  public static GameBoard getInstance() {
+
+    if(instance == null)
+      return instance = new GameBoard();
+
+    return instance;
+  }
 
   /**
    * Constructs an empty game board
    */
-  public GameBoard() {
+  private GameBoard() {
 
     //gameBoard = new GamePiece[9][9];
 
@@ -110,68 +124,6 @@ public class GameBoard {
   }
 
   /**
-   * Places a GamePiece on the GameBoard.
-   * Will more than likely need to be reworked
-   * after move and place wall messages are
-   * implemented.
-   *
-   * @param piece The pawn or wall to be
-   * placed on the board
-   *
-   */
-  public void placePiece(GamePiece piece) {
-
-    Point[] pos = piece.getPosition();
-    int x = -1;
-    int y = -1;
-
-    if(pos[0] == null && isValidPlacement(piece)) { //Pawn
-
-      x = (int)piece.getPosition()[1].getX();
-      y = (int)piece.getPosition()[1].getY();
-
-      gameBoard.get(y + x * 9).occupied = true;
-    }
-
-    else if( isValidPlacement(piece) ) { //Wall
-
-      //Place wall at first point
-      x = (int)pos[0].getX();
-      y = (int)pos[0].getY();
-
-      int posIndex = y + x * 9;
-
-      if(pos[1].getX() > x) { //horizontal wall
-
-        while(posIndex < (y+(x*9))+2) {
-
-          gameBoard.get(posIndex).edges
-          .remove(gameBoard.get(posIndex+9));
-
-          gameBoard.get(posIndex+9).edges
-          .remove(gameBoard.get(posIndex));
-
-          posIndex++;
-        }
-      }
-
-      else if(pos[1].getY() > y) { //Vertical
-
-        while(posIndex < (y+((x+2)*9))) {
-
-          gameBoard.get(posIndex).edges
-          .remove(gameBoard.get(posIndex+1));
-
-          gameBoard.get(posIndex+1).edges
-          .remove(gameBoard.get(posIndex));
-
-          posIndex+=9;
-        }
-      }
-    }
-  }
-
-  /**
    * 
    * @param x The x coordinate of the space
    * @param y
@@ -179,50 +131,47 @@ public class GameBoard {
    */
   public Space getSpaceAt(int x, int y){
 
-    return gameBoard.get(y + (x*9));
+    return gameBoard.get(x + (y*9));
   }
 
-  /**
-   * Does not verify that the path has to the end has not been
-   * blocked yet! Need shortest path algorithm to determine.
-   * 
-   * @param piece - The game piece to be placed on the board
-   * @return False if the wall placed is intersecting another
-   * wall or the same wall is placed. Else, return true.
-   */
-  private boolean isValidPlacement(GamePiece piece) {
+  public void movePawn(Point currentPos, Point newPos) {
 
-    //Validate Wall Placement
-    Point[] pos = piece.getPosition();
+    getSpaceAt(currentPos.x, currentPos.y).occupied = false;
+    getSpaceAt(newPos.x, newPos.y).occupied = true;
+  }
 
-    if(pos[0] != null) { //If piece is a wall
+  public void placeWall(Point wallPos, char direction) {
 
-      Space[] wallSpaces = new Space[] {
-          getSpaceAt(pos[0].x, pos[0].y),
-          getSpaceAt(pos[1].x, pos[1].y)};
+    if( direction == 'v' ) {
 
-      try {
+      getSpaceAt(wallPos.x + 1, wallPos.y).edges
+      .remove(getSpaceAt(wallPos.x, wallPos.y));
 
-        Space[] possibleWallSpaces = new Space[]{ 
-            getSpaceAt(pos[0].x + 1, pos[0].y), 
-            getSpaceAt(pos[0].x, pos[0].y + 1)};
+      getSpaceAt(wallPos.x, wallPos.y).edges
+      .remove(getSpaceAt(wallPos.x + 1, wallPos.y));
 
-        //If the same wall or an intersecting wall has been placed
-        if( (!possibleWallSpaces[0].edges.contains(wallSpaces[0]) && // Vertical wall check
-            !getSpaceAt(pos[0].x + 1, pos[0].y + 1).edges.contains(possibleWallSpaces[1])) ||
-            (!possibleWallSpaces[1].edges.contains(wallSpaces[0]) && // Horizontal wall check
-                !getSpaceAt(pos[0].x + 1, pos[0].y + 1).edges.contains(possibleWallSpaces[0])) ) { 
+      getSpaceAt(wallPos.x + 1, wallPos.y + 1).edges
+      .remove(getSpaceAt(wallPos.x, wallPos.y + 1));
 
-          return false;
-        }
-
-      } catch (ArrayIndexOutOfBoundsException e) { // If you try to place a wall off the board
-
-        return false;
-      }
-
+      getSpaceAt(wallPos.x, wallPos.y + 1).edges
+      .remove(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
     }
 
-    return true;
+    else {
+
+      getSpaceAt(wallPos.x, wallPos.y + 1).edges
+      .remove(getSpaceAt(wallPos.x, wallPos.y));
+
+      getSpaceAt(wallPos.x, wallPos.y).edges
+      .remove(getSpaceAt(wallPos.x, wallPos.y + 1));
+
+      getSpaceAt(wallPos.x + 1, wallPos.y + 1).edges
+      .remove(getSpaceAt(wallPos.x + 1, wallPos.y));
+
+      getSpaceAt(wallPos.x + 1, wallPos.y).edges
+      .remove(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
+    }
+
   }
+
 }

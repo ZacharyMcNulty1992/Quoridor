@@ -18,18 +18,17 @@ function clean_up {
 
 
 if [[ count -eq 2 ]]; then
-        echo Starting up two Servers
+        echo Starting two Servers
 	xterm -e java -cp ./src main.java.server.EchoServer --port 7070 &
 	pid1=$!
 	xterm -e java -cp ./src main.java.server.EchoServer --port 7171 &
         pid2=$!
 
-	echo Starting up viewer
+	echo Starting Client
 	xterm -e java -cp ./src main.java.client.CMT localhost:7070 localhost:7171
 
-	echo Happy Hacking~
 else
-        echo Starting up four Servers
+        echo Starting four Servers
         xterm -e java -cp ./src main.java.server.EchoServer --port 7070 &
         pid1=$!
 
@@ -42,10 +41,9 @@ else
         xterm -e java -cp ./src main.java.server.EchoServer --port 7373 &
         pid4=$!
 
-        echo Starting up viewer
+        echo Starting Client
         xterm -e java -cp ./src main.java.client.CMT localhost:7070 localhost:7171 localhost:7272 localhost:7373 
 
-	echo Happy Hacking~
 fi
 
 clean_up

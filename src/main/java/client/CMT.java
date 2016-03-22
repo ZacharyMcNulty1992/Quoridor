@@ -15,6 +15,7 @@ public class CMT {
 
     public static void main(String[] args) throws Exception{
 
+	int counter = 1;
 	playerNumber = 0;
         String names = "";
 	playerCount = args.length;
@@ -39,13 +40,14 @@ public class CMT {
         }
  
         for(ClientThread c: threadList){
-	    playerNames.add(c.handShake());
+	    playerNames.add(c.handShake() + counter);
+	    counter++;
         }
 	
 	for(int i = 0; i < playerNames.size(); i++) {
             names += playerNames.get(i) + " ";
         }
-
+	
         for(ClientThread c: threadList){
 	    c.write("GAME " + ++playerNumber + " " + names);
         }

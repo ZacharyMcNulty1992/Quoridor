@@ -42,10 +42,7 @@ public class CMT {
 	Handshake();
 	nameBuilder();	
 	initGame();
-	
-	//*:Pseudocode:* 
-	//Remember tesuji will be the response from server;
-	//**** Going to make each server response be manual input for now.
+        /** What next: get player name per thread and attach to ATARI */	
 	while(true){
 	    for(ClientThread c: threadList){
 	        tesuji = c.Myoushu();
@@ -54,8 +51,6 @@ public class CMT {
 	    } 
 	}
         /*String line = keyboard.nextLine();
-        //IDEA FOR LATER: ADD MYOUSHU, TESUJI(SERVERSIDE) AND ATARI METHODS.
-        //                CALL EACH METHOD PER THREAD IN LIST                
         while(true){
 	    for(ClientThread c : threadList)
 	        c.write(line);
@@ -83,7 +78,7 @@ public class CMT {
 
     public static void Atari(String message) throws Exception{
 	for(ClientThread c : threadList)
-	    c.write("ATARI " + message);
+	    c.write("ATARI "+ c.getPlayerName() + " " + message);
     }
 
     public static Socket errorCheck(String [] temp){

@@ -7,7 +7,7 @@ class ClientThread extends Thread{
 
     Socket clientSocket;
     //int clientID = -1;
-
+    String playerName = "";
     ClientThread(Socket s)throws Exception {
       //  clientID = i;
         clientSocket = s;
@@ -20,7 +20,8 @@ class ClientThread extends Thread{
             sout.println("HELLO");
             String response = sin.nextLine();
             System.out.println(response);
-            return response.substring(4);
+	    playerName = response.substring(4);
+            return playerName;
         }catch(IOException e){
             System.out.println(e);
         }
@@ -54,6 +55,10 @@ class ClientThread extends Thread{
             System.out.println(e);
         }
         return "Failure to retrieve message from server";
+    }
+
+    public String getPlayerName(){
+	return playerName;
     }
 
     public void run(){

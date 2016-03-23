@@ -45,12 +45,12 @@ public class CMT {
 	
 	//*:Pseudocode:* 
 	//Remember tesuji will be the response from server;
-	//Going to make each server response be manual input for now.
+	//**** Going to make each server response be manual input for now.
 	while(true){
 	    for(ClientThread c: threadList){
 	        tesuji = c.Myoushu();
 	        //validateMove(tesuji);
-	        Atari(tesuji);
+	        Atari(tesuji.substring(7));
 	    } 
 	}
         /*String line = keyboard.nextLine();

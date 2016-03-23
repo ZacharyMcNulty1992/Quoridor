@@ -41,6 +41,21 @@ class ClientThread extends Thread{
         }
     }
 
+    public String Myoushu(){
+        try{
+            Scanner sin = new Scanner(clientSocket.getInputStream());
+            PrintStream sout = new PrintStream(clientSocket.getOutputStream());
+            sout.println("MYOUSHU");
+            String serverLine = sin.nextLine();
+	    return serverLine;
+        }catch(IOException e){
+            System.out.println(e);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return "Failure to retrieve message from server";
+    }
+
     public void run(){
         try{
             Scanner sin = new Scanner(clientSocket.getInputStream());

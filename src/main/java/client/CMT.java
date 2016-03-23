@@ -8,19 +8,19 @@ import java.io.*;
 public class CMT {
 
     static String hostname = "localhost";
+    static String names = "";
     static int playerNumber;
     static int playerCount;
+    private static ArrayList<String> playerNames = new ArrayList<String>();
     private static ArrayList<ClientThread> threadList = 
 	                                 new ArrayList<ClientThread>();
 
     public static void main(String[] args) throws Exception{
 
-	int counter = 1;
 	playerNumber = 0;
-        String names = "";
+	String tesuji = "";
 	playerCount = args.length;
         Socket clientSocket;
-	ArrayList<String> playerNames = new ArrayList<String>();
 	Scanner keyboard = new Scanner(System.in);
 
         try{
@@ -39,27 +39,51 @@ public class CMT {
             client.start();
         }
  
-        for(ClientThread c: threadList){
-	    playerNames.add(c.handShake() + counter);
-	    counter++;
-        }
+	Handshake();
+	nameBuilder();	
+	initGame();
 	
-	for(int i = 0; i < playerNames.size(); i++) {
-            names += playerNames.get(i) + " ";
-        }
-	
-        for(ClientThread c: threadList){
-	    c.write("GAME " + ++playerNumber + " " + names);
-        }
-
-        String line = keyboard.nextLine();
+	//*:Pseudocode:* 
+	//Remember tesuji will be the response from server;
+	//Going to make each server response be manual input for now.
+	while(true){
+	    for(ClientThread c: threadList){
+	        tesuji = c.Myoushu();
+	        //validateMove(tesuji);
+	        Atari(tesuji);
+	    } 
+	}
+        /*String line = keyboard.nextLine();
         //IDEA FOR LATER: ADD MYOUSHU, TESUJI(SERVERSIDE) AND ATARI METHODS.
         //                CALL EACH METHOD PER THREAD IN LIST                
         while(true){
 	    for(ClientThread c : threadList)
 	        c.write(line);
             line = keyboard.nextLine();
+        } */
+    }
+
+    public static void nameBuilder(){
+	for(int i = 0; i < playerNames.size(); i++) 
+            names += playerNames.get(i) + " ";
+    }
+
+    public static void Handshake() throws Exception{
+	int counter = 1;
+	for(ClientThread c: threadList){
+            playerNames.add(c.handShake() + counter);
+            counter++;
         }
+    }
+
+    public static void initGame() throws Exception{
+	for(ClientThread c: threadList)
+            c.write("GAME " + ++playerNumber + " " + names);
+    }
+
+    public static void Atari(String message) throws Exception{
+	for(ClientThread c : threadList)
+	    c.write("ATARI " + message);
     }
 
     public static Socket errorCheck(String [] temp){

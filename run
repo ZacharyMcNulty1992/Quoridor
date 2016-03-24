@@ -19,30 +19,30 @@ function clean_up {
 
 if [[ count -eq 2 ]]; then
         echo Starting two Servers
-	xterm -e java -cp ./src main.java.server.EchoServer --port 7070 &
+	xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7070 &
 	pid1=$!
-	xterm -e java -cp ./src main.java.server.EchoServer --port 7171 &
+	xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7171 &
         pid2=$!
 
 	echo Starting Client
-	xterm -e java -cp ./src main.java.client.CMT localhost:7070 localhost:7171
+	xterm -e java -cp build/libs/Quoridor-1.0.jar client.CMT localhost:7070 localhost:7171
 
 else
         echo Starting four Servers
-        xterm -e java -cp ./src main.java.server.EchoServer --port 7070 &
+        xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7070 &
         pid1=$!
 
-        xterm -e java -cp ./src main.java.server.EchoServer --port 7171 &
+        xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7171 &
         pid2=$!
 
-        xterm -e java -cp ./src main.java.server.EchoServer --port 7272 &
+        xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7272 &
         pid3=$!
 
-        xterm -e java -cp ./src main.java.server.EchoServer --port 7373 &
+        xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7373 &
         pid4=$!
 
         echo Starting Client
-        xterm -e java -cp ./src main.java.client.CMT localhost:7070 localhost:7171 localhost:7272 localhost:7373 
+        xterm -e java -cp build/libs/Quoridor-1.0.jar client.CMT localhost:7070 localhost:7171 localhost:7272 localhost:7373 
 
 fi
 

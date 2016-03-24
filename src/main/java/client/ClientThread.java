@@ -1,15 +1,15 @@
-package main.java.client;
+package client;
 import java.net.Socket;
 import java.util.*;
 import java.io.*;
 
 class ClientThread extends Thread{
 
+    int playerNumber = 0;
     Socket clientSocket;
-    //int clientID = -1;
-    String playerName = "";
+    String playerName = "";    
+    public Player player;
     ClientThread(Socket s)throws Exception {
-      //  clientID = i;
         clientSocket = s;
     }
 
@@ -26,6 +26,10 @@ class ClientThread extends Thread{
             System.out.println(e);
         }
         return "Player name failure";
+    }
+
+    public void setPlayerNumber(int pn){
+	playerNumber = pn;
     }
 
     public void write(String message) throws Exception{
@@ -59,6 +63,10 @@ class ClientThread extends Thread{
 
     public String getPlayerName(){
 	return playerName;
+    }
+
+    public void createPlayer() {
+        player = new Player(playerNumber,playerName,10);
     }
 
     public void run(){

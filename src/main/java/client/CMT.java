@@ -1,4 +1,4 @@
-package main.java.client;
+package client;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -42,11 +42,17 @@ public class CMT {
 	Handshake();
 	nameBuilder();	
 	initGame();
-        /** What next: get player name per thread and attach to ATARI */	
+	//Interpreter GM = new Interpreter();	
+	/**Could create new Interpreter here and then call 
+	   GM.parseString(tesuji), Need way of converting tesuji to point
+	   for the isValidMove method. */
 	while(true){
 	    for(ClientThread c: threadList){
 	        tesuji = c.Myoushu();
 	        //validateMove(tesuji);
+		Interpreter GM = new Interpreter(tesuji);
+		//boolean vm = c.player.isValidMove(GM.getInString());
+	        System.out.println("Testing Interpreter: " + GM.getInString());
 	        Atari(tesuji.substring(7));
 	    } 
 	}
@@ -72,8 +78,11 @@ public class CMT {
     }
 
     public static void initGame() throws Exception{
-	for(ClientThread c: threadList)
+	for(ClientThread c: threadList){
             c.write("GAME " + ++playerNumber + " " + names);
+	    c.setPlayerNumber(playerNumber);
+	    c.createPlayer();
+	}
     }
 
     public static void Atari(String message) throws Exception{

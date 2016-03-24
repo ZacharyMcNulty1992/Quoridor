@@ -90,17 +90,14 @@ public class Player {
       pawnPos = new Point(8, 4);
   }
 
+  /**
+   * Checks if the requested position is a valid move
+   *
+   * @param movePos The requested move to validate
+   */
   private boolean isValidMove(Point movePos) {
 
-    if( movePos.x == pawnPos.x && 
-            (movePos.y == pawnPos.y + 1 || movePos.y == pawnPos.y - 1) )
-
-      return true; 
-    
-    else if( movePos.y == pawnPos.y && 
-        (movePos.x == pawnPos.x + 1 || movePos.x == pawnPos.x - 1) )
-      
-      return true;
+      //Implement using recursion.
 
     return false;
   }

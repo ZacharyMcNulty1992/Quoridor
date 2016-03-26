@@ -73,7 +73,7 @@ class ClientThread extends Thread{
         try{
             Scanner sin = new Scanner(clientSocket.getInputStream());
             PrintStream sout = new PrintStream(clientSocket.getOutputStream());
-            Scanner keyboard = new Scanner(System.in);
+            Scanner keyboard = new Scanner(System.in);		
         }catch(IOException e){
             System.out.println(e);
         }catch(Exception j){

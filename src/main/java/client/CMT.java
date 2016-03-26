@@ -83,6 +83,11 @@ public class CMT {
 	    c.setPlayerNumber(playerNumber);
 	    c.createPlayer();
 	}
+
+        Runtime rt = Runtime.getRuntime();
+        Process gui = 
+	rt.exec("java -cp ./build/libs/Quoridor-1.0.jar client.gui.Main");
+
     }
 
     public static void Atari(String message) throws Exception{

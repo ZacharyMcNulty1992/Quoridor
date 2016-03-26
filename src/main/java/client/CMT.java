@@ -52,7 +52,7 @@ public class CMT {
 	        //validateMove(tesuji);
 		Interpreter GM = new Interpreter(tesuji);
 		//boolean vm = c.player.isValidMove(GM.getInString());
-	        System.out.println("Testing Interpreter: " + GM.getInString());
+	       // System.out.println("Testing Interpreter: " + GM.getInString());
 	        Atari(tesuji.substring(7));
 	    } 
 	}

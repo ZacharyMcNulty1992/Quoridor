@@ -5,12 +5,13 @@ import java.util.HashSet;
 
 @SuppressWarnings("serial")
 public class Space extends Point{
-
+  
   // variables can be accessed by calling them
   // thus we do not need getters.
   public HashSet<Space> edges;
   public boolean occupied;
-
+  public int distance; //used for pathing (distance between this node and source)
+  
   /**
    * constructor
    * 
@@ -22,6 +23,9 @@ public class Space extends Point{
 
     edges = new HashSet<Space>(4);
     occupied = false;
+  
+    //pathing stuff
+    distance = Integer.MAX_VALUE; //make this close to inf for pathfinding
   }
-
+  
 }// end of class

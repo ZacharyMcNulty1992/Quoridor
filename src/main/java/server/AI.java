@@ -6,13 +6,20 @@ import client.GameBoard;
 import client.Space;
 import static java.lang.Math.abs;
 import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class AI {
-  public GameBoard gameBoard; //the current game board
-  private ArrayList<Space> openList; //locations where we can go
-  private ArrayList<Space> closedList; //where we have been
-
+  
+    public final int WEIGHT = 1;
+    
+    public GameBoard gameBoard; //the current game board
+    private ArrayList<Space> openList; //locations where we can go
+    private ArrayList<Space> closedList; //where we have visited
+    private ArrayList<Space> path; //the shortest path
+    private ArrayList<Space> aiPath; //path of the ai
+    private ArrayList<Space> opponentPath; //path of the opponent
+    
   //ai player number
   private int playerNum;
   private int opponentNum;
@@ -22,7 +29,6 @@ public class AI {
   private int Y[]; // Y-coord
 
   private int heuristic;
-  
   
   public AI(int playerNumber) {
 
@@ -44,39 +50,58 @@ public class AI {
   public ArrayList<Space> getShortestPath(int playerNum){
     
     //initialization
-    openList = new ArrayList<Space>();
-    closedList = new ArrayList<Space>();
+    PriorityQueue<Space> q = new PriorityQueue<>();
+    closedList = new ArrayList<>();
+    openList = new ArrayList<>();
+    path = new ArrayList<>();
     
-    int current[] = new int[2];
-    int target; //just the y coord of where they need to go
-    
-    //get the current position of the player
-    current[0] = X[playerNum];
-    current[1] = X[playerNum];
-    //we only care about getting to the other side of the board
-    //so we will only use the y coord for the heuristic for the shortest 
-    if(Y[playerNum] == 0)
-        target = 8;
+    int targetY = 0;
+    if(playerNum == 1)
+        targetY = 0;
     else
-        target = 0;
-    calcHeuristic(current, target);
+        targetY = 8;
     
+    //get all of the nodes of the board into a list
+    for(Space b : gameBoard.getGameBoard()){
+        q.add(b);
+    }
     
+    Space current = gameBoard.getSpaceAt(X[playerNum], Y[playerNum]); //where to start our search
+    current.distance = 0; //set the distance of the starting node as 0
+    int f_dist; //distance between nodes
+    HashSet<Space> NeighbourSet = new HashSet<>();
+    while(!closedList.isEmpty()){ //main loop
+        
+        
+        //if the current node is at the target area then we return
+        if(current.y == targetY) 
+            break;
+        
+        //find the new current node
+        int least_distance = Integer.MAX_VALUE;
+        for(Space a : q){
+            //calc distance of all nodes near 
+            
+            if(a.distance  < least_distance)
+                current = a;
+        }
+        
+        //remove that node from the queue
+        closedList.remove(current);
+        
+        //get the set of neighbour nodes
+        NeighbourSet = current.edges;
+        for(Space a : NeighbourSet){ 
+            //get the distance between the current node and the node we are looking at
+            f_dist = current.distance + WEIGHT; 
+            if(f_dist < a.distance){
+                a.distance = f_dist;
+                path.add(a);
+            }
+        }
+    } //end of while loop
     
-    
-    return null;
-  }
-  
-  /**
-   * this method will calculate a heuristic for finding a shortest path
-   * @param currentPos - [x,y] where the player currently is
-   * @param targetPos  - y-coordinate we want to have to win
-   */
-  
-  private void calcHeuristic(int currentPos[], int targetY) {
-    int dx = abs(currentPos[0]);
-    int dy = abs(currentPos[1] - targetY);
-    heuristic = (dx - dy);
+    return path;
   }
     
   public String getMove(){
@@ -94,9 +119,9 @@ public class AI {
       int aiSize = ais.size();
       int opponentSize = opponent.size();
       
+      Space move = ais.get(1); //get the next move we should make from here
       
-      
-    return ""; //sub
+    return ("TETSUJI (" + move.x + " " + move.y + ")"); 
   }
 
   /**

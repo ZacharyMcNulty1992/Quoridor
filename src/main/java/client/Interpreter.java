@@ -1,3 +1,5 @@
+//I will rewrite this method more efficiently using isValid()
+
 package client;
 
 import java.awt.Point;

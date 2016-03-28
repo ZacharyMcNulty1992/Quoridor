@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 /**
  * 
@@ -50,8 +51,12 @@ public class Player {
 
     Point movePos = new Point(row, column);
 
-    if(!isValidMove(movePos))
+    if(!isValidMove(movePos)){
+
+      gameBoard.removePawn(pawnPos);
+
       return "GOTE";
+    }
 
     gameBoard.movePawn(pawnPos, movePos);
 
@@ -64,8 +69,12 @@ public class Player {
 
     Point placementPos = new Point(row, column);
 
-    if(!isValidWallPlacement(placementPos, direction))
+    if(!isValidWallPlacement(placementPos, direction)){
+
+      gameBoard.removePawn(pawnPos);
+
       return "GOTE";
+    }
 
     gameBoard.placeWall(placementPos, direction);
 
@@ -97,9 +106,61 @@ public class Player {
    */
   private boolean isValidMove(Point movePos) {
 
-      //Implement using recursion.
+    ArrayList<Point> validMoves = getValidMoves(pawnPos, new ArrayList<Point>(10), new ArrayList<Point>(4));
+    
+    if(validMoves.contains(movePos)) {
+      return true;
+    }
 
     return false;
+  }
+
+  /**
+   * 
+   * @param currentPos
+   * @param validPos
+   * @param visitedSpaces
+   * @return
+   */
+  private ArrayList<Point> getValidMoves(Point currentPos, 
+      ArrayList<Point> validPos, ArrayList<Point> visitedSpaces) {
+
+    visitedSpaces.add(currentPos);
+
+    Point[] adjacentPos = new Point[] {
+        new Point (currentPos.x+1, currentPos.y),
+        new Point (currentPos.x-1, currentPos.y),
+        new Point (currentPos.x, currentPos.y+1),
+        new Point (currentPos.x, currentPos.y-1)
+    };
+
+
+
+    for(int i = 0; i < adjacentPos.length; i++) {
+
+      if( !visitedSpaces.contains(adjacentPos[i]) ) {
+        
+        try {
+          
+          if(gameBoard.getSpaceAt(adjacentPos[i].x,
+              adjacentPos[i].y).occupied){
+
+           getValidMoves(adjacentPos[i], validPos, visitedSpaces);
+          }
+          else    
+            validPos.add(adjacentPos[i]);
+          
+        } catch (IndexOutOfBoundsException e) {
+
+          //Do nothing
+        }
+      }
+
+    }
+
+
+
+    return validPos;
   }
 
   /**
@@ -114,10 +175,10 @@ public class Player {
 
     if (wallCount < 1)
       return false;    
-    
+
     if (wallPos.x == 8 || wallPos.y == 8)
       return false;
-    
+
     try { 
 
       if( direction == 'v' ) { // A vertical wall

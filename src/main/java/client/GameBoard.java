@@ -134,12 +134,22 @@ public class GameBoard {
     return gameBoard.get(x + (y*9));
   }
 
+  /**
+   * 
+   * @param currentPos
+   * @param newPos
+   */
   public void movePawn(Point currentPos, Point newPos) {
 
     getSpaceAt(currentPos.x, currentPos.y).occupied = false;
     getSpaceAt(newPos.x, newPos.y).occupied = true;
   }
 
+  /**
+   * 
+   * @param wallPos
+   * @param direction
+   */
   public void placeWall(Point wallPos, char direction) {
 
     if( direction == 'v' ) {
@@ -172,6 +182,15 @@ public class GameBoard {
       .remove(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
     }
 
+  }
+  
+  /**
+   * 
+   * @param pawnPos
+   */
+  public void removePawn(Point pawnPos) {
+   
+      getSpaceAt(pawnPos.x, pawnPos.y).occupied = false;
   }
 
 }

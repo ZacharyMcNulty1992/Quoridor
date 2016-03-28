@@ -4,7 +4,6 @@ import java.awt.Point;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -55,7 +54,7 @@ public class PlayerTest {
   @Test
   public void testMovePawn() throws Exception {
 
-    /*Assert.assertEquals("ATARI", player.movePawn(1,4));
+    Assert.assertEquals("ATARI", player.movePawn(1,4));
     Assert.assertEquals("ATARI", player.movePawn(1,3));
     Assert.assertEquals("ATARI", player.movePawn(0,3));
     Assert.assertEquals("ATARI", player.movePawn(0,4));
@@ -63,7 +62,7 @@ public class PlayerTest {
     Assert.assertEquals("GOTE", player.movePawn(1,3));
 
     PowerMockito.verifyPrivate(player, Mockito.times(5))
-    .invoke("isValidMove", Matchers.any());*/
+    .invoke("isValidMove", Matchers.any());
 
 
 
@@ -95,7 +94,7 @@ public class PlayerTest {
 
   }
 
-  @Ignore
+  @Test
   public void testHasWon() throws Exception {
 
     String actualResult = Whitebox.invokeMethod(player, "hasWon");

@@ -24,6 +24,7 @@ public class UtilTest{
 	private String testString13;
 	private String testString14;
 	private String testString15;
+    private String testString16;    
 	
 	@Before
 	public void setup() {
@@ -44,6 +45,7 @@ public class UtilTest{
 		testString13 = "ATARI 3 [(2, 5), h]"; //valid
 		testString14 = "MYOUSHU"; //valid
 		testString15 = "IAM ___-33!#123@@#"; //only ws not allowed in name
+        testString16 = ""; //invalid
 	}
 	
 	@Test
@@ -95,6 +97,7 @@ public class UtilTest{
 		assertFalse(Util.isValid(testString8));
 		assertFalse(Util.isValid(testString10));
 		assertFalse(Util.isValid(testString12));
+        assertFalse(Util.isValid(testString16));
 
 		
 	}

@@ -75,7 +75,7 @@ public class Util{
     // a GamePiece object, it returns an array of the important
     // variables, or maybe an object? in order to have 
     // for a wall 2 ints and a char...
-
+    // maybe add a method that returns what type type of command it is?:
 	// maybe one of the isvalid method is superfluous? 
 					
 }

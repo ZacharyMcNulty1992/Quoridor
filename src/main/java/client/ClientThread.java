@@ -32,6 +32,10 @@ class ClientThread extends Thread{
 	playerNumber = pn;
     }
 
+    public int getPlayerNumber(){
+	return playerNumber;
+    }
+
     public void write(String message) throws Exception{
         try{
             Scanner sin = new Scanner(clientSocket.getInputStream());
@@ -51,6 +55,7 @@ class ClientThread extends Thread{
             Scanner sin = new Scanner(clientSocket.getInputStream());
             PrintStream sout = new PrintStream(clientSocket.getOutputStream());
             sout.println("MYOUSHU");
+	    //going to implement Process.getInputStream() things here for handling gui clicks
             String serverLine = sin.nextLine();
 	    return serverLine;
         }catch(IOException e){

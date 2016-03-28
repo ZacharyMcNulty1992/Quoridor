@@ -11,6 +11,8 @@ public class CMT {
     static String names = "";
     static int playerNumber;
     static int playerCount;
+    static Runtime rt;
+    static Process gui;
     private static ArrayList<String> playerNames = new ArrayList<String>();
     private static ArrayList<ClientThread> threadList = 
 	                                 new ArrayList<ClientThread>();
@@ -48,12 +50,21 @@ public class CMT {
 	   for the isValidMove method. */
 	while(true){
 	    for(ClientThread c: threadList){
-	        tesuji = c.Myoushu();
-	        //validateMove(tesuji);
-		Interpreter GM = new Interpreter(tesuji);
-		//boolean vm = c.player.isValidMove(GM.getInString());
-	        System.out.println("Testing Interpreter: " + GM.getInString());
-	        Atari(tesuji.substring(7));
+		//This commented section is for catching gui input
+		
+		if(c.getPlayerNumber() == 1){
+		    Scanner in = new Scanner(gui.getInputStream());
+		    String gr = in.nextLine();
+		    //c.write(gr);
+		    Atari(gr);
+		}else{
+		
+	            tesuji = c.Myoushu();
+		    Interpreter GM = new Interpreter(tesuji);
+		    //boolean vm = c.player.isValidMove(GM.getInString());
+	            //System.out.println("Testing Interpreter: " + GM.getInString());
+	            Atari(tesuji.substring(7));
+		}
 	    } 
 	}
         /*String line = keyboard.nextLine();
@@ -83,10 +94,9 @@ public class CMT {
 	    c.setPlayerNumber(playerNumber);
 	    c.createPlayer();
 	}
-
-        Runtime rt = Runtime.getRuntime();
-        Process gui = 
-	rt.exec("java -cp ./build/libs/Quoridor-1.0.jar client.gui.Main");
+	//Might move this to generate inside thread
+        rt = Runtime.getRuntime();
+        gui = rt.exec("java -cp ./build/libs/Quoridor-1.0.jar client.gui.Main");
 
     }
 

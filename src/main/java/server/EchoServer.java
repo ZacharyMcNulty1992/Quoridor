@@ -60,13 +60,13 @@ public class EchoServer {
 			    //This is to obtain move from the AI.
 			    //It is commented out for testing purposes & until
 			    //error's associated with it are fixed.
-			    //move = ai.getMove();
+			    move = ai.getMove();
 			
-			    move = keyboard.nextLine();
-			    cout.println("TESUJI " + move);
+			    //move = keyboard.nextLine();
+			    cout.println(move);
                         }else if(clientMessage.substring(0,4).equals("GAME")){
 			    try{
-			        int pn = Integer.parseInt(clientMessage.substring(5,6));	
+			        int pn = Integer.parseInt(clientMessage.substring(5,6));
 				ai = new AI(pn);
 			    }catch(NumberFormatException e){
 			        System.out.println(e);

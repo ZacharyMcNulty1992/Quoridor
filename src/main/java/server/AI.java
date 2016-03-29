@@ -50,7 +50,7 @@ public class AI {
   public ArrayList<Space> getShortestPath(int playerNum){
     
     //initialization
-    PriorityQueue<Space> q = new PriorityQueue<>();
+    ArrayList<Space> q = new ArrayList<>();
     closedList = new ArrayList<>();
     openList = new ArrayList<>();
     path = new ArrayList<>();
@@ -121,7 +121,7 @@ public class AI {
       
       Space move = ais.get(1); //get the next move we should make from here
       
-    return ("TETSUJI (" + move.x + " " + move.y + ")"); 
+    return ("(" + move.x + " " + move.y + ")"); 
   }
 
   /**

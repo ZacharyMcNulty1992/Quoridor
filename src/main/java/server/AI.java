@@ -43,7 +43,15 @@ public class AI {
     
     X = new int[4]; 
     Y = new int[4];
-
+    
+    X[0] = 4; //player 1 x
+    Y[0] = 0; //player 1 y
+    
+    X[1] = 4; //player 2 x
+    Y[1] = 8; //player 2 y
+    
+    //TODO: make the same thing for player 3 and 4 blah blah blah
+    
     //create the game board here for future use
     gameBoard = GameBoard.getInstance();
   }
@@ -56,6 +64,7 @@ public class AI {
     path = new ArrayList<>();
     
     int targetY = 0;
+    
     if(playerNum == 1)
         targetY = 0;
     else
@@ -74,7 +83,7 @@ public class AI {
     while(!q.isEmpty()){ //main loop
           
         //if the current node is at the target area then we return
-        if(current.y == targetY) 
+        if(current.x == targetY) 
             break;
         
         //find the new current node
@@ -89,6 +98,12 @@ public class AI {
         
         //remove that node from the queue
         q.remove(current);
+        
+        
+        //System.out.println("q size = " + q.size());
+        //System.out.println("current node is at: " + current.x + " " + current.y);
+        
+        //System.out.println();
         
         //get the set of neighbour nodes
         NeighbourSet = current.edges;
@@ -105,6 +120,7 @@ public class AI {
     Stack<Space> st = new Stack<>();
     //trace the path back to the 
     while (current.x != X[playerNum] && current.y != Y[playerNum]){
+        System.out.println(current.x + " , " + current.y);
         st.push(current);
         current = current.prev;
     }
@@ -113,6 +129,7 @@ public class AI {
     while(!st.isEmpty()){
         path.add(st.pop());
     }
+    System.out.println("path size = " + path.size());
     return path;
   }
     
@@ -133,7 +150,10 @@ public class AI {
       
       Space move = ais.get(1); //get the next move we should make from here
       
-    return ("TETSUJI (" + move.x + " " + move.y + ")"); 
+      //testing
+      updatePlayerPosition(move.x, move.y, playerNum);
+      
+    return ("TESUJI (" + move.x + ", " + move.y + ")"); 
   }
 
   /**

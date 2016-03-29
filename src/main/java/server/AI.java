@@ -8,6 +8,7 @@ import static java.lang.Math.abs;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.Stack;
 
 public class AI {
   
@@ -52,7 +53,6 @@ public class AI {
     //initialization
     ArrayList<Space> q = new ArrayList<>();
     closedList = new ArrayList<>();
-    openList = new ArrayList<>();
     path = new ArrayList<>();
     
     int targetY = 0;
@@ -70,9 +70,9 @@ public class AI {
     current.distance = 0; //set the distance of the starting node as 0
     int f_dist; //distance between nodes
     HashSet<Space> NeighbourSet = new HashSet<>();
-    while(!closedList.isEmpty()){ //main loop
-        
-        
+    
+    while(!q.isEmpty()){ //main loop
+          
         //if the current node is at the target area then we return
         if(current.y == targetY) 
             break;
@@ -80,14 +80,15 @@ public class AI {
         //find the new current node
         int least_distance = Integer.MAX_VALUE;
         for(Space a : q){
-            //calc distance of all nodes near 
             
-            if(a.distance  < least_distance)
+            if(a.distance  < least_distance){
+                least_distance = a.distance;
                 current = a;
+            }
         }
         
         //remove that node from the queue
-        closedList.remove(current);
+        q.remove(current);
         
         //get the set of neighbour nodes
         NeighbourSet = current.edges;
@@ -96,11 +97,22 @@ public class AI {
             f_dist = current.distance + WEIGHT; 
             if(f_dist < a.distance){
                 a.distance = f_dist;
-                path.add(a);
+                a.prev = current;
             }
         }
     } //end of while loop
     
+    Stack<Space> st = new Stack<>();
+    //trace the path back to the 
+    while (current.x != X[playerNum] && current.y != Y[playerNum]){
+        st.push(current);
+        current = current.prev;
+    }
+    
+    //add the path in the correct order
+    while(!st.isEmpty()){
+        path.add(st.pop());
+    }
     return path;
   }
     

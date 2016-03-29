@@ -11,7 +11,7 @@ public class Space extends Point{
   public HashSet<Space> edges;
   public boolean occupied;
   public int distance; //used for pathing (distance between this node and source)
-  
+  public Space prev; //used for pathing
   /**
    * constructor
    * 
@@ -26,6 +26,7 @@ public class Space extends Point{
   
     //pathing stuff
     distance = Integer.MAX_VALUE; //make this close to inf for pathfinding
+    prev = null;
   }
   
 }// end of class

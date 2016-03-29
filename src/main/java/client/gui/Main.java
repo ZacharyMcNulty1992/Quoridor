@@ -2,13 +2,15 @@ package client.gui;
 
 import javafx.scene.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.*;
+import javafx.scene.paint.*;
+import javafx.scene.input.*;
+import javafx.scene.Node.*;
 import javafx.application.*;
 import javafx.event.*;
 import javafx.stage.*;
 import javafx.geometry.*;
-import javafx.scene.shape.*;
-import javafx.scene.paint.*;
-import javafx.scene.input.*;
+
 
 public class Main extends Application{
 
@@ -70,28 +72,55 @@ public class Main extends Application{
             }
         }
 
+        GridPane pawns = new GridPane();
+        pawns.setAlignment(Pos.CENTER);
+        pawns.setHgap(10);
+        pawns.setVgap(10);
+        pawns.setPadding(new Insets(25, 25, 25, 25));
+        pawns.setGridLinesVisible(false);
+
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                Circle c = new Circle(25, Color.WHITE);
+                c.setOpacity(0.0);
+                pawns.add(c, i, j);
+            }
+        }
+
+
         // Adds the grip panes to the root pane which will be displayed
         root.getChildren().add(board);
         root.getChildren().add(vWallGrid);
         root.getChildren().add(hWallGrid);
+        root.getChildren().add(pawns);
+
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
-        Scene scene = new Scene(root, 600, 600, Color.WHITE);
+        Scene scene = new Scene(root, 600, 600, Color.BLACK);
         primaryStage.setScene(scene);
 
         // Display primaryStage
         primaryStage.show();
 
+        
         // Handles click events for the game
         root.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
+                // int row = 0;
+                // int column = 4;
 
                 // returns coordinate on the board when a square is clicked
-                for(Node node: board.getChildren()) {
+                for(Node node: pawns.getChildren()) {
+                    node.setOpacity(0.0);
 
                     if(node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
                         System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
+                        // row = GridPane.getRowIndex(node);
+                        // column = GridPane.getColumnIndex(node);
+                        node.setOpacity(1.0);
+                        // Circle c = new Circle(25, Color.WHITE);
+                        // board.add(c, GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
                     }
                 }
 
@@ -112,6 +141,7 @@ public class Main extends Application{
                 }
             }
         });
-
+        
     }
+
 }

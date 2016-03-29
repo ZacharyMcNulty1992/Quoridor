@@ -63,7 +63,9 @@ public class EchoServer {
 			    move = ai.getMove();
 			
 			    //move = keyboard.nextLine();
-			    cout.println(move);
+			    //cout.println("TESUJI " + move);
+                            cout.println(move);
+                            
                         }else if(clientMessage.substring(0,4).equals("GAME")){
 			    try{
 			        int pn = Integer.parseInt(clientMessage.substring(5,6));

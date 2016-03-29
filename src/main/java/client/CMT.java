@@ -20,10 +20,8 @@ public class CMT {
     public static void main(String[] args) throws Exception{
 
 	playerNumber = 0;
-	String tesuji = "";
 	playerCount = args.length;
         Socket clientSocket;
-	Scanner keyboard = new Scanner(System.in);
 
         try{
             InetAddress addr;
@@ -44,35 +42,7 @@ public class CMT {
 	Handshake();
 	nameBuilder();	
 	initGame();
-	//Interpreter GM = new Interpreter();	
-	/**Could create new Interpreter here and then call 
-	   GM.parseString(tesuji), Need way of converting tesuji to point
-	   for the isValidMove method. */
-	while(true){
-	    for(ClientThread c: threadList){
-		//This commented section is for catching gui input
-		
-		if(c.getPlayerNumber() == 1){
-		    Scanner in = new Scanner(gui.getInputStream());
-		    String gr = in.nextLine();
-		    //c.write(gr);
-		    Atari(gr);
-		}else{
-		
-	            tesuji = c.Myoushu();
-		    Interpreter GM = new Interpreter(tesuji);
-		    //boolean vm = c.player.isValidMove(GM.getInString());
-	            //System.out.println("Testing Interpreter: " + GM.getInString());
-	            Atari(tesuji.substring(7));
-		}
-	    } 
-	}
-        /*String line = keyboard.nextLine();
-        while(true){
-	    for(ClientThread c : threadList)
-	        c.write(line);
-            line = keyboard.nextLine();
-        } */
+	Play();
     }
 
     public static void nameBuilder(){
@@ -98,6 +68,25 @@ public class CMT {
         rt = Runtime.getRuntime();
         gui = rt.exec("java -cp ./build/libs/Quoridor-1.0.jar client.gui.Main");
 
+    }
+
+    public static void Play() throws Exception {
+	String tesuji = "";
+        while(true){
+            for(ClientThread c: threadList){
+                //This commented section is for catching gui input
+                /*if(c.getPlayerNumber() == 1){
+                    Scanner in = new Scanner(gui.getInputStream());
+                    String gr = in.nextLine();
+                   // c.write(gr);
+                    Atari(gr);
+                }else{*/
+                    tesuji = c.Myoushu();
+                    Interpreter GM = new Interpreter(tesuji);
+                    //boolean vm = c.player.isValidMove(GM.getInString());
+                    Atari(tesuji.substring(7));
+            }
+        }
     }
 
     public static void Atari(String message) throws Exception{

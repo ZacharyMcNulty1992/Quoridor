@@ -50,7 +50,7 @@ public class AI {
   public ArrayList<Space> getShortestPath(int playerNum){
     
     //initialization
-    PriorityQueue<Space> q = new PriorityQueue<>();
+    ArrayList<Space> q = new ArrayList<>();
     closedList = new ArrayList<>();
     openList = new ArrayList<>();
     path = new ArrayList<>();
@@ -109,15 +109,15 @@ public class AI {
       ArrayList<Space> ais = new ArrayList<>();
       
       //other players shortest path list
-      ArrayList<Space> opponent = new ArrayList<>();
+      //ArrayList<Space> opponent = new ArrayList<>();
       //get our ai's shortest path to the end
       ais = getShortestPath(playerNum);
       //get the shortest path of the other players
-      opponent = getShortestPath(opponentNum);
+      //opponent = getShortestPath(opponentNum);
       
       //compare the sizes of the arrays
       int aiSize = ais.size();
-      int opponentSize = opponent.size();
+      //int opponentSize = opponent.size();
       
       Space move = ais.get(1); //get the next move we should make from here
       

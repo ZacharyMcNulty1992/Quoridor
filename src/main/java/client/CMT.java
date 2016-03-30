@@ -77,12 +77,12 @@ public class CMT {
         while(true){
             for(ClientThread c: threadList){
                 //This commented section is for catching gui input
-                /*if(c.getPlayerNumber() == 1){
+                if(c.getPlayerNumber() == 1){
                     Scanner in = new Scanner(gui.getInputStream());
                     String gr = in.nextLine();
                    // c.write(gr);
                     Atari(gr);
-                }else{*/
+                }else{
                     tesuji = c.Myoushu();
                     /*move = Interpreter.parseString(tesuji);
 		    if(move.equals("GOTE")){
@@ -90,13 +90,24 @@ public class CMT {
 		    }
 		    //Atari(move); */
                     Atari(tesuji.substring(7));
+		}
             }
         }
     }
 
     public static void Atari(String message) throws Exception{
-	for(ClientThread c : threadList)
+	int count = 0;
+	for(ClientThread c : threadList){
 	    c.write("ATARI "+ c.getPlayerName() + " " + message);
+	    if(count == 0){
+		OutputStream out = gui.getOutputStream();
+		//out.write("Current Pos : " + c.player.getCurrentPos());
+		//out.write("Headed to : " + message);
+		PrintStream ptg = new PrintStream(out);
+		ptg.println("Current Pos: " + c.player.getCurrentPos());
+		ptg.println("Headed to: : " + message);
+	    }
+	}
     }
 
     public static Socket errorCheck(String [] temp){

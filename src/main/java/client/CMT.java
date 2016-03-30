@@ -9,6 +9,7 @@ public class CMT {
 
     static String hostname = "localhost";
     static String names = "";
+    static String move = "";
     static int playerNumber;
     static int playerCount;
     static Runtime rt;
@@ -66,7 +67,8 @@ public class CMT {
 	}
 	//Might move this to generate inside thread
         rt = Runtime.getRuntime();
-        gui = rt.exec("java -cp ./build/libs/Quoridor-1.0.jar client.gui.Main");
+        gui = rt.exec("java -cp ./build/libs/Quoridor-1.0.jar client.gui.Main"
+		     + " " + playerCount);
 
     }
 
@@ -82,8 +84,11 @@ public class CMT {
                     Atari(gr);
                 }else{*/
                     tesuji = c.Myoushu();
-                    Interpreter GM = new Interpreter(tesuji);
-                    //boolean vm = c.player.isValidMove(GM.getInString());
+                    /*move = Interpreter.parseString(tesuji);
+		    if(move.equals("GOTE")){
+		        Gote(c);
+		    }
+		    //Atari(move); */
                     Atari(tesuji.substring(7));
             }
         }

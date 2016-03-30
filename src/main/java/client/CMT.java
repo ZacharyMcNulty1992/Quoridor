@@ -12,8 +12,7 @@ public class CMT {
     static String move = "";
     static int playerNumber;
     static int playerCount;
-    static Runtime rt;
-    static Process gui;
+    static GuiThread gt;
     private static ArrayList<String> playerNames = new ArrayList<String>();
     private static ArrayList<ClientThread> threadList = 
 	                                 new ArrayList<ClientThread>();
@@ -39,7 +38,8 @@ public class CMT {
             threadList.add(client);
             client.start();
         }
- 
+ 	gt = new GuiThread();
+        gt.start();
 	Handshake();
 	nameBuilder();	
 	initGame();
@@ -65,11 +65,6 @@ public class CMT {
 	    c.setPlayerNumber(playerNumber);
 	    c.createPlayer();
 	}
-	//Might move this to generate inside thread
-        rt = Runtime.getRuntime();
-        gui = rt.exec("java -cp ./build/libs/Quoridor-1.0.jar client.gui.Main"
-		     + " " + playerCount);
-
     }
 
     public static void Play() throws Exception {
@@ -77,12 +72,12 @@ public class CMT {
         while(true){
             for(ClientThread c: threadList){
                 //This commented section is for catching gui input
-                if(c.getPlayerNumber() == 1){
+                /*if(c.getPlayerNumber() == 1){
                     Scanner in = new Scanner(gui.getInputStream());
                     String gr = in.nextLine();
                    // c.write(gr);
                     Atari(gr);
-                }else{
+                }else{ */
                     tesuji = c.Myoushu();
                     /*move = Interpreter.parseString(tesuji);
 		    if(move.equals("GOTE")){
@@ -90,24 +85,15 @@ public class CMT {
 		    }
 		    //Atari(move); */
                     Atari(tesuji.substring(7));
-		}
+		
             }
         }
     }
 
     public static void Atari(String message) throws Exception{
 	int count = 0;
-	for(ClientThread c : threadList){
+	for(ClientThread c : threadList)
 	    c.write("ATARI "+ c.getPlayerName() + " " + message);
-	    if(count == 0){
-		OutputStream out = gui.getOutputStream();
-		//out.write("Current Pos : " + c.player.getCurrentPos());
-		//out.write("Headed to : " + message);
-		PrintStream ptg = new PrintStream(out);
-		ptg.println("Current Pos: " + c.player.getCurrentPos());
-		ptg.println("Headed to: : " + message);
-	    }
-	}
     }
 
     public static Socket errorCheck(String [] temp){

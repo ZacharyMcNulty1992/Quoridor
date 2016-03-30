@@ -83,6 +83,10 @@ public class Player {
     return "ATARI";
   }
 
+  public Point getCurrentPos(){
+    return pawnPos;
+  }
+
   /**
    * Sets the initial position of the pawn based on
    * on the player number

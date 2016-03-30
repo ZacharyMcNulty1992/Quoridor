@@ -17,7 +17,7 @@ public class Main extends Application{
     static String playerCount;
 
     public static void main(String[] args) {
-	playerCount = args[0];
+	//playerCount = args[0];
         Application.launch(args);
     }
 

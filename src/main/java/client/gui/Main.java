@@ -17,7 +17,7 @@ public class Main extends Application{
     static String playerCount;
 
     public static void main(String[] args) {
-	//playerCount = args[0];
+        //playerCount = args[0];
         Application.launch(args);
     }
 
@@ -26,6 +26,7 @@ public class Main extends Application{
 
         // Root pane to add other panes to
         Pane root = new Pane();
+
         // Creates a gridPane for the board squares
         GridPane board = new GridPane();
         board.setAlignment(Pos.CENTER);
@@ -33,21 +34,6 @@ public class Main extends Application{
         board.setVgap(10);
         board.setPadding(new Insets(25, 25, 25, 25));
         board.setGridLinesVisible(false);
-
-        // Creates a gridPane with spacing for vertical walls
-        GridPane vWallGrid = new GridPane();
-        vWallGrid.setAlignment(Pos.CENTER);
-        vWallGrid.setHgap(50);
-        vWallGrid.setVgap(10);
-        vWallGrid.setPadding(new Insets(25, 25, 25, 25));
-
-        // Creates a gridPane with spacing for horizontal walls
-        GridPane hWallGrid = new GridPane();
-        hWallGrid.setAlignment(Pos.CENTER);
-        hWallGrid.setHgap(10);
-        hWallGrid.setVgap(50);
-        hWallGrid.setPadding(new Insets(25, 25, 25, 25));
-
 
         // Loop to create the board
         for(int i = 0; i < 9; i++) {
@@ -60,20 +46,7 @@ public class Main extends Application{
             }
         }
 
-        // Loop to create locations for vertical walls 
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 9; j++) {
-                vWallGrid.add(new Rectangle(10, 50, Color.TRANSPARENT), i+ 1, j);
-            }
-        } 
-
-        // Loop to create locations for horizontal walls
-        for(int i = 0; i < 9; i++) {
-            for(int j = 0; j < 8; j++) {
-                hWallGrid.add(new Rectangle(50, 10, Color.TRANSPARENT), i, j + 1);
-            }
-        }
-
+        // Creates a GridPane for pawns to move on
         GridPane pawns = new GridPane();
         pawns.setAlignment(Pos.CENTER);
         pawns.setHgap(10);
@@ -81,6 +54,7 @@ public class Main extends Application{
         pawns.setPadding(new Insets(25, 25, 25, 25));
         pawns.setGridLinesVisible(false);
 
+        // Creates a grid of invisible circles for pawns to populate
         for(int i = 0; i < 9; i++) {
             for(int j = 0; j < 9; j++) {
                 Circle c = new Circle(25, Color.WHITE);
@@ -89,6 +63,33 @@ public class Main extends Application{
             }
         }
 
+        // Creates a gridPane with spacing for vertical walls
+        GridPane vWallGrid = new GridPane();
+        vWallGrid.setAlignment(Pos.CENTER);
+        vWallGrid.setHgap(50);
+        vWallGrid.setVgap(10);
+        vWallGrid.setPadding(new Insets(25, 25, 25, 25));
+
+        // Loop to create locations for vertical walls 
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 9; j++) {
+                vWallGrid.add(new Rectangle(10, 50, Color.TRANSPARENT), i+ 1, j);
+            }
+        } 
+
+        // Creates a gridPane with spacing for horizontal walls
+        GridPane hWallGrid = new GridPane();
+        hWallGrid.setAlignment(Pos.CENTER);
+        hWallGrid.setHgap(10);
+        hWallGrid.setVgap(50);
+        hWallGrid.setPadding(new Insets(25, 25, 25, 25));
+
+        // Loop to create locations for horizontal walls
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 8; j++) {
+                hWallGrid.add(new Rectangle(50, 10, Color.TRANSPARENT), i, j + 1);
+            }
+        }
 
         // Adds the grip panes to the root pane which will be displayed
         root.getChildren().add(board);
@@ -143,6 +144,8 @@ public class Main extends Application{
                 }
             }
         });
+
+        
         
     }
 

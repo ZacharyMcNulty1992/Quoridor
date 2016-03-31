@@ -83,6 +83,10 @@ public class Player {
     return "ATARI";
   }
 
+  public Point getCurrentPos(){
+    return pawnPos;
+  }
+
   /**
    * Sets the initial position of the pawn based on
    * on the player number
@@ -108,7 +112,11 @@ public class Player {
 
     ArrayList<Point> validMoves = getValidMoves(pawnPos, new ArrayList<Point>(10), new ArrayList<Point>(4));
     
+
     if(validMoves.contains(movePos)) {
+
+      System.out.println(validMoves + "\n");      
+
       return true;
     }
 
@@ -133,8 +141,6 @@ public class Player {
         new Point (currentPos.x, currentPos.y+1),
         new Point (currentPos.x, currentPos.y-1)
     };
-
-
 
     for(int i = 0; i < adjacentPos.length; i++) {
 
@@ -262,6 +268,8 @@ public class Player {
         (playerNumber == 3 && pawnPos.x == 8) ||
         (playerNumber == 4 && pawnPos.x == 0)) {
 
+      gameBoard.removePawn(pawnPos);
+	
       return "KIKASHI";
     }
 

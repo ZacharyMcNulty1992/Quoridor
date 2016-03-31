@@ -22,15 +22,16 @@ public class Interpreter {
      */
     public static String[] parseString(String input){
 	
-	String[] splitInput = input.split();
-
+	String[] splitInput = input.split(" ");
+	
 	switch(splitInput[0]) {
-
+	    
 	case "TESUJI":
 	    return validateTesuji(splitInput);
-
-	default:
 	    
+	default:
+	    //System.out.println("Bad Op Code");
+	    return new String[] {"GOTE"};
 	}
     } 
     
@@ -52,7 +53,7 @@ public class Interpreter {
 		//Replace the parenthesis with empty string 
 		moveArg = args[1].replace("(", "")
 		    .replace(")",""); 
-
+		
 	    }// end if args.length == 2
 	    
 	    else if(args.length == 3) {
@@ -64,12 +65,18 @@ public class Interpreter {
 	}
 	    
 	else if(args[1].startsWith("[")) {
+
+	    //System.out.println("Wall move seen");
 	    
 	    if(args.length == 2){
 
+		//System.out.println("Wall move with no spaces seen");
+		
 		//Replace the parenthesis and brackets with empty string 
 		moveArg = args[1].replace("[(", "")
 		    .replace(")",""). replace("]","");
+
+		//System.out.println(moveArg);
 	    }
 
 	    else if( args.length == 4 ) {
@@ -91,6 +98,11 @@ public class Interpreter {
 	//Then split on the comma since there are no spaces
 	String[] position = moveString.split(",");
 
+	/*	for(String s : position)
+	    System.out.print(s + " ");
+
+	    System.out.println();*/
+
 	try {	
 	    //
 	    if(position.length == 2) {	
@@ -99,8 +111,9 @@ public class Interpreter {
 		Integer.parseInt(position[1]);
 	    }
 	    
-	    else if(posAndDirection.length == 3 &&
-		    (position[2] == "h" || position[2] == "v")) {
+	    else if(position.length == 3 &&
+		    (position[2].equals("h") || 
+		     position[2].equals("v")) ) {
 		
 		Integer.parseInt(position[0]);
 		Integer.parseInt(position[1]);

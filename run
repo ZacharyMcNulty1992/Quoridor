@@ -22,8 +22,8 @@ if [[ count -eq 2 ]]; then
 	xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7070 &
 	pid1=$!
 	xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7171 &
-        pid2=$!
-
+        pid2=$! 
+	sleep 1	
 	echo Starting Client
 	xterm -e java -cp build/libs/Quoridor-1.0.jar client.CMT localhost:7070 localhost:7171
 
@@ -39,10 +39,10 @@ else
         pid3=$!
 
         xterm -e java -cp build/libs/Quoridor-1.0.jar server.EchoServer --port 7373 &
-        pid4=$!
-
+        pid4=$! 
+	sleep 1
         echo Starting Client
-        xterm -e java -cp build/libs/Quoridor-1.0.jar client.CMT localhost:7070 localhost:7171 localhost:7272 localhost:7373 
+        xterm -e java -cp build/libs/Quoridor-1.0.jar client.CMT localhost:7070 localhost:7171 localhost:7272 localhost:7373
 
 fi
 

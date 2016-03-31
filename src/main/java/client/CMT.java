@@ -9,10 +9,10 @@ public class CMT {
 
     static String hostname = "localhost";
     static String names = "";
+    static String move = "";
     static int playerNumber;
     static int playerCount;
-    static Runtime rt;
-    static Process gui;
+    static GuiThread gt;
     private static ArrayList<String> playerNames = new ArrayList<String>();
     private static ArrayList<ClientThread> threadList = 
 	                                 new ArrayList<ClientThread>();
@@ -38,7 +38,8 @@ public class CMT {
             threadList.add(client);
             client.start();
         }
- 
+ 	gt = new GuiThread();
+        gt.start();
 	Handshake();
 	nameBuilder();	
 	initGame();
@@ -64,10 +65,6 @@ public class CMT {
 	    c.setPlayerNumber(playerNumber);
 	    c.createPlayer();
 	}
-	//Might move this to generate inside thread
-        rt = Runtime.getRuntime();
-        gui = rt.exec("java -cp ./build/libs/Quoridor-1.0.jar client.gui.Main");
-
     }
 
     public static void Play() throws Exception {
@@ -80,16 +77,21 @@ public class CMT {
                     String gr = in.nextLine();
                    // c.write(gr);
                     Atari(gr);
-                }else{*/
+                }else{ */
                     tesuji = c.Myoushu();
-                    Interpreter GM = new Interpreter(tesuji);
-                    //boolean vm = c.player.isValidMove(GM.getInString());
+                    /*move = Interpreter.parseString(tesuji);
+		    if(move.equals("GOTE")){
+		        Gote(c);
+		    }
+		    //Atari(move); */
                     Atari(tesuji.substring(7));
+		
             }
         }
     }
 
     public static void Atari(String message) throws Exception{
+	int count = 0;
 	for(ClientThread c : threadList)
 	    c.write("ATARI "+ c.getPlayerName() + " " + message);
     }

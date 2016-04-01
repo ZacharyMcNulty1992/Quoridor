@@ -38,7 +38,7 @@ public class Main extends Application{
 
         // Root pane to add other panes to
         Pane root = new Pane();
-
+	//System.out.println("Testing if parameters are passed: " + currentPos);
         // Creates a gridPane for the board squares
         GridPane board = new GridPane();
         board.setAlignment(Pos.CENTER);

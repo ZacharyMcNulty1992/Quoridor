@@ -125,13 +125,13 @@ public class GameBoard {
 
   /**
    * 
-   * @param x The x coordinate of the space
-   * @param y
-   * @return
+   * @param row The row of the space to get
+   * @param column The column of the space to get
+   * @return The space at (row, column)
    */
-  public Space getSpaceAt(int x, int y){
+  public Space getSpaceAt(int row, int column){
 
-    return gameBoard.get(x + (y*9));
+    return gameBoard.get(row + (column*9));
   }
 
   /**

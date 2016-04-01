@@ -29,7 +29,7 @@ public class GameBoard {
   /**
    * Constructs an empty game board
    */
-  private GameBoard() {
+  public GameBoard() {
 
     //gameBoard = new GamePiece[9][9];
 

@@ -10,15 +10,27 @@ import javafx.application.*;
 import javafx.event.*;
 import javafx.stage.*;
 import javafx.geometry.*;
+import java.awt.Point;
 
 
 public class Main extends Application{
 
-    static String playerCount;
+    static int playerCount;
+    static Point currentPos;
+    static String destination;
 
     public static void main(String[] args) {
         //playerCount = args[0];
         Application.launch(args);
+    }
+
+    public static void setPlayerCount(int pc){
+	playerCount = pc;
+    }
+
+    public static void Atari(Point cur, String dest){
+	currentPos = cur;
+	destination = dest;
     }
 
     @Override
@@ -26,7 +38,7 @@ public class Main extends Application{
 
         // Root pane to add other panes to
         Pane root = new Pane();
-
+	//System.out.println("Testing if parameters are passed: " + currentPos);
         // Creates a gridPane for the board squares
         GridPane board = new GridPane();
         board.setAlignment(Pos.CENTER);

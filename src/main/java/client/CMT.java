@@ -2,6 +2,7 @@ package client;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.awt.Point;
 import java.util.*;
 import java.io.*;
 
@@ -92,8 +93,13 @@ public class CMT {
 
     public static void Atari(String message) throws Exception{
 	int count = 0;
-	for(ClientThread c : threadList)
+	for(ClientThread c : threadList){
 	    c.write("ATARI "+ c.getPlayerName() + " " + message);
+	    if(count==0)
+		client.gui.Main.Atari(c.player.getCurrentPos(),message);
+	}
+	client.gui.Main.setPlayerCount(playerCount);
+	
     }
 
     public static Socket errorCheck(String [] temp){

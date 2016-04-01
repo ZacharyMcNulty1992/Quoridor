@@ -1,14 +1,18 @@
 package client;
 
+import java.util.Arrays;
+import java.awt.Point;
 
 import org.junit.Test;
 import org.junit.Before;
+
 
 import static org.junit.Assert.*;
 
 public class UtilTest{
 
- 
+	private Point point1;
+	private Point point2;
 	private String testString1;
 	private String testString2;
 	private String testString3;
@@ -25,6 +29,7 @@ public class UtilTest{
 	private String testString14;
 	private String testString15;
     private String testString16;    
+	private String testString17; 
 	
 	@Before
 	public void setup() {
@@ -46,22 +51,54 @@ public class UtilTest{
 		testString14 = "MYOUSHU"; //valid
 		testString15 = "IAM ___-33!#123@@#"; //only ws not allowed in name
         testString16 = ""; //invalid
+		testString17 = "GOTE 3";
 	}
+/*
+	@Test
+	public void parse() throws Exception {
+		assertTrue(Util.parse(testString1).valid);
+		assertFalse(Util.parse(testString2).valid);
+		
+		assertTrue(Util.parse(testString1).p.equals("CANDYSUXX"));
+		assertTrue(Util.parse(testString11).p1.equals("shampoo"));
+		
+		assertTrue(Util.parse(testString13).pnumber==3);
+		assertTrue(Util.parse(testString13).isWall);
+		assertTrue(Util.parse(testString13).mov.equals(new Point(2,5)));
+		assertFalse(Util.parse(testString1).isWall);
+	}
+*/	
+	@Test
+	public void testgetCommand() throws Exception {
+		assertTrue(Util.getCommand(testString1).equals("TESUJI"));
+		assertTrue(Util.getCommand(testString17).equals("GOTE"));
+		assertTrue(Util.getCommand(testString13).equals("ATARI"));
+		assertTrue(Util.getCommand(testString11).equals("GAME"));
+	}
+	
+	@Test
+	public void testgetCoor() throws Exception {
+		assertTrue(Arrays.equals(Util.getCoor(testString13), new int[]{2,5}));
+		assertTrue(Arrays.equals(Util.getCoor(testString1), new int[]{1,3}));
+	}
+	
+	
 	
 	@Test
 	public void testisValid() throws Exception {
 
-		assertTrue(Util.isValid(testString1));
+		assertTrue(Util.isValid(testString9));
+		
 		assertTrue(Util.isValid(testString1, "TESUJI"));
 		
 		assertTrue(Util.isValid(testString3));
-		assertTrue(Util.isValid(testString3, "T"));
+		assertTrue(Util.isValid(testString3, "TE"));
 		
 		assertTrue(Util.isValid(testString7));
 		assertTrue(Util.isValid(testString7, "IA"));
 		
 		assertTrue(Util.isValid(testString9));
-		assertTrue(Util.isValid(testString9,"GA"));
+		assertTrue(Util.isValid(testString9,"GAME"));
 		
 		try{
 		assertTrue(Util.isValid(testString9,"iwjer"));//not a command name
@@ -78,7 +115,7 @@ public class UtilTest{
 		}
 		
 		assertTrue(Util.isValid(testString11));
-		assertFalse(Util.isValid(testString11,"GO"));
+		assertTrue(Util.isValid(testString11,"GA"));
 		
 		
 		assertTrue(Util.isValid(testString13));
@@ -89,7 +126,7 @@ public class UtilTest{
 		assertFalse(Util.isValid(testString11,"TESUJI"));
 		
 		assertFalse(Util.isValid(testString2));
-		assertFalse(Util.isValid(testString2, "T"));
+		assertFalse(Util.isValid(testString2, "TESU"));
 		
 		assertFalse(Util.isValid(testString4));
 		assertFalse(Util.isValid(testString5));

@@ -1,6 +1,9 @@
 package client;
 
+
+import java.awt.Point;
 import java.util.regex.Pattern;
+
 
 /**
  * @author Jade Kevin Bestami
@@ -23,6 +26,9 @@ public class Util{
 					"GOTE [1-4]",
 					"KIKASHI [1-4]",
 					"MYOUSHU"};
+	
+	public static final String[] commands = 
+	{"IAM","GAME","TESUJI","ATARI","GOTE","KIKASHI","MYOUSHU"};
 					
 					
 
@@ -39,8 +45,7 @@ public class Util{
 	}
 	
 	//param: command that toTest has to be,
-	//only first letter necessary, (T for TESUJI)
-	//except for GAME and GOTE
+	//only two letters necessary, (T for TESUJI)
 	//returns true if valid and corresponds to command
 	//returns false if not
 	public static boolean isValid(String toTest, String command)
@@ -48,34 +53,81 @@ public class Util{
 	
 		boolean err = true;
 		
-		for(String regex : regexValues){
-			if(regex.startsWith(command))
+		for(String c : commands){
+			if(c.contains(command)) {
 				err=false;
+			}
 		}
 		
-		if(err)
+		if(err||command.length()==1)
 			throw new IllegalArgumentException(command +" is not a valid command name");
-		if(command.equals("G"))
-			throw new IllegalArgumentException("GAME or GOTE?");
 
 	
-	
 		if(isValid(toTest)){
-			if(toTest.charAt(0)=='G')
-				return toTest.charAt(1)==command.charAt(1);
-			return toTest.charAt(0)==command.charAt(0);
+			return command.charAt(1)==toTest.charAt(1);
+		}else{
+			return false;
 		}
-		
-		return false;
 		
 	}
 	
-	// still need parser method? Probably do the stuff 
-    // the Interpreter class does but instead of returning
-    // a GamePiece object, it returns an array of the important
-    // variables, or maybe an object? in order to have 
-    // for a wall 2 ints and a char...
-    // maybe add a method that returns what type type of command it is?:
-	// maybe one of the isvalid method is superfluous? 
+
+	
+	//inputs move;
+	//outputs coordinates in int array: [c,r]
+	//as move not position
+	public static int[] getCoor(String input)
+				throws IllegalArgumentException{
+		
+		int i = 9;
+		int j = 8;
+		int col;
+		int row;
+		
+		
+		if(!(getCommand(input).equals("ATARI")||
+		getCommand(input).equals("TESUJI")))
+			throw new IllegalArgumentException
+			("no moves here...");
+			
+		if(getCommand(input).equals("ATARI")){
+			i++;
+			j++;
+		}
+		
+		if(input.length()<15){
+			col = Integer.parseInt(String.valueOf(input.charAt(j)));
+			row = Integer.parseInt(String.valueOf(input.charAt(j+3)));
+		}else{
+		col = Integer.parseInt(String.valueOf(input.charAt(i)));
+		row = Integer.parseInt(String.valueOf(input.charAt(i+3)));
+		}
+		
+		int[] ret = {col,row};
+		return ret;
+	}
+	
+	
+	//arg: input String corresponding to command
+	//returns: what command is it
+	//throws IllegalArgumentException if invalid
+	public static String getCommand(String input)
+				/*throws IllegalArgumentException*/{
+		
+		String ret = "ss";
+		
+		for(int i=0; i<commands.length;i++){
+			if(isValid(input, commands[i])){
+			
+				ret = commands[i];
+			}
+		}
+		
+		return ret;
+		/*throw new IllegalArgumentException
+							("Input string  valid");*/
+		
+	}
+
 					
 }

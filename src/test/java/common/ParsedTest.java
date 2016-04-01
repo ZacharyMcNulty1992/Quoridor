@@ -79,7 +79,7 @@ public class ParsedTest{
 		assertTrue(newParsed3.endPos.equals(testPoint3));
 		assertTrue(newParsed3.wallPos=='h');
 		
-		newParsed4 = new Parsed(testString6);
+		newParsed4 = new Parsed(testString5);
 		assertFalse(newParsed4.valid);
 	}
 	

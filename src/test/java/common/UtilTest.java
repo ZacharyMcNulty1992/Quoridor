@@ -53,27 +53,28 @@ public class UtilTest{
         testString16 = ""; //invalid
 		testString17 = "GOTE 3";
 	}
-/*
+	
 	@Test
-	public void parse() throws Exception {
-		assertTrue(Util.parse(testString1).valid);
-		assertFalse(Util.parse(testString2).valid);
-		
-		assertTrue(Util.parse(testString1).p.equals("CANDYSUXX"));
-		assertTrue(Util.parse(testString11).p1.equals("shampoo"));
-		
-		assertTrue(Util.parse(testString13).pnumber==3);
-		assertTrue(Util.parse(testString13).isWall);
-		assertTrue(Util.parse(testString13).mov.equals(new Point(2,5)));
-		assertFalse(Util.parse(testString1).isWall);
+	public void testgetMoveString() throws Exception{
+			
+		Point epoint = new Point(1,3);
+		assertTrue(Util.getMoveString(epoint).equals("(1, 3)"));
+		assertTrue(Util.getMoveString(epoint, 'h').equals("[(1, 3), h]"));
 	}
-*/	
+	
 	@Test
 	public void testgetCommand() throws Exception {
 		assertTrue(Util.getCommand(testString1).equals("TESUJI"));
 		assertTrue(Util.getCommand(testString17).equals("GOTE"));
 		assertTrue(Util.getCommand(testString13).equals("ATARI"));
 		assertTrue(Util.getCommand(testString11).equals("GAME"));
+		
+		try{//test for exception
+			assertTrue(Util.getCommand(testString10).equals("sas"));
+		}catch(IllegalArgumentException e){
+			//exception has been thrown
+			//else test will fail
+		}
 	}
 	
 	@Test

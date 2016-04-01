@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Jade Kevin Bestami
- * @date   3/27/2016 - last updated
+ * @date   04/01/2016 - last updated
  */
  
 
@@ -112,21 +112,80 @@ public class Util{
 	//returns: what command is it
 	//throws IllegalArgumentException if invalid
 	public static String getCommand(String input)
-				/*throws IllegalArgumentException*/{
+				throws IllegalArgumentException{
 		
-		String ret = "ss";
+		String ret ="";
+		boolean err=true;
 		
 		for(int i=0; i<commands.length;i++){
 			if(isValid(input, commands[i])){
 			
 				ret = commands[i];
+				err = false;
 			}
 		}
 		
-		return ret;
-		/*throw new IllegalArgumentException
-							("Input string  valid");*/
 		
+		if(err)
+			throw new IllegalArgumentException
+							("Input string invalid");
+		
+		return ret;
+		
+		
+		
+	}
+	
+	
+	/*
+		usage: getMoveString will return the move string associated
+		with a wall or pawn position.
+
+		getMoveString(int c, int r, char wall)  --> wall char should be 'v' or 'h'
+													corresponding with wall position
+												    if anything else assumes pawn
+		getMoveString(Point position, char wall) --> //
+		
+		getMoveString(Point position) --> assume pawn
+		getMoveString(int c, int r)   --> assume pawn
+	*/
+	
+	public static String getMoveString(int c, int r){
+		
+		return getMoveString(c, r, 'w');
+		
+		
+	}
+	
+	public static String getMoveString(Point position){
+		
+		return getMoveString((int)position.getX(), (int)position.getY(), 'w');
+		
+		
+	}
+	
+	
+	public static String getMoveString(Point position, char wall){
+		
+		return getMoveString((int)position.getX(), (int)position.getY(), wall);
+		
+		
+	}
+	
+	public static String getMoveString(int c, int r, char wall){
+		
+		String ss = "";
+		
+		if(wall=='h'||wall=='v'){
+			ss= "[(" + c + ", " + r + "), " + wall + "]"; 
+		}else{
+			ss= "(" + c + "," + " " + r + ")";
+		}
+		
+		if(isValid(ss))
+			throw new IllegalArgumentException("position not valid");
+		
+		return ss;
 	}
 
 					

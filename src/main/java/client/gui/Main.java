@@ -170,8 +170,9 @@ public class Main extends Application{
     public static void setPlayers(ArrayList<Player> playerList){
         p1 = playerList.get(0);
         p2 = playerList.get(1);
-        p3 = playerList.get(2);
-        p4 = playerList.get(3);
-
+	if(playerList.size() == 4){
+            p3 = playerList.get(2);
+            p4 = playerList.get(3);
+	}
     }
 }

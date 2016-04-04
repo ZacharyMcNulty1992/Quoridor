@@ -14,6 +14,7 @@ public class CMT {
     static int playerNumber;
     static int playerCount;
     static GuiThread gt;
+    private static ArrayList<Player> playerList = new ArrayList<Player>();
     private static ArrayList<String> playerNames = new ArrayList<String>();
     private static ArrayList<ClientThread> threadList = 
 	                                 new ArrayList<ClientThread>();
@@ -65,7 +66,9 @@ public class CMT {
             c.write("GAME " + ++playerNumber + " " + names);
 	    c.setPlayerNumber(playerNumber);
 	    c.createPlayer();
+            playerList.add(c.getPlayer());
 	}
+        client.gui.setPlayers(playerList);
     }
 
     public static void Play() throws Exception {

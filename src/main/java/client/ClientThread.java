@@ -28,6 +28,10 @@ class ClientThread extends Thread{
         return "Player name failure";
     }
 
+    public Player getPlayer(){
+	return player;
+    }
+
     public void setPlayerNumber(int pn){
 	playerNumber = pn;
     }

@@ -68,7 +68,7 @@ public class CMT {
 	    c.createPlayer();
             playerList.add(c.getPlayer());
 	}
-        client.gui.setPlayers(playerList);
+        client.gui.Main.setPlayers(playerList);
     }
 
     public static void Play() throws Exception {

@@ -167,7 +167,7 @@ public class Main extends Application{
         root.getChildren().add(pawns);
     }
 
-    private void setPlayers(ArrayList<Player> playerList){
+    public void setPlayers(ArrayList<Player> playerList){
         p1 = playerList.get(0);
         p2 = playerList.get(1);
         p3 = playerList.get(2);

@@ -6,6 +6,7 @@ import client.GameBoard;
 import client.Space;
 import static java.lang.Math.abs;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
@@ -28,8 +29,6 @@ public class AI {
   //arrays for the current position of each player
   private int X[]; // X-coord
   private int Y[]; // Y-coord
-
-  private int heuristic;
   
   public AI(int playerNumber) {
 
@@ -53,82 +52,69 @@ public class AI {
     //TODO: make the same thing for player 3 and 4 blah blah blah
     
     //create the game board here for future use
-    gameBoard = GameBoard.getInstance();
+    gameBoard = new GameBoard();
   }
 
   public ArrayList<Space> getShortestPath(int playerNum){
     
+    System.out.println("Current Position: " + X[playerNum] + ", " + Y[playerNum]);
+      
     //initialization
     ArrayList<Space> q = new ArrayList<>();
-    closedList = new ArrayList<>();
+    ArrayList<Space> visited = new ArrayList<>();
     path = new ArrayList<>();
     
     int targetY = 0;
     
-    if(playerNum == 1)
+    if(playerNum == 1) //this is testing for player 2 not player 1
         targetY = 0;
-    else
+    else                //player 1 is at index 0
         targetY = 8;
     
-    //get all of the nodes of the board into a list
-    for(Space b : gameBoard.getGameBoard()){
-        q.add(b);
-    }
+    Space targetNode = gameBoard.getSpaceAt(targetY, X[playerNum - 1]);
     
-    Space current = gameBoard.getSpaceAt(X[playerNum], Y[playerNum]); //where to start our search
-    current.distance = 0; //set the distance of the starting node as 0
-    int f_dist; //distance between nodes
+    
+    Space current = gameBoard.getSpaceAt(Y[playerNum], X[playerNum]); //where to start our search
+    current.prev = null;
     HashSet<Space> NeighbourSet = new HashSet<>();
+    q.add(current);
+    visited.add(current);
     
     while(!q.isEmpty()){ //main loop
-          
-        //if the current node is at the target area then we return
-        if(current.x == targetY) 
-            break;
-        
-        //find the new current node
-        int least_distance = Integer.MAX_VALUE;
-        for(Space a : q){
-            
-            if(a.distance  < least_distance){
-                least_distance = a.distance;
-                current = a;
-            }
-        }
-        
-        //remove that node from the queue
-        q.remove(current);
-        
-        
-        //System.out.println("q size = " + q.size());
-        //System.out.println("current node is at: " + current.x + " " + current.y);
-        
-        //System.out.println();
-        
+                
         //get the set of neighbour nodes
         NeighbourSet = current.edges;
-        for(Space a : NeighbourSet){ 
-            //get the distance between the current node and the node we are looking at
-            f_dist = current.distance + WEIGHT; 
-            if(f_dist < a.distance){
-                a.distance = f_dist;
-                a.prev = current;
-            }
+        for(Space a : NeighbourSet){
+                if(!visited.contains(a)){
+                    q.add(a);
+                    visited.add(a);
+                    a.prev = current;
+                }
         }
+        
+        //get the next node to test
+        if(!q.isEmpty()){
+            q.remove(current);
+            if(!q.isEmpty())
+                current = q.get(0);
+        }
+        
     } //end of while loop
+
     
-    Stack<Space> st = new Stack<>();
-    //trace the path back to the 
-    while (current.x != X[playerNum] && current.y != Y[playerNum]){
-        System.out.println(current.x + " , " + current.y);
-        st.push(current);
-        current = current.prev;
+    current = targetNode;
+    
+    while(true){
+        
+        path.add(current);
+        
+        if(current.x == X[playerNum] && current.y == Y[playerNum])
+            break;
+        else
+            current = current.prev;
     }
     
-    //add the path in the correct order
-    while(!st.isEmpty()){
-        path.add(st.pop());
-    }
+    
     System.out.println("path size = " + path.size());
     return path;
   }
@@ -148,10 +134,17 @@ public class AI {
       int aiSize = ais.size();
       //int opponentSize = opponent.size();
       
-      Space move = ais.get(1); //get the next move we should make from here
+      Space move;
+      
+      if(ais.size() < 2)
+         move = ais.get(0); //get the next move we should make from here
+      else
+          move = ais.get(ais.size()- 2);
       
       //testing
       updatePlayerPosition(move.x, move.y, playerNum);
+      
+      System.out.println("current position: " + X[playerNum] + ", " + Y[playerNum]);
       
     return ("TESUJI (" + move.x + ", " + move.y + ")"); 
   }

@@ -1,5 +1,7 @@
 package client.gui;
+import client.Player;
 
+import java.util.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.*;
@@ -13,7 +15,7 @@ import javafx.geometry.*;
 import java.awt.Point;
 
 
-public class Main1 extends Application{
+public class Main extends Application{
 
     static int playerCount;
     static Point currentPos;
@@ -24,12 +26,13 @@ public class Main1 extends Application{
     static GridPane hWallGrid;
     static GridPane pawns;
 
-    static Point p1;
-    static Point p2;
-    static Point p3;
-    static Point p4;
+    static Player p1;
+    static Player p2;
+    static Player p3;
+    static Player p4;
 
     public static void main(String[] args) {
+        //playerCount = args[0];
         Application.launch(args);
     }
 
@@ -162,5 +165,13 @@ public class Main1 extends Application{
             }
         }
         root.getChildren().add(pawns);
+    }
+
+    private void setPlayers(ArrayList<Player> playerList){
+        p1 = playerList.get(0);
+        p2 = playerList.get(1);
+        p3 = playerList.get(2);
+        p4 = playerList.get(3);
+
     }
 }

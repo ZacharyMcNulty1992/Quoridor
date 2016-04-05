@@ -4,12 +4,7 @@ import java.util.ArrayList;
 
 import client.GameBoard;
 import client.Space;
-import static java.lang.Math.abs;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Set;
-import java.util.Stack;
 
 public class AI {
   
@@ -43,11 +38,14 @@ public class AI {
     X = new int[4]; 
     Y = new int[4];
     
-    X[0] = 4; //player 1 x
-    Y[0] = 0; //player 1 y
+    X[0] = 4;
+    Y[0] = 0;
     
-    X[1] = 4; //player 2 x
-    Y[1] = 8; //player 2 y
+    X[1] = 4; //player 1 x
+    Y[1] = 8; //player 1 y
+    
+    X[2] = 4; //player 2 x
+    Y[2] = 0; //player 2 y
     
     //TODO: make the same thing for player 3 and 4 blah blah blah
     
@@ -115,7 +113,7 @@ public class AI {
     }
     
     
-    System.out.println("path size = " + path.size());
+//    System.out.println("path size = " + path.size());
     return path;
   }
     
@@ -146,6 +144,15 @@ public class AI {
       
       System.out.println("current position: " + X[playerNum] + ", " + Y[playerNum]);
       
+    
+    //slow things down
+    try{
+        
+        Thread.sleep(1000);
+    
+    }catch(InterruptedException e){
+        e.printStackTrace();
+    }
     return ("TESUJI (" + move.x + ", " + move.y + ")"); 
   }
 

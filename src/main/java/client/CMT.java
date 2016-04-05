@@ -5,6 +5,8 @@ import java.net.UnknownHostException;
 import java.awt.Point;
 import java.util.*;
 import java.io.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import common.Parsed;
 
 public class CMT {
 
@@ -16,8 +18,8 @@ public class CMT {
     static GuiThread gt;
     private static ArrayList<Player> playerList = new ArrayList<Player>();
     private static ArrayList<String> playerNames = new ArrayList<String>();
-    private static ArrayList<ClientThread> threadList = 
-	                                 new ArrayList<ClientThread>();
+    private static CopyOnWriteArrayList<ClientThread> threadList = 
+	                                 new CopyOnWriteArrayList<ClientThread>();
 
     public static void main(String[] args) throws Exception{
 
@@ -75,34 +77,32 @@ public class CMT {
 	String tesuji = "";
         while(true){
             for(ClientThread c: threadList){
-                //This commented section is for catching gui input
-                /*if(c.getPlayerNumber() == 1){
-                    Scanner in = new Scanner(gui.getInputStream());
-                    String gr = in.nextLine();
-                   // c.write(gr);
-                    Atari(gr);
-                }else{ */
-                    tesuji = c.Myoushu();
-                    /*move = Interpreter.parseString(tesuji);
-		    if(move.equals("GOTE")){
-		        Gote(c);
-		    }
-		    //Atari(move); */
-                    Atari(tesuji.substring(7));
-		
+                tesuji = c.Myoushu();
+		Parsed ps = new Parsed(tesuji);
+		if(ps.valid)
+                    Atari(tesuji.substring(7),c.getPlayerNumber());
+		else
+		    Gote(c);    		
             }
         }
     }
 
-    public static void Atari(String message) throws Exception{
+    public static void Atari(String message, int pn) throws Exception{
 	int count = 0;
 	for(ClientThread c : threadList){
-	    c.write("ATARI "+ c.getPlayerName() + " " + message);
+	    c.write("ATARI "+ pn + " " + message);
 	    if(count==0)
 		client.gui.Main.Atari(c.player.getCurrentPos(),message);
 	}
 	client.gui.Main.setPlayerCount(playerCount);
 	
+    }
+
+    public static void Gote(ClientThread g) throws Exception{
+	for(ClientThread c: threadList){
+	   c.write("GOTE " + g.getPlayerNumber());
+        }
+	threadList.remove(g);
     }
 
     public static Socket errorCheck(String [] temp){

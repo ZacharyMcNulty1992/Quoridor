@@ -55,7 +55,7 @@ public class AI {
 
   public ArrayList<Space> getShortestPath(int playerNum){
     
-    System.out.println("Current Position: " + X[playerNum] + ", " + Y[playerNum]);
+    System.out.println("starting from: " + X[playerNum] + ", " + Y[playerNum]);
       
     //initialization
     ArrayList<Space> q = new ArrayList<>();
@@ -69,7 +69,7 @@ public class AI {
     else                //player 1 is at index 0
         targetY = 8;
     
-    Space targetNode = gameBoard.getSpaceAt(targetY, X[playerNum - 1]);
+    Space targetNode = gameBoard.getSpaceAt(targetY, X[playerNum]);
     
     
     Space current = gameBoard.getSpaceAt(Y[playerNum], X[playerNum]); //where to start our search
@@ -95,6 +95,8 @@ public class AI {
             q.remove(current);
             if(!q.isEmpty())
                 current = q.get(0);
+            else
+                break;
         }
         
     } //end of while loop
@@ -115,6 +117,7 @@ public class AI {
     
 //    System.out.println("path size = " + path.size());
     return path;
+    
   }
     
   public String getMove(){
@@ -142,7 +145,7 @@ public class AI {
       //testing
       updatePlayerPosition(move.x, move.y, playerNum);
       
-      System.out.println("current position: " + X[playerNum] + ", " + Y[playerNum]);
+      System.out.println("moving to: " + X[playerNum] + ", " + Y[playerNum]);
       
     
     //slow things down

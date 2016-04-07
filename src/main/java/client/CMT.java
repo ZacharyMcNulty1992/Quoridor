@@ -85,7 +85,7 @@ public class CMT {
 	    c.createPlayer();
             playerList.add(c.getPlayer());
 	}
-        client.gui.Main.setPlayers(playerList);
+        gui.setPlayers(playerList);
     }
 
     public static void Play() throws Exception {
@@ -114,8 +114,11 @@ public class CMT {
 		//c.player.movePawn(ps.c,ps.r);
 		//client.gui.Main.Atari(client.gui.Main.currentPos,message,pn);
 		//client.gui.Main.currentPlayer().movePawn(ps.r,ps.c);
-		gui.currentPlayer().movePawn(ps.r,ps.c);
-		gui.Atari(pn,gui.currentPlayer().getCurrentPos(),message);
+		//Point current = gui.currentPlayer().getCurrentPos();
+		Point current = gui.currentPlayer().getCurrentPos();
+	        Point dest = new Point(ps.r,ps.c);
+		//gui.currentPlayer().movePawn(ps.r,ps.c);
+		gui.Atari(current,dest);
 	    }
 	    count++;
 	}

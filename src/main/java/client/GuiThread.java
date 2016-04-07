@@ -13,7 +13,7 @@ public class GuiThread extends Thread{
     }
 
     Main gui = Main.waitForStartUp();
-    public void Atari(Point cur, String dest,int pn){
-	gui.Atari(pn,cur,dest);
+    public void Atari(Point cur, Point dest){
+	gui.Atari(cur,dest);
     }
 }

@@ -22,7 +22,7 @@ public class Main extends Application{
     static int playerCount;
     public static int currentPlayer = 1;
     public static Point currentPos;
-    static String destination;
+    static Point destination;
 
     static Pane root = new Pane();
     static GridPane vWallGrid;
@@ -78,17 +78,24 @@ public class Main extends Application{
 	latch.countDown();
     }
 
-    public static void Atari(int pn, Point cur, String dest){
+    public static void Atari(Point cur, Point dest){
         currentPos = cur;
-        currentPlayer = pn;
+        //currentPlayer = pn;
         destination = dest;
 	Platform.runLater(new Runnable(){
 	    @Override
 	    public void run(){
+		currentPlayer().movePawn(dest.x,dest.y);
+	        
 	        Circle c = new Circle(25, Color.WHITE);
-                c.setOpacity(1.0);
-                pawns.add(c, cur.x, cur.y);
-		System.out.println("Cur = " + cur);
+		Circle d = new Circle(25, Color.WHITE);
+                c.setOpacity(0.0);
+		d.setOpacity(1.0);
+		pawns.add(c, currentPos.x, currentPos.y);
+                pawns.add(d, dest.x, dest.y);
+		System.out.println("Cur = " + currentPos);
+		System.out.println("Dest = "+ dest);
+		//currentPos = destination;
 	    }
 	});
     }

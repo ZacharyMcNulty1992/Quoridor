@@ -7,6 +7,8 @@ import java.util.*;
 import java.io.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import common.Parsed;
+import javafx.application.Application;
+import client.gui.Main;
 
 public class CMT {
 
@@ -16,6 +18,9 @@ public class CMT {
     static int playerNumber;
     static int playerCount;
     static GuiThread gt;
+    private static Parsed ps;
+    static Main gui = null;
+
     private static ArrayList<Player> playerList = new ArrayList<Player>();
     private static ArrayList<String> playerNames = new ArrayList<String>();
     private static CopyOnWriteArrayList<ClientThread> threadList = 
@@ -42,12 +47,22 @@ public class CMT {
             threadList.add(client);
             client.start();
         }
- 	gt = new GuiThread();
-        gt.start();
+ 	//gt = new GuiThread();
+        //gt.start();
+	new Thread(){
+	    @Override
+	    public void run(){
+	        javafx.application.Application.launch(client.gui.Main.class);
+	    }
+        }.start();
+
+	//Main gui = Main.waitForStartUp();
+
 	Handshake();
 	nameBuilder();	
 	initGame();
 	Play();
+        gui = Main.waitForStartUp();
     }
 
     public static void nameBuilder(){
@@ -78,7 +93,7 @@ public class CMT {
         while(true){
             for(ClientThread c: threadList){
                 tesuji = c.Myoushu();
-		Parsed ps = new Parsed(tesuji);
+		ps = new Parsed(tesuji);
 		if(ps.valid)
                     Atari(tesuji.substring(7),c.getPlayerNumber());
 		else
@@ -91,8 +106,18 @@ public class CMT {
 	int count = 0;
 	for(ClientThread c : threadList){
 	    c.write("ATARI "+ pn + " " + message);
-	    if(count==0)
-		client.gui.Main.Atari(c.player.getCurrentPos(),message);
+	    if(count==0){
+		gui.setCurrentPlayer(pn);
+		//client.gui.Main.currentPlayer = pn;
+	        //client.gui.Main.currentPlayer().movePawn(ps.r,ps.c);
+		//client.gui.Main.Atari(pn,client.gui.Main.currentPlayer().getCurrentPos(),message);
+		//c.player.movePawn(ps.c,ps.r);
+		//client.gui.Main.Atari(client.gui.Main.currentPos,message,pn);
+		//client.gui.Main.currentPlayer().movePawn(ps.r,ps.c);
+		gui.currentPlayer().movePawn(ps.r,ps.c);
+		gui.Atari(pn,gui.currentPlayer().getCurrentPos(),message);
+	    }
+	    count++;
 	}
 	client.gui.Main.setPlayerCount(playerCount);
 	

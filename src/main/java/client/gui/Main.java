@@ -1,6 +1,8 @@
 package client.gui;
 import client.Player;
 
+import java.util.concurrent.CountDownLatch;
+import javafx.application.Platform;
 import java.util.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -18,7 +20,8 @@ import java.awt.Point;
 public class Main extends Application{
 
     static int playerCount;
-    static Point currentPos;
+    public static int currentPlayer = 1;
+    public static Point currentPos;
     static String destination;
 
     static Pane root = new Pane();
@@ -31,18 +34,63 @@ public class Main extends Application{
     static Player p3;
     static Player p4;
 
+    public static Main gui = null;
+    private static final CountDownLatch latch = new CountDownLatch(1);
+
     public static void main(String[] args) {
-        //playerCount = args[0];
         Application.launch(args);
     }
 
-    public static void setPlayerCount(int pc){
-    playerCount = pc;
+    public Main(){
+        guiStartUpTest(this);
     }
 
-    public static void Atari(Point cur, String dest){
-    currentPos = cur;
-    destination = dest;
+    public static void setPlayerCount(int pc){
+        playerCount = pc;
+    }
+
+    public static Main waitForStartUp(){
+	try{
+	    latch.await();
+	}catch(InterruptedException e){
+	    e.printStackTrace();
+	}
+	return gui;
+    }
+
+    public static Player currentPlayer(){
+	if(currentPlayer == 1)
+	    return p1;
+	else if(currentPlayer == 2)
+	    return p2;
+	else if(currentPlayer == 3)
+	    return p3;
+	else
+	    return p4;
+    }
+
+    public static void setCurrentPlayer(int pn) {
+	currentPlayer = pn;
+    }
+
+    public static void guiStartUpTest(Main g){
+	gui = g;
+	latch.countDown();
+    }
+
+    public static void Atari(int pn, Point cur, String dest){
+        currentPos = cur;
+        currentPlayer = pn;
+        destination = dest;
+	Platform.runLater(new Runnable(){
+	    @Override
+	    public void run(){
+	        Circle c = new Circle(25, Color.WHITE);
+                c.setOpacity(1.0);
+                pawns.add(c, cur.x, cur.y);
+		System.out.println("Cur = " + cur);
+	    }
+	});
     }
 
     @Override

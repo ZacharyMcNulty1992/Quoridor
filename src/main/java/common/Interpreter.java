@@ -2,6 +2,8 @@
 
 package common;
 
+import java.util.Arrays;
+
 /**
  * @author Jade
  * @edited Brandon
@@ -21,8 +23,38 @@ public class Interpreter {
 
     switch(splitInput[0]) {
 
+    case "HELLO":
+    case "MYOUSHU":
+      return splitInput.length == 1 ? splitInput : new String[] {"GOTE"};
+
+    case "IAM":
+      return splitInput.length == 2 ? splitInput : new String[] {"GOTE"};
+
+    case "GAME":
+      return validateGame(splitInput);
+
     case "TESUJI":
       return validateTesuji(splitInput);
+      
+    case "ATARI":
+      return validateAtari(splitInput);
+      
+    case "GOTE":
+    case "KIKASHI":
+      
+      try{
+        
+        if(Integer.parseInt(splitInput[1]) > 4 || Integer.parseInt(splitInput[1]) < 0){
+          
+          return new String[]{"GOTE"};
+        }
+        
+      } catch(NumberFormatException e){
+        
+        return new String[]{"GOTE"};
+      }
+      
+      return splitInput.length == 2 ? splitInput : new String[] {"GOTE"};
 
     default:
       //System.out.println("Bad Op Code");
@@ -88,6 +120,11 @@ public class Interpreter {
     return validateMoveString(moveArg);
   }
 
+  /**
+   * 
+   * @param moveString
+   * @return
+   */
   private static String[] validateMoveString(String moveString) {
 
     //Then split on the comma since there are no spaces
@@ -123,5 +160,54 @@ public class Interpreter {
     }
 
     return position;
+  }
+
+  /**
+   * 
+   * @param args
+   * @return
+   */
+  private static String[] validateGame(String[] args) {
+
+    if (args.length != 4 || args.length != 6) {
+
+      return new String[]{"GOTE"};
+    }
+
+    try{
+
+      if(Integer.parseInt(args[1]) > 4 || Integer.parseInt(args[1]) < 0){
+
+        return new String[]{"GOTE"};
+      }
+
+    } catch(NumberFormatException e){
+
+      return new String[]{"GOTE"};
+    }
+
+    return args;
+  }
+
+  /**
+   * 
+   * @param args
+   * @return
+   */
+  private static String[] validateAtari(String[] args) {
+
+    try{
+
+      if(Integer.parseInt(args[1]) > 4 || Integer.parseInt(args[1]) < 0){
+
+        return new String[]{"GOTE"};
+      }
+
+    } catch(NumberFormatException e){
+
+      return new String[]{"GOTE"};
+    }
+    
+    return validateTesuji(Arrays.copyOfRange(args, 1, args.length));
   }
 }

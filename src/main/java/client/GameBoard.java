@@ -131,7 +131,7 @@ public class GameBoard {
    */
   public Space getSpaceAt(int row, int column){
 
-    return gameBoard.get(row + (column*9));
+    return gameBoard.get(column + (row*9));
   }
 
   /**

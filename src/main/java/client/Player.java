@@ -49,7 +49,7 @@ public class Player {
    */
   public String movePawn(int column, int row) {
 
-    Point movePos = new Point(row, column);
+    Point movePos = new Point(row,column);
 
     if(!isValidMove(movePos)){
 
@@ -61,7 +61,7 @@ public class Player {
     gameBoard.movePawn(pawnPos, movePos);
 
     pawnPos = movePos;
-
+    
     return hasWon();
   }
 

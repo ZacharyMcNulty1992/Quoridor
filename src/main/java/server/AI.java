@@ -35,17 +35,14 @@ public class AI {
     else
         opponentNum = 1;
     
-    X = new int[4]; 
-    Y = new int[4];
-    
-    X[0] = 4;
-    Y[0] = 0;
+    X = new int[5]; 
+    Y = new int[5];
     
     X[1] = 4; //player 1 x
-    Y[1] = 8; //player 1 y
+    Y[1] = 0; //player 1 y
     
     X[2] = 4; //player 2 x
-    Y[2] = 0; //player 2 y
+    Y[2] = 8; //player 2 y
     
     //TODO: make the same thing for player 3 and 4 blah blah blah
     
@@ -65,14 +62,15 @@ public class AI {
     int targetY = 0;
     
     if(playerNum == 1) //this is testing for player 2 not player 1
-        targetY = 0;
-    else                //player 1 is at index 0
         targetY = 8;
+    else                //player 1 is at index 0
+        targetY = 0;
     
-    Space targetNode = gameBoard.getSpaceAt(targetY, X[playerNum]);
+    Space targetNode = gameBoard.getSpaceAt(X[playerNum], targetY);
     
     
-    Space current = gameBoard.getSpaceAt(Y[playerNum], X[playerNum]); //where to start our search
+    Space current = gameBoard.getSpaceAt(X[playerNum], Y[playerNum]); //where to start our search
+    
     current.prev = null;
     HashSet<Space> NeighbourSet = new HashSet<>();
     q.add(current);

@@ -56,12 +56,12 @@ public class PlayerTest {
 
       System.out.println("Move Pawn Test");
       
-      Assert.assertEquals("ATARI", player.movePawn(1,4));
-      Assert.assertEquals("ATARI", player.movePawn(1,3));
-      Assert.assertEquals("ATARI", player.movePawn(0,3));
-      Assert.assertEquals("ATARI", player.movePawn(0,4));
+      Assert.assertEquals("ATARI", player.movePawn(4,1));
+      Assert.assertEquals("ATARI", player.movePawn(3,1));
+      Assert.assertEquals("ATARI", player.movePawn(3,0));
+      Assert.assertEquals("ATARI", player.movePawn(4,0));
       
-      Assert.assertEquals("GOTE", player.movePawn(1,3));
+      Assert.assertEquals("GOTE", player.movePawn(3,1));
       
       PowerMockito.verifyPrivate(player, Mockito.times(5))
 	  .invoke("isValidMove", Matchers.any());
@@ -79,25 +79,25 @@ public class PlayerTest {
       //Move pawns so they are next to each other
       for (int i = 1; i < 4; i++) {
 	  
-	  Assert.assertEquals("ATARI",player.movePawn(i, 4));
-	  Assert.assertEquals("ATARI",p2.movePawn(8-i, 4));
+	  Assert.assertEquals("ATARI",player.movePawn(4, i));
+	  Assert.assertEquals("ATARI",p2.movePawn(4, 8-i));
       }
       Assert.assertEquals("ATARI", player.movePawn(4,4));
       
       //Test player pawn jumps
-      Assert.assertEquals("ATARI", player.movePawn(6,4));    
+      Assert.assertEquals("ATARI", player.movePawn(4,6));    
       Assert.assertEquals("ATARI", player.movePawn(5,5));
-      Assert.assertEquals("ATARI", player.movePawn(5,3));
+      Assert.assertEquals("ATARI", player.movePawn(3,5));
       Assert.assertEquals("ATARI", player.movePawn(4,4));
       
       //Test p2 pawn jumps
-      Assert.assertEquals("ATARI", p2.movePawn(3,4));
       Assert.assertEquals("ATARI", p2.movePawn(4,3));
-      Assert.assertEquals("ATARI", p2.movePawn(5,4));
+      Assert.assertEquals("ATARI", p2.movePawn(3,4));
       Assert.assertEquals("ATARI", p2.movePawn(4,5));
+      Assert.assertEquals("ATARI", p2.movePawn(5,4));
       
-      Assert.assertEquals("GOTE", player.movePawn(6,3));
-      Assert.assertEquals("GOTE", player.movePawn(3,6));
+      Assert.assertEquals("GOTE", player.movePawn(0,0));
+      Assert.assertEquals("GOTE", p2.movePawn(0,0));
       
   }
 
@@ -112,7 +112,7 @@ public class PlayerTest {
     //move to win position
     for(int i = 1; i < 9; i++) {
 
-      actualResult = player.movePawn(i, 4);
+	actualResult = player.movePawn(4, i);
 
       if(i != 8){
 

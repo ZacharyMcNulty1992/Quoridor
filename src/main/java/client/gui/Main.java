@@ -50,38 +50,39 @@ public class Main extends Application{
     }
 
     public static Main waitForStartUp(){
-	try{
-	    latch.await();
-	}catch(InterruptedException e){
-	    e.printStackTrace();
-	}
-	return gui;
+    try{
+        latch.await();
+    }catch(InterruptedException e){
+        e.printStackTrace();
+    }
+    return gui;
     }
 
     public static Player currentPlayer(){
-	if(currentPlayer == 1)
-	    return p1;
-	else if(currentPlayer == 2)
-	    return p2;
-	else if(currentPlayer == 3)
-	    return p3;
-	else
-	    return p4;
+    if(currentPlayer == 1)
+        return p1;
+    else if(currentPlayer == 2)
+        return p2;
+    else if(currentPlayer == 3)
+        return p3;
+    else
+        return p4;
     }
 
     public static void setCurrentPlayer(int pn) {
-	currentPlayer = pn;
+       currentPlayer = pn;
     }
 
     public static void guiStartUpTest(Main g){
-	gui = g;
-	latch.countDown();
+    gui = g;
+    latch.countDown();
     }
 
     public static void Atari(Point cur, Point dest){
         currentPos = cur;
         //currentPlayer = pn;
         destination = dest;
+
 	Platform.runLater(new Runnable(){
 	    @Override
 	    public void run(){
@@ -98,6 +99,7 @@ public class Main extends Application{
 		//currentPos = destination;
 	    }
 	});
+
     }
 
     @Override
@@ -225,9 +227,9 @@ public class Main extends Application{
     public static void setPlayers(ArrayList<Player> playerList){
         p1 = playerList.get(0);
         p2 = playerList.get(1);
-	if(playerList.size() == 4){
+    if(playerList.size() == 4){
             p3 = playerList.get(2);
             p4 = playerList.get(3);
-	}
+    }
     }
 }

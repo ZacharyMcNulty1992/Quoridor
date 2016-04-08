@@ -34,6 +34,8 @@ public class Main extends Application{
     static Player p3;
     static Player p4;
 
+    static Circle d = new Circle(25, Color.WHITE);
+
     public static Main gui = null;
     private static final CountDownLatch latch = new CountDownLatch(1);
 
@@ -80,7 +82,6 @@ public class Main extends Application{
 
     public static void Atari(Point cur, Point dest){
         currentPos = cur;
-        //currentPlayer = pn;
         destination = dest;
 
 	Platform.runLater(new Runnable(){
@@ -88,12 +89,9 @@ public class Main extends Application{
 	    public void run(){
 		currentPlayer().movePawn(dest.x,dest.y);
 	        
-	        Circle c = new Circle(25, Color.WHITE);
-		Circle d = new Circle(25, Color.WHITE);
-                c.setOpacity(0.0);
-		d.setOpacity(1.0);
-		pawns.add(c, currentPos.x, currentPos.y);
-                pawns.add(d, dest.x, dest.y);
+        //d.relocate(dest.x,dest.y);
+        pawns.setConstraints(d, dest.x,dest.y );
+        //root.requestLayout();
 		System.out.println("Cur = " + currentPos);
 		System.out.println("Dest = "+ dest);
 		//currentPos = destination;
@@ -106,6 +104,7 @@ public class Main extends Application{
     public void start(final Stage primaryStage) {
         drawBoard();
         handlePawns();
+        pawns.add(d, 0,4);
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
         Scene scene = new Scene(root, 600, 600, Color.BLACK);
@@ -227,9 +226,13 @@ public class Main extends Application{
     public static void setPlayers(ArrayList<Player> playerList){
         p1 = playerList.get(0);
         p2 = playerList.get(1);
-    if(playerList.size() == 4){
+        if(playerList.size() == 4){
             p3 = playerList.get(2);
             p4 = playerList.get(3);
+        }
     }
+
+    public static void setPawns(){
+        pawns.add(d, 0, 4);
     }
 }

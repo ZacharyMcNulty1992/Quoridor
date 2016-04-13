@@ -47,16 +47,13 @@ public class CMT {
             threadList.add(client);
             client.start();
         }
-    //gt = new GuiThread();
-        //gt.start();
+
     new Thread(){
         @Override
         public void run(){
             javafx.application.Application.launch(client.gui.Main.class);
         }
         }.start();
-
-    //Main gui = Main.waitForStartUp();
 
     Handshake();
     nameBuilder();  
@@ -80,25 +77,40 @@ public class CMT {
 
     public static void initGame() throws Exception{
     for(ClientThread c: threadList){
-            c.write("GAME " + ++playerNumber + " " + names);
+        c.write("GAME " + ++playerNumber + " " + names);
         c.setPlayerNumber(playerNumber);
         c.createPlayer();
-            playerList.add(c.getPlayer());
+        playerList.add(c.getPlayer());
     }
-        gui.setPlayers(playerList);
-        gui.setPlayerCount(playerCount);
+    gui.setPlayers(playerList);
+    gui.setPlayerCount(playerCount);
     }
 
     public static void Play() throws Exception {
-    String tesuji = "";
+        String tesuji = "";
         while(true){
             for(ClientThread c: threadList){
                 tesuji = c.Myoushu();
-        ps = new Parsed(tesuji);
-        if(ps.valid)
+                ps = new Parsed(tesuji);
+                if(ps.valid)
                     Atari(tesuji.substring(7),c.getPlayerNumber());
-        else
-            Gote(c);            
+                else
+                    Gote(c);        
+            }
+        }
+    }
+
+    public static void Play4() throws Exception {
+	String tesuji = "";
+	int currentPlayer = 1;
+        while(true){
+            for(ClientThread c: threadList){
+                tesuji = c.Myoushu();
+                ps = new Parsed(tesuji);
+                if(ps.valid)
+                    Atari(tesuji.substring(7),c.getPlayerNumber());
+                else
+                    Gote(c);          
             }
         }
     }
@@ -108,18 +120,9 @@ public class CMT {
     for(ClientThread c : threadList){
         c.write("ATARI "+ pn + " " + message);
         if(count==0){
-        gui.setCurrentPlayer(pn);
-        //client.gui.Main.currentPlayer = pn;
-            //client.gui.Main.currentPlayer().movePawn(ps.r,ps.c);
-        //client.gui.Main.Atari(pn,client.gui.Main.currentPlayer().getCurrentPos(),message);
-        //c.player.movePawn(ps.c,ps.r);
-        //client.gui.Main.Atari(client.gui.Main.currentPos,message,pn);
-        //client.gui.Main.currentPlayer().movePawn(ps.r,ps.c);
-        //Point current = gui.currentPlayer().getCurrentPos();
-        Point current = gui.currentPlayer().getCurrentPos();
-        Point dest = new Point(ps.c, ps.r);
-        //gui.currentPlayer().movePawn(ps.r,ps.c);
-        gui.Atari(current,dest);
+            gui.setCurrentPlayer(pn);
+            Point dest = new Point(ps.c, ps.r);
+            gui.Atari(dest);
         }
         count++;
     }
@@ -130,7 +133,7 @@ public class CMT {
     public static void Gote(ClientThread g) throws Exception{
     for(ClientThread c: threadList){
        c.write("GOTE " + g.getPlayerNumber());
-        }
+    }
     threadList.remove(g);
     }
 

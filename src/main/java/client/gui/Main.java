@@ -83,8 +83,7 @@ public class Main extends Application{
     latch.countDown();
     }
 
-    public static void Atari(Point cur, Point dest){
-        currentPos = cur;
+    public static void Atari(Point dest){
         destination = dest;
 
 	Platform.runLater(new Runnable(){

@@ -90,14 +90,14 @@ public class Main extends Application{
 	Platform.runLater(new Runnable(){
 	    @Override
 	    public void run(){
-		//currentPlayer().movePawn(dest.x,dest.y);
-	        
+		//currentPlayer().movePawn(dest.x,dest.y);   
         //d.relocate(dest.x,dest.y);
-
         //pawns.setConstraints(pawn1, dest.x,dest.y );
-        movePawns(currentPlayer, dest);
         //root.requestLayout();
-		System.out.println("Cur = " + currentPos);
+            
+        movePawns(currentPlayer, dest);
+        
+		//System.out.println("Cur = " + currentPos);
 		System.out.println("Dest = "+ dest);
 		//currentPos = destination;
 	    }
@@ -111,8 +111,10 @@ public class Main extends Application{
         handlePawns();
         pawns.add(pawn1, 4,0);
         pawns.add(pawn2, 4,8);
-        pawns.add(pawn3, 0,4);
-        pawns.add(pawn4, 8,4);
+        if (playerCount > 2){
+            pawns.add(pawn3, 0,4);
+            pawns.add(pawn4, 8,4);
+        }
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
         Scene scene = new Scene(root, 600, 600, Color.BLACK);
@@ -243,10 +245,10 @@ public class Main extends Application{
     public static void movePawns(int pn, Point dest){
         switch (pn){
             case 1: 
-                pawns.setConstraints(pawn1, dest.y, dest.x );
+                pawns.setConstraints(pawn1, dest.x, dest.y );
                 break;
             case 2: 
-                pawns.setConstraints(pawn2, dest.y, dest.x );
+                pawns.setConstraints(pawn2, dest.x, dest.y );
                 break;
             case 3: 
                 pawns.setConstraints(pawn3, dest.x, dest.y );

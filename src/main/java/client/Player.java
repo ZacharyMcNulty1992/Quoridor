@@ -49,7 +49,7 @@ public class Player {
    */
   public String movePawn(int column, int row) {
 
-    Point movePos = new Point(row,column);
+      Point movePos = new Point(column, row);
 
     if(!isValidMove(movePos)){
 
@@ -67,7 +67,7 @@ public class Player {
 
   public String placeWall(int column, int row, char direction) {
 
-    Point placementPos = new Point(row, column);
+      Point placementPos = new Point(column, row);
 
     if(!isValidWallPlacement(placementPos, direction)){
 

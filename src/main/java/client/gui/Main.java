@@ -29,6 +29,11 @@ public class Main extends Application{
     static GridPane hWallGrid;
     static GridPane pawns;
 
+    static Circle pawn1 = new Circle(25, Color.WHITE);
+    static Circle pawn2 = new Circle(25, Color.BLUE);
+    static Circle pawn3 = new Circle(25, Color.ORANGE);
+    static Circle pawn4 = new Circle(25, Color.PURPLE);
+
     static Player p1;
     static Player p2;
     static Player p3;
@@ -80,21 +85,19 @@ public class Main extends Application{
 
     public static void Atari(Point cur, Point dest){
         currentPos = cur;
-        //currentPlayer = pn;
         destination = dest;
 
 	Platform.runLater(new Runnable(){
 	    @Override
 	    public void run(){
-		currentPlayer().movePawn(dest.x,dest.y);
-	        
-	        Circle c = new Circle(25, Color.WHITE);
-		Circle d = new Circle(25, Color.WHITE);
-                c.setOpacity(0.0);
-		d.setOpacity(1.0);
-		pawns.add(c, currentPos.x, currentPos.y);
-                pawns.add(d, dest.x, dest.y);
-		System.out.println("Cur = " + currentPos);
+		//currentPlayer().movePawn(dest.x,dest.y);   
+        //d.relocate(dest.x,dest.y);
+        //pawns.setConstraints(pawn1, dest.x,dest.y );
+        //root.requestLayout();
+            
+        movePawns(currentPlayer, dest);
+        
+		//System.out.println("Cur = " + currentPos);
 		System.out.println("Dest = "+ dest);
 		//currentPos = destination;
 	    }
@@ -106,6 +109,12 @@ public class Main extends Application{
     public void start(final Stage primaryStage) {
         drawBoard();
         handlePawns();
+        pawns.add(pawn1, 4,0);
+        pawns.add(pawn2, 4,8);
+        if (playerCount > 2){
+            pawns.add(pawn3, 0,4);
+            pawns.add(pawn4, 8,4);
+        }
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
         Scene scene = new Scene(root, 600, 600, Color.BLACK);
@@ -227,9 +236,27 @@ public class Main extends Application{
     public static void setPlayers(ArrayList<Player> playerList){
         p1 = playerList.get(0);
         p2 = playerList.get(1);
-    if(playerList.size() == 4){
+        if(playerList.size() == 4){
             p3 = playerList.get(2);
             p4 = playerList.get(3);
+        }
     }
+
+    public static void movePawns(int pn, Point dest){
+        switch (pn){
+            case 1: 
+                pawns.setConstraints(pawn1, dest.x, dest.y );
+                break;
+            case 2: 
+                pawns.setConstraints(pawn2, dest.x, dest.y );
+                break;
+            case 3: 
+                pawns.setConstraints(pawn3, dest.x, dest.y );
+                break;
+            default: 
+                pawns.setConstraints(pawn4, dest.x, dest.y );
+                break;
+
+        }
     }
 }

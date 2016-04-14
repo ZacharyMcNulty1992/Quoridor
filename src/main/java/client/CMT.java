@@ -12,6 +12,8 @@ import client.gui.Main;
 
 public class CMT {
 
+    //commenting for push
+
     static String hostname = "localhost";
     static String names = "";
     static String move = "";

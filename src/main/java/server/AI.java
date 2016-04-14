@@ -129,8 +129,7 @@ public class AI {
         //int opponentSize = opponent.size();
 
         Space move;
-        
-        
+
         if (ais.size() < 2) {
             move = ais.get(0); //get the next move we should make from here
         } else {
@@ -139,38 +138,38 @@ public class AI {
 
         //see if we can pawn jump
         ArrayList<Space> valid;
-        if(move.occupied){
+        if (move.occupied) {
             //get valid spaces
             valid = gameBoard.getValidPlayerJumpMoves(move);
-            
+
             //now we see what space is in our path and thats where we will go
-            for(Space v : valid){
+            for (Space v : valid) {
                 //if v is in our path
-                if(ais.contains(v)){
+                if (ais.contains(v)) {
                     //we make that our move
                     move = v;
                 }
                 //else we check the next node
                 //TODO: if we have no moves in the path
             }
-            
+
         }
-        
+
         //testing
         updatePlayerPosition(move.x, move.y, playerNum);
 
         System.out.println("moving to: " + X[playerNum] + ", " + Y[playerNum]);
 
         //slow things down
-        try {
-
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            
-            e.printStackTrace();
-            
-        }
+//        try {
+//
+//            Thread.sleep(1000);
+//
+//        } catch (InterruptedException e) {
+//
+//            e.printStackTrace();
+//
+//        }
 
         return ("TESUJI (" + move.x + ", " + move.y + ")");
     }

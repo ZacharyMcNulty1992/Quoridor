@@ -88,12 +88,7 @@ public class Main extends Application{
 
 	Platform.runLater(new Runnable(){
 	    @Override
-	    public void run(){
-		//currentPlayer().movePawn(dest.x,dest.y);   
-        //d.relocate(dest.x,dest.y);
-        //pawns.setConstraints(pawn1, dest.x,dest.y );
-        //root.requestLayout();
-            
+	    public void run(){            
         movePawns(currentPlayer, dest);
         
 		//System.out.println("Cur = " + currentPos);

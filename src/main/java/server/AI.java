@@ -113,7 +113,6 @@ public class AI {
             }
         }
 
-//    System.out.println("path size = " + path.size());
         return path;
 
     }
@@ -168,7 +167,9 @@ public class AI {
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
+            
             e.printStackTrace();
+            
         }
 
         return ("TESUJI (" + move.x + ", " + move.y + ")");

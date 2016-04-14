@@ -17,7 +17,7 @@ public class Interpreter {
    * 
    * @param input The message recieved from the client or server.
    */
-  public static String[] parseString(String input){
+  public static boolean isValidString(String input){
 
     String[] splitInput = input.split(" ");
 
@@ -25,10 +25,10 @@ public class Interpreter {
 
     case "HELLO":
     case "MYOUSHU":
-      return splitInput.length == 1 ? splitInput : new String[] {"GOTE"};
+      return splitInput.length == 1;
 
     case "IAM":
-      return splitInput.length == 2 ? splitInput : new String[] {"GOTE"};
+      return splitInput.length == 2;
 
     case "GAME":
       return validateGame(splitInput);
@@ -46,19 +46,19 @@ public class Interpreter {
         
         if(Integer.parseInt(splitInput[1]) > 4 || Integer.parseInt(splitInput[1]) < 0){
           
-          return new String[]{"GOTE"};
+          return false;
         }
         
       } catch(NumberFormatException e){
         
-        return new String[]{"GOTE"};
+        return false;
       }
       
-      return splitInput.length == 2 ? splitInput : new String[] {"GOTE"};
+      return splitInput.length == 2;
 
     default:
       //System.out.println("Bad Op Code");
-      return new String[] {"GOTE"};
+      return false;
     }
   } 
 
@@ -67,7 +67,7 @@ public class Interpreter {
    * 
    * @param args The arguments passed to Tesuji.
    */
-  private static String[] validateTesuji(String[] args) {
+  private static boolean validateTesuji(String[] args) {
 
     String moveArg = "";
 
@@ -125,7 +125,7 @@ public class Interpreter {
    * @param moveString
    * @return
    */
-  private static String[] validateMoveString(String moveString) {
+  private static boolean validateMoveString(String moveString) {
 
     //Then split on the comma since there are no spaces
     String[] position = moveString.split(",");
@@ -152,14 +152,14 @@ public class Interpreter {
       }
 
       else
-        return new String[] {"GOTE"};
+        return false;
 
     } catch(NumberFormatException ex) {
 
-      return new String[] {"GOTE"};
+      return false;
     }
 
-    return position;
+    return true;
   }
 
   /**
@@ -167,26 +167,26 @@ public class Interpreter {
    * @param args
    * @return
    */
-  private static String[] validateGame(String[] args) {
+  private static boolean validateGame(String[] args) {
 
     if (args.length != 4 || args.length != 6) {
 
-      return new String[]{"GOTE"};
+      return false;
     }
 
     try{
 
       if(Integer.parseInt(args[1]) > 4 || Integer.parseInt(args[1]) < 0){
 
-        return new String[]{"GOTE"};
+        return false;
       }
 
     } catch(NumberFormatException e){
 
-      return new String[]{"GOTE"};
+      return false;
     }
 
-    return args;
+    return true;
   }
 
   /**
@@ -194,18 +194,18 @@ public class Interpreter {
    * @param args
    * @return
    */
-  private static String[] validateAtari(String[] args) {
+  private static boolean validateAtari(String[] args) {
 
     try{
 
       if(Integer.parseInt(args[1]) > 4 || Integer.parseInt(args[1]) < 0){
 
-        return new String[]{"GOTE"};
+        return false;
       }
 
     } catch(NumberFormatException e){
 
-      return new String[]{"GOTE"};
+      return false;
     }
     
     return validateTesuji(Arrays.copyOfRange(args, 1, args.length));

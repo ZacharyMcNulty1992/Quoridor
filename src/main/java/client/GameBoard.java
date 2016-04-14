@@ -196,7 +196,8 @@ public class GameBoard {
         HashSet<Space> connectedNodes = occ.edges;
         
         for(Space v : connectedNodes){
-            validSpaces.add(v);
+            if(!v.occupied)
+                validSpaces.add(v);
         }
         
         return validSpaces;

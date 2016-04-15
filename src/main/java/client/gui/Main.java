@@ -125,7 +125,7 @@ public class Main extends Application{
 
                 // returns coordinate on the board when a square is clicked
                 for(Node node: pawns.getChildren()) {
-                    node.setOpacity(0.0);
+                    //node.setOpacity(0.0);
 
                     if(node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
                         System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));

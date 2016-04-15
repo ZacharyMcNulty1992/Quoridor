@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * 
@@ -49,7 +50,7 @@ public class Player {
    */
   public String movePawn(int column, int row) {
 
-      Point movePos = new Point(column, row);
+      Space movePos = new Space(column, row);
 
     if(!isValidMove(movePos)){
 
@@ -108,9 +109,9 @@ public class Player {
    *
    * @param movePos The requested move to validate
    */
-  private boolean isValidMove(Point movePos) {
+  private boolean isValidMove(Space movePos) {
 
-    ArrayList<Point> validMoves = getValidMoves(pawnPos, new ArrayList<Point>(10), new ArrayList<Point>(4));
+    ArrayList<Space> validMoves = getValidMoves(new Space(pawnPos.x, pawnPos.y), new ArrayList<Space>(10), new ArrayList<Space>(4));
     
 
     if(validMoves.contains(movePos)) {
@@ -130,41 +131,42 @@ public class Player {
    * @param visitedSpaces
    * @return
    */
-  private ArrayList<Point> getValidMoves(Point currentPos, 
-      ArrayList<Point> validPos, ArrayList<Point> visitedSpaces) {
+  private ArrayList<Space> getValidMoves(Space currentPos, 
+      ArrayList<Space> validPos, ArrayList<Space> visitedSpaces) {
 
     visitedSpaces.add(currentPos);
 
-    Point[] adjacentPos = new Point[] {
-        new Point (currentPos.x+1, currentPos.y),
-        new Point (currentPos.x-1, currentPos.y),
-        new Point (currentPos.x, currentPos.y+1),
-        new Point (currentPos.x, currentPos.y-1)
-    };
-
-    for(int i = 0; i < adjacentPos.length; i++) {
-
-      if( !visitedSpaces.contains(adjacentPos[i]) ) {
+    // Point[] adjacentPos = new Point[] {
+        // new Point (currentPos.x+1, currentPos.y),
+        // new Point (currentPos.x-1, currentPos.y),
+        // new Point (currentPos.x, currentPos.y+1),
+        // new Point (currentPos.x, currentPos.y-1)
+    // };
+	
+	int sx = currentPos.x;
+	int sy = currentPos.y;
+	Space currSpace = gameBoard.getSpaceAt(sx, sy);
+	HashSet<Space> adjEdges = new HashSet<Space>(currSpace.edges);
+	
+    // for(int i = 0; i < adjacentPos.length; i++) {
+		
+	for(Space spc : adjEdges) {
+	
+		System.err.println(spc);
+	  // Haven't visited yet
+      if( !visitedSpaces.contains(spc)) {
         
         try {
           
-          if(gameBoard.getSpaceAt(adjacentPos[i].x,
-              adjacentPos[i].y).occupied){
-
-           getValidMoves(adjacentPos[i], validPos, visitedSpaces);
-          }
+          if(gameBoard.getSpaceAt(spc.x, spc.y).occupied)
+						getValidMoves(spc, validPos, visitedSpaces);
           else    
-            validPos.add(adjacentPos[i]);
+            validPos.add(spc);
           
-        } catch (IndexOutOfBoundsException e) {
-
-          //Do nothing
-        }
+        } catch (IndexOutOfBoundsException e) {}
       }
 
     }
-
-
 
     return validPos;
   }

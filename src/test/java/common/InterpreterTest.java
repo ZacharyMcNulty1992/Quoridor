@@ -16,37 +16,29 @@ public class InterpreterTest {
   @Test
   public void testParseString() throws Exception {
 
-    assertArrayEquals("Tesuji validation error",
-        new String[] {"1","3"}, 
-        Interpreter.parseString("TESUJI (1, 3)"));
+    assertTrue("Tesuji validation error",
+        Interpreter.isValidString("TESUJI (1, 3)"));
 
-    assertArrayEquals("Tesuji validation error",
-        new String[] {"1","9"}, 
-        Interpreter.parseString("TESUJI (1,9)"));
+    assertTrue("Tesuji validation error",
+        Interpreter.isValidString("TESUJI (1,9)"));
 
-    assertArrayEquals("Tesuji validation error",
-        new String[] {"2","6", "h"}, 
-        Interpreter.parseString("TESUJI [(2, 6), h]"));
+    assertTrue("Tesuji validation error",
+        Interpreter.isValidString("TESUJI [(2, 6), h]"));
 
-    assertArrayEquals("Tesuji validation error",
-        new String[] {"5","4", "v"}, 
-        Interpreter.parseString("TESUJI [(5,4),v]"));
+    assertTrue("Tesuji validation error", 
+        Interpreter.isValidString("TESUJI [(5,4),v]"));
 
-    assertArrayEquals("Atari validation error",
-        new String[] {"1", "3"}, 
-        Interpreter.parseString("ATARI 1 (1, 3)"));
+    assertTrue("Atari validation error",
+        Interpreter.isValidString("ATARI 1 (1, 3)"));
 
-    assertArrayEquals("Atari validation error",
-        new String[] {"GOTE"}, 
-        Interpreter.parseString("ATARI 5 (1, 3)"));
+    assertFalse("Atari validation error",
+        Interpreter.isValidString("ATARI 5 (1, 3)"));
 
-    assertArrayEquals("Atari validation error",
-        new String[] {"1", "3", "h"}, 
-        Interpreter.parseString("ATARI 3 [(1, 3), h]"));
+    assertTrue("Atari validation error",
+        Interpreter.isValidString("ATARI 3 [(1, 3), h]"));
     
-    assertArrayEquals("Atari validation error",
-        new String[] {"1", "3", "h"}, 
-        Interpreter.parseString("ATARI 3 [(1, 3), h]"));
+    assertTrue("Atari validation error",
+        Interpreter.isValidString("ATARI 3 [(1, 3), h]"));
     
   }
 }

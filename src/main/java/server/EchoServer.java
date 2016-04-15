@@ -83,9 +83,10 @@ public class EchoServer {
 			        int pn = Integer.parseInt(clientMessage.substring(6,7));
 				//x , y temporary
 				System.out.println("Testing parse PN: " + pn);
-				System.out.println("Testing substring: " + clientMessage.substring(8,13));
-				Parsed parsed = new Parsed(clientMessage.substring(8,13));
-				ai.updatePlayerPostion(parsed.c , parsed.r , pn);
+				System.out.println("Testing substring: " + clientMessage.substring(8,14));
+				Parsed parsed = new Parsed(clientMessage);
+				System.out.println("Testing fucking retarded parsed: " + parsed.c + ", " + parsed.r);
+				ai.updatePlayerPosition(parsed.c , parsed.r , pn);
 			    }catch(NumberFormatException e){
 				System.out.println(e);
 			    }

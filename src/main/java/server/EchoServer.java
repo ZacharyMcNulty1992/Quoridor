@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import common.Parsed;
 
 public class EchoServer {
 
@@ -77,6 +78,22 @@ public class EchoServer {
                                               clientMessage);
                             cout.format(hostname +" Server saw \"%s\"\n",
                                         clientMessage);
+			}else if(clientMessage.substring(0,5).equals("ATARI")){
+			    try{
+			        int pn = Integer.parseInt(clientMessage.substring(6,7));
+				//x , y temporary
+				System.out.println("Testing parse PN: " + pn);
+				System.out.println("Testing substring: " + clientMessage.substring(8,13));
+				Parsed parsed = new Parsed(clientMessage.substring(8,13));
+				ai.updatePlayerPostion(parsed.c , parsed.r , pn);
+			    }catch(NumberFormatException e){
+				System.out.println(e);
+			    }
+			    System.out.format("Server saw \"%s\"\n",
+                                              clientMessage);
+			    cout.format(hostname +" Server saw \"%s\"\n",
+                                        clientMessage);
+
 			}else{
                             System.out.format("Server saw \"%s\"\n",
 				              clientMessage);

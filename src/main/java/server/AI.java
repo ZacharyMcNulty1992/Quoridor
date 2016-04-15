@@ -58,21 +58,35 @@ public class AI {
         path = new ArrayList<>();
 
         int targetY = 0;
-
-        if (playerNum == 1) //this is testing for player 2 not player 1
+        int targetX = 0;
+        
+        if (playerNum == 1)
         {
             targetY = 8;
-        } else //player 1 is at index 0
+            targetX = X[playerNum];
+        } else if (playerNum == 2)//player 1 is at index 0
         {
             targetY = 0;
+            targetX = X[playerNum];
+            
+        } else if(playerNum == 3){
+            
+            targetY = Y[playerNum];
+            targetX = 8;
+            
+        } else if(playerNum == 4){
+            
+            targetY = Y[playerNum];
+            targetX = 0;
+            
         }
 
-        Space targetNode = gameBoard.getSpaceAt(X[playerNum], targetY);
+        Space targetNode = gameBoard.getSpaceAt(targetX, targetY);
 
         Space current = gameBoard.getSpaceAt(X[playerNum], Y[playerNum]); //where to start our search
 
         current.prev = null;
-        HashSet<Space> NeighbourSet = new HashSet<>();
+        HashSet<Space> NeighbourSet;
         q.add(current);
         visited.add(current);
 
@@ -120,7 +134,10 @@ public class AI {
     public String getMove() {
         //the ai's shortest path list
         ArrayList<Space> ais;
-
+        ArrayList<Space> player2Path;
+        ArrayList<Space> player3Path;
+        ArrayList<Space> player4Path;
+        
         //get our ai's shortest path to the end
         ais = getShortestPath(playerNum);
 

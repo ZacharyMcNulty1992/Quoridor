@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import client.GameBoard;
 import client.Space;
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Stack;
 
 public class AI {
 
     public final int WEIGHT = 1;
 
+    public HashMap<Point, Character> wallsMap;
     public GameBoard gameBoard; //the current game board
     private ArrayList<Space> openList; //locations where we can go
     private ArrayList<Space> closedList; //where we have visited
@@ -43,7 +47,7 @@ public class AI {
 
         X[4] = 8;
         Y[4] = 4;
-
+        
         //create the game board here for future use
         gameBoard = new GameBoard();
     }
@@ -60,25 +64,25 @@ public class AI {
         int targetY = 0;
         int targetX = 0;
         
-        if (playerNum == 1)
-        {
-            targetY = 8;
-            targetX = X[playerNum];
-        } else if (playerNum == 2)//player 1 is at index 0
-        {
-            targetY = 0;
-            targetX = X[playerNum];
-            
-        } else if(playerNum == 3){
-            
-            targetY = Y[playerNum];
-            targetX = 8;
-            
-        } else if(playerNum == 4){
-            
-            targetY = Y[playerNum];
-            targetX = 0;
-            
+        switch (playerNum) {
+            case 1:
+                targetY = 8;
+                targetX = X[playerNum];
+                break;
+            case 2:
+                targetY = 0;
+                targetX = X[playerNum];
+                break;
+            case 3:
+                targetY = Y[playerNum];
+                targetX = 8;
+                break;
+            case 4:
+                targetY = Y[playerNum];
+                targetX = 0;
+                break;
+            default:
+                break;
         }
 
         Space targetNode = gameBoard.getSpaceAt(targetX, targetY);
@@ -104,12 +108,14 @@ public class AI {
 
             //get the next node to test
             if (!q.isEmpty()) {
+                
                 q.remove(current);
-                if (!q.isEmpty()) {
+                
+                if (!q.isEmpty()) 
                     current = q.get(0);
-                } else {
+                else 
                     break;
-                }
+                
             }
 
         } //end of while loop
@@ -147,29 +153,39 @@ public class AI {
 
         Space move;
 
-        if (ais.size() < 2) {
-            move = ais.get(0); //get the next move we should make from here
-        } else {
-            move = ais.get(ais.size() - 2);
+        Stack<Space> x = new Stack();
+        for(Space c: ais){
+            x.push(c);
         }
+        ais = new ArrayList<>();
+        while(!x.empty())
+            ais.add(x.pop());
+        
+//        if (ais.size() < 2) 
+//            move = ais.get(0); //get the next move we should make from here
+//        else 
+//            move = ais.get(ais.size() - 2);
+        
+
+        if (ais.size() < 2) 
+            move = ais.get(0); //get the next move we should make from here
+        else 
+            move = ais.get(1);
+
+        
 
         //see if we can pawn jump
         ArrayList<Space> valid;
+        
         if (move.occupied) {
-            //get valid spaces
-            valid = gameBoard.getValidPlayerJumpMoves(move);
-
-            //now we see what space is in our path and thats where we will go
-            for (Space v : valid) {
-                //if v is in our path
-                if (ais.contains(v)) {
-                    //we make that our move
-                    move = v;
+            
+            for(Space balls : ais){
+                if(!balls.occupied){
+                    move = balls;
+                    break; //we're done
                 }
-                //else we check the next node
-                //TODO: if we have no moves in the path
             }
-
+            
         }
 
         //testing
@@ -177,16 +193,16 @@ public class AI {
 
         System.out.println("moving to: " + X[playerNum] + ", " + Y[playerNum]);
 
-        //slow things down
-        try {
-
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-
-            e.printStackTrace();
-
-        }
+//        //slow things down
+//        try {
+//
+//            Thread.sleep(1000);
+//
+//        } catch (InterruptedException e) {
+//
+//            e.printStackTrace();
+//
+//        }
 
         return ("TESUJI (" + move.x + ", " + move.y + ")");
     }

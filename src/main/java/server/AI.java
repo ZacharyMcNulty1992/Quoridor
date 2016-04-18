@@ -151,22 +151,21 @@ public class AI {
         int aiSize = ais.size();
         //int opponentSize = opponent.size();
 
+        //holder variable for the move
         Space move;
 
+        //we need to flip the path as it is backwards right now
+        //add all elements in our path to a stack
         Stack<Space> x = new Stack();
         for(Space c: ais){
             x.push(c);
         }
         ais = new ArrayList<>();
+        //now we pop off from the stack to inverse the order of the arrayList
         while(!x.empty())
             ais.add(x.pop());
-        
-//        if (ais.size() < 2) 
-//            move = ais.get(0); //get the next move we should make from here
-//        else 
-//            move = ais.get(ais.size() - 2);
-        
 
+        //now we get a move
         if (ais.size() < 2) 
             move = ais.get(0); //get the next move we should make from here
         else 
@@ -176,24 +175,24 @@ public class AI {
 
         //see if we can pawn jump
         ArrayList<Space> valid;
-        
+        //if the space we want to move to is occupied
         if (move.occupied) {
             
+            //we check the spaces in our path if they are occupied we can jump past them
             for(Space balls : ais){
+                //if a space in our path is not occupied then we can move there
                 if(!balls.occupied){
                     move = balls;
-                    break; //we're done
+                    break; //we're done once we have a valid place to move
                 }
             }
             
         }
 
-        //testing
-        updatePlayerPosition(move.x, move.y, playerNum);
-
+        //to show where the ai is moving to
         System.out.println("moving to: " + X[playerNum] + ", " + Y[playerNum]);
 
-//        //slow things down
+        //slow things down
 //        try {
 //
 //            Thread.sleep(1000);
@@ -204,6 +203,7 @@ public class AI {
 //
 //        }
 
+        //return a properly formated move string
         return ("TESUJI (" + move.x + ", " + move.y + ")");
     }
 

@@ -82,7 +82,11 @@ public class EchoServer {
 			    try{
 			        int pn = Integer.parseInt(clientMessage.substring(6,7));
 				Parsed parsed = new Parsed(clientMessage);
-				ai.updatePlayerPosition(parsed.c , parsed.r , pn);
+				if(parsed.isWall){
+				    ai.placeWalls(parsed.c, parsed.r, parsed.wallPos);
+				}else{
+				    ai.updatePlayerPosition(parsed.c , parsed.r , pn);
+				}
 			    }catch(NumberFormatException e){
 				System.out.println(e);
 			    }

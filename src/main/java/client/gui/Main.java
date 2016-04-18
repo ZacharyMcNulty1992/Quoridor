@@ -136,7 +136,7 @@ public class Main extends Application{
 
                     if(node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
                         System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
-                        node.setOpacity(1.0);
+                        //node.setOpacity(1.0);
                     }
                 }
 

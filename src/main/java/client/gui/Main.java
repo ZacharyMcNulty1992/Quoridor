@@ -103,6 +103,7 @@ public class Main extends Application{
     public void start(final Stage primaryStage) {
         drawBoard();
         handlePawns();
+
         pawns.add(pawn1, 4,0);
         pawns.add(pawn2, 4,8);
         if (playerCount > 2){
@@ -201,7 +202,7 @@ public class Main extends Application{
             }
         }
 
-        // Adds the grip panes to the root pane which will be displayed
+        // Adds the gridpanes to the root pane which will be displayed
         root.getChildren().add(board);
         root.getChildren().add(vWallGrid);
         root.getChildren().add(hWallGrid);
@@ -251,6 +252,15 @@ public class Main extends Application{
                 pawns.setConstraints(pawn4, dest.x, dest.y );
                 break;
 
+        }
+    }
+
+    public static void drawWalls(HashMap<Point, Character> wallsMap){
+        for(Point key:wallsMap.keySet()){
+            if(wallsMap.get(key) == 'v')
+                vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y);
+            else 
+                hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x, key.y);
         }
     }
 }

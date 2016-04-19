@@ -290,7 +290,7 @@ public class AI {
 
                             if (gameBoard.isWallPlacementValid(p, d)) {
                                 numWalls--;
-                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                                return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
                         }
                     } else if (opponent4Path.size() < ais.size()) {
@@ -314,7 +314,7 @@ public class AI {
 
                             if (gameBoard.isWallPlacementValid(p, d)) {
                                 numWalls--;
-                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                                return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
                         }
                     }
@@ -343,7 +343,7 @@ public class AI {
                             numWalls--;
                             
                             //we return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -383,7 +383,7 @@ public class AI {
                                 //if it is then we reduce the number of walls we have
                                 numWalls--;
                                 //return the wall placement string
-                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                                return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
                         }
                     } else if (opponent4Path.size() < ais.size()) {
@@ -409,7 +409,7 @@ public class AI {
                                 //if it is reduce the number of walls we have
                                 numWalls--;
                                 //and return a wall placement string
-                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                                return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
                         }
                     }
@@ -440,7 +440,7 @@ public class AI {
                             numWalls--;
                             
                             //return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -476,7 +476,7 @@ public class AI {
                         //see if the wall placement is valid
                         if (gameBoard.isWallPlacementValid(p, d)) {
                             numWalls--;
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 } else if (opponent4Path.size() < ais.size()) {
@@ -505,7 +505,7 @@ public class AI {
                             numWalls--;
                             
                             //and return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -536,7 +536,7 @@ public class AI {
                             numWalls--;
                             
                             //return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -571,7 +571,7 @@ public class AI {
                         //see if the wall placement is valid
                         if (gameBoard.isWallPlacementValid(p, d)) {
                             numWalls--;
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 } else if (opponent4Path.size() < ais.size()) {
@@ -600,7 +600,7 @@ public class AI {
                             numWalls--;
                             
                             //and return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -631,7 +631,7 @@ public class AI {
                             numWalls--;
                             
                             //return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }

@@ -45,8 +45,8 @@ class ClientThread extends Thread{
             Scanner sin = new Scanner(clientSocket.getInputStream());
             PrintStream sout = new PrintStream(clientSocket.getOutputStream());
             sout.println(message);
-            String serverLine = sin.nextLine();
-            System.out.println(serverLine);
+            //String serverLine = sin.nextLine();
+            //System.out.println(serverLine);
         }catch(IOException e){
             System.out.println(e);
         }catch(Exception e){

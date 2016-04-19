@@ -73,8 +73,7 @@ public class EchoServer {
 			    }
 			    System.out.format("Server saw \"%s\"\n",
                                               clientMessage);
-                            cout.format(hostname +" Server saw \"%s\"\n",
-                                        clientMessage);
+			    //cout.format("Server saw \"%s\"\n", clientMessage);
 			}else if(clientMessage.substring(0,5).equals("ATARI")){
 			    try{
 			        int pn = Integer.parseInt(clientMessage.substring(6,7));
@@ -89,9 +88,6 @@ public class EchoServer {
 			    }
 			    System.out.format("Server saw \"%s\"\n",
                                               clientMessage);
-			    cout.format(hostname +" Server saw \"%s\"\n",
-                                        clientMessage);
-
 			}else{
                             System.out.format("Server saw \"%s\"\n",
 				              clientMessage);

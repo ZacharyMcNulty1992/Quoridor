@@ -258,7 +258,9 @@ public class AI {
         Random ycoord = new Random();
         Point p; //for wall placement
         char d; //direction of wall
-
+        int r;
+        int e;
+        
         switch (playerNum) {
 
             case 1: //this case we are player 1
@@ -271,7 +273,14 @@ public class AI {
                         //here we will see if we need to block off player 3
                         //return a wall blocking player 3
                         for (; true;) {
-                            p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                            r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                             if ((xcoord.nextInt() % 2) == 1) {
                                 d = 'v';
@@ -281,14 +290,21 @@ public class AI {
 
                             if (gameBoard.isWallPlacementValid(p, d)) {
                                 numWalls--;
-                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                                return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
                         }
                     } else if (opponent4Path.size() < ais.size()) {
                         //block off player 4
                         //return a wall blocking player 4
                         for (; true;) {
-                            p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                            r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                             if ((xcoord.nextInt() % 2) == 1) {
                                 d = 'v';
@@ -298,7 +314,7 @@ public class AI {
 
                             if (gameBoard.isWallPlacementValid(p, d)) {
                                 numWalls--;
-                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                                return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
                         }
                     }
@@ -307,7 +323,14 @@ public class AI {
                     //block player 2
                     //return a wall blocking player 2
                     for (; true;) {
-                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                        r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         if ((xcoord.nextInt() % 2) == 1) {
                             d = 'v';
@@ -320,7 +343,7 @@ public class AI {
                             numWalls--;
                             
                             //we return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -340,8 +363,15 @@ public class AI {
                         //return a wall blocking player 3
                         for (; true;) {
                             //get a random point
-                            p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                            r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
                             
+                            p = new Point(r,e);
+
                             //get a random direction
                             if ((xcoord.nextInt() % 2) == 1) 
                                 d = 'v';
@@ -353,14 +383,21 @@ public class AI {
                                 //if it is then we reduce the number of walls we have
                                 numWalls--;
                                 //return the wall placement string
-                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                                return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
                         }
                     } else if (opponent4Path.size() < ais.size()) {
                         for (; true;) {
                             //make a random point
-                            p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                            r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
                             
+                            p = new Point(r,e);
+
                             //get a random direction
                             if ((xcoord.nextInt() % 2) == 1) 
                                 d = 'v';
@@ -372,7 +409,7 @@ public class AI {
                                 //if it is reduce the number of walls we have
                                 numWalls--;
                                 //and return a wall placement string
-                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                                return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
                         }
                     }
@@ -382,8 +419,15 @@ public class AI {
                     //return a wall blocking player 1
                     for (; true;) {
                         //get a random point
-                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
-                        
+                        r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
+
                         //get a random direction
                         if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
@@ -396,7 +440,7 @@ public class AI {
                             numWalls--;
                             
                             //return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -414,7 +458,14 @@ public class AI {
                     //return a wall blocking player 3
                     for (; true;) {
                         //get a random point
-                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                        r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get a random direction
                         if ((xcoord.nextInt() % 2) == 1) 
@@ -425,7 +476,7 @@ public class AI {
                         //see if the wall placement is valid
                         if (gameBoard.isWallPlacementValid(p, d)) {
                             numWalls--;
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 } else if (opponent4Path.size() < ais.size()) {
@@ -433,8 +484,15 @@ public class AI {
                     //return a wall blocking player 4
                     for (; true;) {
                         //get random point
-                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
-                        
+                        r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
+
                         //get random direction
                         if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
@@ -447,7 +505,7 @@ public class AI {
                             numWalls--;
                             
                             //and return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -457,8 +515,15 @@ public class AI {
                     //return a wall blocking player 1
                     for (; true;) {
                         //get a random point
-                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
-                        
+                        r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
+
                         //get a random direction
                         if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
@@ -471,7 +536,7 @@ public class AI {
                             numWalls--;
                             
                             //return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -488,7 +553,14 @@ public class AI {
                     //return a wall blocking player 2
                     for (; true;) {
                         //get a random point
-                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                        r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get a random direction
                         if ((xcoord.nextInt() % 2) == 1) 
@@ -499,7 +571,7 @@ public class AI {
                         //see if the wall placement is valid
                         if (gameBoard.isWallPlacementValid(p, d)) {
                             numWalls--;
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 } else if (opponent4Path.size() < ais.size()) {
@@ -507,8 +579,15 @@ public class AI {
                     //return a wall blocking player 3
                     for (; true;) {
                         //get random point
-                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
-                        
+                        r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
+
                         //get random direction
                         if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
@@ -521,7 +600,7 @@ public class AI {
                             numWalls--;
                             
                             //and return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }
@@ -531,8 +610,15 @@ public class AI {
                     //return a wall blocking player 1
                     for (; true;) {
                         //get a random point
-                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
-                        
+                        r = xcoord.nextInt() % 7 + 1;
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
+
                         //get a random direction
                         if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
@@ -545,7 +631,7 @@ public class AI {
                             numWalls--;
                             
                             //return a wall placement string
-                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
                     }
                 }

@@ -99,7 +99,8 @@ public class CMT {
                     if (ps.isWall) {
                         GameBoard gb = GameBoard.getInstance();
                         gb.placeWall(new Point(ps.c, ps.r), ps.wallPos);
-                        Atari(tesuji.substring(7), c.getPlayerNumber());
+                        gui.AtariWall(gb.wallsMap);
+                        AtariWall(tesuji.substring(7), c.getPlayerNumber());
                     } else {
                         Atari(tesuji.substring(7), c.getPlayerNumber());
                     }
@@ -142,6 +143,24 @@ public class CMT {
 
     }
 
+    
+    public static void AtariWall(String message, int pn) throws Exception {
+        int count = 0;
+        for (ClientThread c : threadList) {
+            c.write("ATARI " + pn + " " + message);
+            if (count == 0) {
+                //need to add functionality to check if placing wall or actual atari before calling;
+                gui.setCurrentPlayer(pn);
+                Point dest = new Point(ps.c, ps.r);
+//                gui.Atari(dest);
+            }
+            count++;
+        }
+        gui.setPlayerCount(playerCount);
+
+    }
+    
+    
     public static void Gote(ClientThread g) throws Exception {
         for (ClientThread c : threadList) {
             c.write("GOTE " + g.getPlayerNumber());

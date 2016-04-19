@@ -69,8 +69,12 @@ public class EchoServer {
                             
                         }else if(clientMessage.substring(0,4).equals("GAME")){
 			    try{
+                                String[] message = clientMessage.split(" ");
 			        int pn = Integer.parseInt(clientMessage.substring(5,6));
-				ai = new AI(pn);
+                                if(message.length == 4)
+                                    ai = new AI(pn, 2);
+                                else
+                                    ai = new AI(pn, 4);
 			    }catch(NumberFormatException e){
 			        System.out.println(e);
 			    }

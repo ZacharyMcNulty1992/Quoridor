@@ -7,13 +7,12 @@ import client.Space;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Stack;
 
 public class AI {
 
     public final int WEIGHT = 1;
-
+    public int numWalls;
     public HashMap<Point, Character> wallsMap;
     public GameBoard gameBoard; //the current game board
     private ArrayList<Space> openList; //locations where we can go
@@ -24,15 +23,17 @@ public class AI {
 
     //ai player number
     private int playerNum;
+    private int numOfPlayers;
 
     //arrays for the current position of each player
     private int X[]; // X-coord
     private int Y[]; // Y-coord
 
-    public AI(int playerNumber) {
+    public AI(int playerNumber, int numberOfPlayers) {
 
         playerNum = playerNumber; //give the ai its player number
-
+        numOfPlayers = numberOfPlayers;
+        
         X = new int[5];
         Y = new int[5];
 
@@ -140,16 +141,32 @@ public class AI {
     public String getMove() {
         //the ai's shortest path list
         ArrayList<Space> ais;
-        ArrayList<Space> player2Path;
-        ArrayList<Space> player3Path;
-        ArrayList<Space> player4Path;
+        ArrayList<Space> opponent2Path;
+        ArrayList<Space> opponent3Path;
+        ArrayList<Space> opponent4Path;
         
         //get our ai's shortest path to the end
         ais = getShortestPath(playerNum);
+        
+        //based on the player number we see other players shortest path
+        //the they are shorter than our path then we will want to place a wall
+        //assuming we have some left.
+        switch(playerNum){
+            
+            case 1: //this case we are player 1
+                //get player 2's shortest path
+                opponent2Path = getShortestPath(2);
+                if(numOfPlayers == 4){
+                    opponent3Path = getShortestPath(3);
+                }
+            
+        }
 
+//opponent2Path = getShortestPath();
+        
         //compare the sizes of the arrays
         int aiSize = ais.size();
-        //int opponentSize = opponent.size();
+        //int opponentPathSize = opponent2Path.size();
 
         //holder variable for the move
         Space move;
@@ -190,18 +207,18 @@ public class AI {
         }
 
         //to show where the ai is moving to
-        System.out.println("moving to: " + X[playerNum] + ", " + Y[playerNum]);
+        System.out.println("moving to: " + move.x + ", " + move.y);
 
         //slow things down
-//        try {
-//
-//            Thread.sleep(1000);
-//
-//        } catch (InterruptedException e) {
-//
-//            e.printStackTrace();
-//
-//        }
+        try {
+
+            Thread.sleep(3000);
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        }
 
         //return a properly formated move string
         return ("TESUJI (" + move.x + ", " + move.y + ")");

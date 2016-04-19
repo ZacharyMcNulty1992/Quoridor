@@ -51,16 +51,9 @@ public class EchoServer {
                             System.out.format("Server saw \"%s\"\n", 
 				              clientMessage);
 			}else if(clientMessage.equals("MYOUSHU")){   
-			    //Determine move choice
-			    //Send move string
-		            //String move = ...
-			    //cout.println("TESUJI " + move)
 			    System.out.println("Please make your move" + 
 					       " or place your wall");
 	
-			    //This is to obtain move from the AI.
-			    //It is commented out for testing purposes & until
-			    //error's associated with it are fixed.
 			    move = ai.getMove();
 			
 			    //move = keyboard.nextLine();

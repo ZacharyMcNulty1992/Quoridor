@@ -122,6 +122,7 @@ public class CMT {
     for(ClientThread c : threadList){
         c.write("ATARI "+ pn + " " + message);
         if(count==0){
+	    //need to add functionality to check if placing wall or actual atari before calling;
             gui.setCurrentPlayer(pn);
             Point dest = new Point(ps.c, ps.r);
             gui.Atari(dest);

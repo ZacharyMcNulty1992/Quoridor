@@ -7,6 +7,7 @@ import client.Space;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Stack;
 
 public class AI {
@@ -33,7 +34,13 @@ public class AI {
 
         playerNum = playerNumber; //give the ai its player number
         numOfPlayers = numberOfPlayers;
-        
+
+        if (numOfPlayers == 2) {
+            numWalls = 10;
+        } else {
+            numWalls = 5;
+        }
+
         X = new int[5];
         Y = new int[5];
 
@@ -48,7 +55,7 @@ public class AI {
 
         X[4] = 8;
         Y[4] = 4;
-        
+
         //create the game board here for future use
         gameBoard = new GameBoard();
     }
@@ -64,7 +71,7 @@ public class AI {
 
         int targetY = 0;
         int targetX = 0;
-        
+
         switch (playerNum) {
             case 1:
                 targetY = 8;
@@ -109,14 +116,15 @@ public class AI {
 
             //get the next node to test
             if (!q.isEmpty()) {
-                
+
                 q.remove(current);
-                
-                if (!q.isEmpty()) 
+
+                if (!q.isEmpty()) {
                     current = q.get(0);
-                else 
+                } else {
                     break;
-                
+                }
+
             }
 
         } //end of while loop
@@ -141,32 +149,27 @@ public class AI {
     public String getMove() {
         //the ai's shortest path list
         ArrayList<Space> ais;
-        ArrayList<Space> opponent2Path;
-        ArrayList<Space> opponent3Path;
-        ArrayList<Space> opponent4Path;
-        
+
         //get our ai's shortest path to the end
         ais = getShortestPath(playerNum);
-        
+
         //based on the player number we see other players shortest path
         //the they are shorter than our path then we will want to place a wall
         //assuming we have some left.
-        switch(playerNum){
-            
-            case 1: //this case we are player 1
-                //get player 2's shortest path
-                opponent2Path = getShortestPath(2);
-                if(numOfPlayers == 4){
-                    opponent3Path = getShortestPath(3);
-                }
-            
+        if (numWalls >= 1) {
+            String wall = makeValidWallPlacement(ais);
+
+            //if we want to place a wall return here
+            if (wall != null) {
+                return wall;
+            }
+            //else 
+            //do nothing
+
         }
 
-//opponent2Path = getShortestPath();
-        
         //compare the sizes of the arrays
         int aiSize = ais.size();
-        //int opponentPathSize = opponent2Path.size();
 
         //holder variable for the move
         Space move;
@@ -174,36 +177,36 @@ public class AI {
         //we need to flip the path as it is backwards right now
         //add all elements in our path to a stack
         Stack<Space> x = new Stack();
-        for(Space c: ais){
+        for (Space c : ais) {
             x.push(c);
         }
         ais = new ArrayList<>();
         //now we pop off from the stack to inverse the order of the arrayList
-        while(!x.empty())
+        while (!x.empty()) {
             ais.add(x.pop());
+        }
 
         //now we get a move
-        if (ais.size() < 2) 
+        if (ais.size() < 2) {
             move = ais.get(0); //get the next move we should make from here
-        else 
+        } else {
             move = ais.get(1);
-
-        
+        }
 
         //see if we can pawn jump
         ArrayList<Space> valid;
         //if the space we want to move to is occupied
         if (move.occupied) {
-            
+
             //we check the spaces in our path if they are occupied we can jump past them
-            for(Space balls : ais){
+            for (Space balls : ais) {
                 //if a space in our path is not occupied then we can move there
-                if(!balls.occupied){
+                if (!balls.occupied) {
                     move = balls;
                     break; //we're done once we have a valid place to move
                 }
             }
-            
+
         }
 
         //to show where the ai is moving to
@@ -212,7 +215,7 @@ public class AI {
         //slow things down
         try {
 
-            Thread.sleep(3000);
+            Thread.sleep(1000);
 
         } catch (InterruptedException e) {
 
@@ -245,5 +248,314 @@ public class AI {
     public void placeWalls(int x, int y, char direction) {
         Point p = new Point(x, y);
         gameBoard.placeWall(p, direction);
+    }
+
+    private String makeValidWallPlacement(ArrayList<Space> ais) {
+        ArrayList<Space> opponent2Path;
+        ArrayList<Space> opponent3Path;
+        ArrayList<Space> opponent4Path;
+        Random xcoord = new Random();
+        Random ycoord = new Random();
+        Point p; //for wall placement
+        char d; //direction of wall
+
+        switch (playerNum) {
+
+            case 1: //this case we are player 1
+                //get player 2's shortest path    
+                opponent2Path = getShortestPath(2);
+                if (numOfPlayers == 4) {
+                    opponent3Path = getShortestPath(3);
+                    opponent4Path = getShortestPath(4);
+                    if (opponent3Path.size() < ais.size()) {
+                        //here we will see if we need to block off player 3
+                        //return a wall blocking player 3
+                        for (; true;) {
+                            p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+
+                            if ((xcoord.nextInt() % 2) == 1) {
+                                d = 'v';
+                            } else {
+                                d = 'h';
+                            }
+
+                            if (gameBoard.isWallPlacementValid(p, d)) {
+                                numWalls--;
+                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            }
+                        }
+                    } else if (opponent4Path.size() < ais.size()) {
+                        //block off player 4
+                        //return a wall blocking player 4
+                        for (; true;) {
+                            p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+
+                            if ((xcoord.nextInt() % 2) == 1) {
+                                d = 'v';
+                            } else {
+                                d = 'h';
+                            }
+
+                            if (gameBoard.isWallPlacementValid(p, d)) {
+                                numWalls--;
+                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            }
+                        }
+                    }
+                }
+                if (opponent2Path.size() < ais.size()) {
+                    //block player 2
+                    //return a wall blocking player 2
+                    for (; true;) {
+                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+
+                        if ((xcoord.nextInt() % 2) == 1) {
+                            d = 'v';
+                        } else {
+                            d = 'h';
+                        }
+
+                        if (gameBoard.isWallPlacementValid(p, d)) {
+                            //if it is then we reduce the number of walls
+                            numWalls--;
+                            
+                            //we return a wall placement string
+                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                        }
+                    }
+                }
+                //if we are the shortest path we do nothing
+                break;
+
+            case 2:
+                //this case we are player 2
+                //get player 1's shortest path    
+                opponent2Path = getShortestPath(1);
+                if (numOfPlayers == 4) {
+                    //get player 3,4's shortest path
+                    opponent3Path = getShortestPath(3);
+                    opponent4Path = getShortestPath(4);
+                    if (opponent3Path.size() < ais.size()) {
+                        //here we will see if we need to block off player 3
+                        //return a wall blocking player 3
+                        for (; true;) {
+                            //get a random point
+                            p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                            
+                            //get a random direction
+                            if ((xcoord.nextInt() % 2) == 1) 
+                                d = 'v';
+                             else 
+                                d = 'h';
+                            
+                            //see if the wall placement is valid
+                            if (gameBoard.isWallPlacementValid(p, d)) {
+                                //if it is then we reduce the number of walls we have
+                                numWalls--;
+                                //return the wall placement string
+                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            }
+                        }
+                    } else if (opponent4Path.size() < ais.size()) {
+                        for (; true;) {
+                            //make a random point
+                            p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                            
+                            //get a random direction
+                            if ((xcoord.nextInt() % 2) == 1) 
+                                d = 'v';
+                             else 
+                                d = 'h';
+                            
+                            //check to see if the wall is valid
+                            if (gameBoard.isWallPlacementValid(p, d)) {
+                                //if it is reduce the number of walls we have
+                                numWalls--;
+                                //and return a wall placement string
+                                return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                            }
+                        }
+                    }
+                }
+                if (opponent2Path.size() < ais.size()) {
+                    //block player 1
+                    //return a wall blocking player 1
+                    for (; true;) {
+                        //get a random point
+                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                        
+                        //get a random direction
+                        if ((xcoord.nextInt() % 2) == 1) 
+                            d = 'v';
+                         else 
+                            d = 'h';
+                        
+
+                        if (gameBoard.isWallPlacementValid(p, d)) {
+                            //reduce the number of walls
+                            numWalls--;
+                            
+                            //return a wall placement string
+                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                        }
+                    }
+                }
+                //if we are the shortest path we do nothing
+                break;
+
+            case 3:
+                //this case we are player 3
+                //get player 1,2,4's shortest path    
+                opponent2Path = getShortestPath(1);
+                opponent3Path = getShortestPath(2);
+                opponent4Path = getShortestPath(4);
+                if (opponent3Path.size() < ais.size()) {
+                    //here we will see if we need to block off player 3
+                    //return a wall blocking player 3
+                    for (; true;) {
+                        //get a random point
+                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+
+                        //get a random direction
+                        if ((xcoord.nextInt() % 2) == 1) 
+                            d = 'v';
+                         else 
+                            d = 'h';
+                        
+                        //see if the wall placement is valid
+                        if (gameBoard.isWallPlacementValid(p, d)) {
+                            numWalls--;
+                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                        }
+                    }
+                } else if (opponent4Path.size() < ais.size()) {
+                    //block off player 4
+                    //return a wall blocking player 4
+                    for (; true;) {
+                        //get random point
+                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                        
+                        //get random direction
+                        if ((xcoord.nextInt() % 2) == 1) 
+                            d = 'v';
+                         else 
+                            d = 'h';
+                        
+                        //see if the wall placement is valid
+                        if (gameBoard.isWallPlacementValid(p, d)) {
+                            //if it is then we reduce the number of walls we have
+                            numWalls--;
+                            
+                            //and return a wall placement string
+                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                        }
+                    }
+                }
+
+                if (opponent2Path.size() < ais.size()) {
+                    //block player 1
+                    //return a wall blocking player 1
+                    for (; true;) {
+                        //get a random point
+                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                        
+                        //get a random direction
+                        if ((xcoord.nextInt() % 2) == 1) 
+                            d = 'v';
+                         else 
+                            d = 'h';
+                        
+                        //see if the wall placement is valid
+                        if (gameBoard.isWallPlacementValid(p, d)) {
+                            //reduce the number of walls
+                            numWalls--;
+                            
+                            //return a wall placement string
+                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                        }
+                    }
+                }
+                //if we are the shortest path we do nothing
+                break;
+            case 4:
+                //this case we are player 4
+                //get player 1,2,3's shortest path    
+                opponent2Path = getShortestPath(1);
+                opponent3Path = getShortestPath(2);
+                opponent4Path = getShortestPath(3);
+                if (opponent3Path.size() < ais.size()) {
+                    //here we will see if we need to block off player 2
+                    //return a wall blocking player 2
+                    for (; true;) {
+                        //get a random point
+                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+
+                        //get a random direction
+                        if ((xcoord.nextInt() % 2) == 1) 
+                            d = 'v';
+                         else 
+                            d = 'h';
+                        
+                        //see if the wall placement is valid
+                        if (gameBoard.isWallPlacementValid(p, d)) {
+                            numWalls--;
+                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                        }
+                    }
+                } else if (opponent4Path.size() < ais.size()) {
+                    //block off player 3
+                    //return a wall blocking player 3
+                    for (; true;) {
+                        //get random point
+                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                        
+                        //get random direction
+                        if ((xcoord.nextInt() % 2) == 1) 
+                            d = 'v';
+                         else 
+                            d = 'h';
+                        
+                        //see if the wall placement is valid
+                        if (gameBoard.isWallPlacementValid(p, d)) {
+                            //if it is then we reduce the number of walls we have
+                            numWalls--;
+                            
+                            //and return a wall placement string
+                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                        }
+                    }
+                }
+
+                if (opponent2Path.size() < ais.size()) {
+                    //block player 1
+                    //return a wall blocking player 1
+                    for (; true;) {
+                        //get a random point
+                        p = new Point(((xcoord.nextInt() % 7) + 1), ((ycoord.nextInt() % 7) + 1));
+                        
+                        //get a random direction
+                        if ((xcoord.nextInt() % 2) == 1) 
+                            d = 'v';
+                         else 
+                            d = 'h';
+                        
+                        //see if the wall placement is valid
+                        if (gameBoard.isWallPlacementValid(p, d)) {
+                            //reduce the number of walls
+                            numWalls--;
+                            
+                            //return a wall placement string
+                            return ("TESUJI [(" + p.x + ", " + p.y + ") " + d + "]");
+                        }
+                    }
+                }
+                //if we are the shortest path we do nothing
+                break;
+                
+            default : break; //we only get here if something has gone wrong
+        }
+
+        //if we get here we do not want to place a wall
+        return null;
     }
 }

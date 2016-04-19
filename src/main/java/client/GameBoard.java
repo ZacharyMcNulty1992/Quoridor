@@ -208,4 +208,9 @@ public class GameBoard {
         return validSpaces;
     }
 
+    public boolean isWallPlacementValid(Point wall, char dir){
+        //true if the point is not in the map and if the key at that point is not the same
+        return (!(wallsMap.containsKey(wall) && wallsMap.get(wall) == dir));
+    }
+    
 }

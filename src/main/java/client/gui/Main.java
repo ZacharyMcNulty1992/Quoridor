@@ -19,21 +19,31 @@ import java.awt.Point;
 
 public class Main extends Application{
 
+    // Holds number of players in the game
     static int playerCount;
-    public static int currentPlayer = 1;
-    public static Point currentPos;
-    static Point destination;
 
+    // current player to handle turns
+    public static int currentPlayer = 1;
+
+    // root pane all other panes will be added to
     static Pane root = new Pane();
+
+    // Gridpane for vertical walls.
     static GridPane vWallGrid;
+
+    // Gridpane for horizontal walls.
     static GridPane hWallGrid;
+
+    // Gridpane for pawn locations.
     static GridPane pawns;
 
+    // 4 cirlces to represnt th pawns
     static Circle pawn1 = new Circle(25, Color.WHITE);
     static Circle pawn2 = new Circle(25, Color.BLUE);
     static Circle pawn3 = new Circle(25, Color.ORANGE);
     static Circle pawn4 = new Circle(25, Color.PURPLE);
 
+    // 4 Player objects to hold the players being passed in
     static Player p1;
     static Player p2;
     static Player p3;
@@ -74,6 +84,7 @@ public class Main extends Application{
         return p4;
     }
 
+    // sets the current player number
     public static void setCurrentPlayer(int pn) {
        currentPlayer = pn;
     }
@@ -84,18 +95,13 @@ public class Main extends Application{
     }
 
     public static void Atari(Point dest){
-        destination = dest;
-
-	Platform.runLater(new Runnable(){
-	    @Override
-	    public void run(){            
-        movePawns(currentPlayer, dest);
-        
-		//System.out.println("Cur = " + currentPos);
-		System.out.println("Dest = "+ dest);
-		//currentPos = destination;
-	    }
-	});
+    	Platform.runLater(new Runnable(){
+    	    @Override
+    	    public void run(){            
+            movePawns(currentPlayer, dest);
+            System.out.println("Dest = "+ dest);
+    	    }
+    	});
 
     }
 
@@ -130,11 +136,7 @@ public class Main extends Application{
 
                     if(node.getBoundsInParent().contains(e.getSceneX(),  e.getSceneY())) {
                         System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
-                        // row = GridPane.getRowIndex(node);
-                        // column = GridPane.getColumnIndex(node);
-                        node.setOpacity(1.0);
-                        // Circle c = new Circle(25, Color.WHITE);
-                        // board.add(c, GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
+                        //node.setOpacity(1.0);
                     }
                 }
 

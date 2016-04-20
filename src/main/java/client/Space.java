@@ -28,5 +28,10 @@ public class Space extends Point{
     distance = Integer.MAX_VALUE; //make this close to inf for pathfinding
     prev = null;
   }
+
+	
+	public String toString() {
+		return "(" + x + "," + y + "):" + ((occupied) ? "Y" : "N");
+	}
   
 }// end of class

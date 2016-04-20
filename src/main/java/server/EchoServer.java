@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import common.Parsed;
 
 public class EchoServer {
 
@@ -50,16 +51,9 @@ public class EchoServer {
                             System.out.format("Server saw \"%s\"\n", 
 				              clientMessage);
 			}else if(clientMessage.equals("MYOUSHU")){   
-			    //Determine move choice
-			    //Send move string
-		            //String move = ...
-			    //cout.println("TESUJI " + move)
 			    System.out.println("Please make your move" + 
 					       " or place your wall");
 	
-			    //This is to obtain move from the AI.
-			    //It is commented out for testing purposes & until
-			    //error's associated with it are fixed.
 			    move = ai.getMove();
 			
 			    //move = keyboard.nextLine();
@@ -68,15 +62,32 @@ public class EchoServer {
                             
                         }else if(clientMessage.substring(0,4).equals("GAME")){
 			    try{
+                                String[] message = clientMessage.split(" ");
 			        int pn = Integer.parseInt(clientMessage.substring(5,6));
-				ai = new AI(pn);
+                                if(message.length == 4)
+                                    ai = new AI(pn, 2);
+                                else
+                                    ai = new AI(pn, 4);
 			    }catch(NumberFormatException e){
 			        System.out.println(e);
 			    }
 			    System.out.format("Server saw \"%s\"\n",
                                               clientMessage);
-                            cout.format(hostname +" Server saw \"%s\"\n",
-                                        clientMessage);
+			    //cout.format("Server saw \"%s\"\n", clientMessage);
+			}else if(clientMessage.substring(0,5).equals("ATARI")){
+			    try{
+			        int pn = Integer.parseInt(clientMessage.substring(6,7));
+				Parsed parsed = new Parsed(clientMessage);
+				if(parsed.isWall){
+				    ai.placeWalls(parsed.c, parsed.r, parsed.wallPos);
+				}else{
+				    ai.updatePlayerPosition(parsed.c , parsed.r , pn);
+				}
+			    }catch(NumberFormatException e){
+				System.out.println(e);
+			    }
+			    System.out.format("Server saw \"%s\"\n",
+                                              clientMessage);
 			}else{
                             System.out.format("Server saw \"%s\"\n",
 				              clientMessage);

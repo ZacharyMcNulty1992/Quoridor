@@ -3,6 +3,7 @@ package client;
 import java.util.ArrayList;
 import java.awt.Point;
 import java.util.HashSet;
+import java.util.HashMap;
 
 /**
  * @author Brandon Williams
@@ -13,6 +14,7 @@ public class GameBoard {
 
     private static GameBoard instance = null;
     private ArrayList<Space> gameBoard;
+    public HashMap<Point, Character> wallsMap;
 
     /**
      * Singleton implementation of GameBoard
@@ -36,6 +38,7 @@ public class GameBoard {
 
         //gameBoard = new GamePiece[9][9];
         gameBoard = new ArrayList<Space>();
+        wallsMap = new HashMap<>();
         Space s; //temp space variable
         //create all the spaces objects
         for (int i = 0; i < 9; i++) {
@@ -145,6 +148,8 @@ public class GameBoard {
      */
     public void placeWall(Point wallPos, char direction) {
 
+        wallsMap.put(wallPos, new Character(direction));
+
         if (direction == 'v') {
 
             getSpaceAt(wallPos.x + 1, wallPos.y).edges
@@ -203,4 +208,9 @@ public class GameBoard {
         return validSpaces;
     }
 
+    public boolean isWallPlacementValid(Point wall, char dir){
+        //true if the point is not in the map and if the key at that point is not the same
+        return (!(wallsMap.containsKey(wall) && wallsMap.get(wall) == dir));
+    }
+    
 }

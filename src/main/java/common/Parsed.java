@@ -35,7 +35,7 @@ public class Parsed{
 			
 			if(!Util.isValid(input)){
 				this.valid=false;
-			
+				System.out.println("Testing input: " + input);	
 			}else{
 			
 				this.valid=true;

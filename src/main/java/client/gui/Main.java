@@ -49,6 +49,8 @@ public class Main extends Application {
     static Player p3;
     static Player p4;
 
+    static HashMap<Point, Character> tempMap;
+
     public static Main gui = null;
     private static final CountDownLatch latch = new CountDownLatch(1);
 
@@ -57,6 +59,7 @@ public class Main extends Application {
     }
 
     public Main() {
+        tempMap = new HashMap<>();
         guiStartUpTest(this);
     }
 
@@ -269,10 +272,15 @@ public class Main extends Application {
 
     public static void drawWalls(HashMap<Point, Character> wallsMap) {
         for (Point key : wallsMap.keySet()) {
-            if (wallsMap.get(key) == 'v') {
-                vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.y, key.x);
-            } else {
-                hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.y, key.x);
+            if(!tempMap.containsKey(key)){
+                tempMap.put(key, wallsMap.get(key));
+                if (tempMap.get(key) == 'v') {
+                    System.out.println("vWall = " + key);
+                    vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y);
+                } else {
+                    System.out.println("hWall = " + key);
+                    hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x, key.y);
+                }
             }
         }
     }

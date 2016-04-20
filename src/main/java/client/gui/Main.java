@@ -78,6 +78,7 @@ public class Main extends Application {
         return gui;
     }
 
+    // Returns the correct player object corresponding to the player number
     public static Player currentPlayer() {
         if (currentPlayer == 1) {
             return p1;
@@ -100,6 +101,7 @@ public class Main extends Application {
         latch.countDown();
     }
 
+    // Receives player moves from the client.
     public static void Atari(Point dest) {
         Platform.runLater(new Runnable() {
             @Override
@@ -111,6 +113,7 @@ public class Main extends Application {
 
     }
 
+    // Receives walls from the client.
     public static void AtariWall(HashMap<Point, Character> mappy) {
         Platform.runLater(new Runnable() {
             @Override
@@ -121,6 +124,7 @@ public class Main extends Application {
 
     }
 
+    // Starts the GUI and draws the inital board. Also starts a click event listener.
     @Override
     public void start(final Stage primaryStage) {
         drawBoard();
@@ -174,6 +178,7 @@ public class Main extends Application {
         });
     }
 
+    // Draws the inital board, spaces and possible wall locations,
     private void drawBoard() {
         // Creates a gridPane for the board squares
         board = new GridPane();
@@ -212,7 +217,6 @@ public class Main extends Application {
         hWallGrid.setVgap(50);
         hWallGrid.setPadding(new Insets(75, 25, 25, 25));
 
-        //im Derek and im a butt
         // Loop to create locations for horizontal walls
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 8; j++) {
@@ -226,6 +230,7 @@ public class Main extends Application {
         root.getChildren().add(hWallGrid);
     }
 
+    // sets up locations for possible pawn movement.
     private void handlePawns() {
         // Creates a GridPane for pawns to move on
         pawns = new GridPane();
@@ -246,6 +251,7 @@ public class Main extends Application {
         root.getChildren().add(pawns);
     }
 
+    // Sets the Player objects to the correct players received from the client.
     public static void setPlayers(ArrayList<Player> playerList) {
         p1 = playerList.get(0);
         p2 = playerList.get(1);
@@ -255,6 +261,7 @@ public class Main extends Application {
         }
     }
 
+    // Checks player number (pn) and moves indicated pawn.
     public static void movePawns(int pn, Point dest) {
         switch (pn) {
             case 1:
@@ -273,6 +280,7 @@ public class Main extends Application {
         }
     }
 
+    // Recieves walls from the client, updates the GUI to show them.
     public static void drawWalls(HashMap<Point, Character> wallsMap) {
         for (Point key : wallsMap.keySet()) {
             if(!tempMap.containsKey(key)){

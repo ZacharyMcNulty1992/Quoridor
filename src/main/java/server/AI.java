@@ -215,7 +215,7 @@ public class AI {
         //slow things down
         try {
 
-            Thread.sleep(10000);
+            Thread.sleep(3000);
 
         } catch (InterruptedException e) {
 

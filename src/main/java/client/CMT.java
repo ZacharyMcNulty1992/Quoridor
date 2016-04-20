@@ -102,8 +102,13 @@ public class CMT {
                         gui.AtariWall(gb.wallsMap);
                         AtariWall(tesuji.substring(7), c.getPlayerNumber());
                     } else {
+			c.getPlayer().movePawn(ps.c, ps.r);
                         Atari(tesuji.substring(7), c.getPlayerNumber());
                     }
+		    if(c.getPlayer().hasWon().equals("KIKASHI")) {
+			System.out.println("KIKASHI");
+			return;
+		    }
                 } else {
                     Gote(c);
                 }
@@ -158,8 +163,7 @@ public class CMT {
         }
         gui.setPlayerCount(playerCount);
 
-    }
-    
+    } 
     
     public static void Gote(ClientThread g) throws Exception {
         for (ClientThread c : threadList) {

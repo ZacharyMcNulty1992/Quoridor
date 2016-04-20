@@ -270,10 +270,13 @@ public class Main extends Application {
     public static void drawWalls(HashMap<Point, Character> wallsMap) {
         for (Point key : wallsMap.keySet()) {
             if (wallsMap.get(key) == 'v') {
+                System.out.println("vWall = " + key);
                 vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.y, key.x);
             } else {
+                System.out.println("hWall = " + key);
                 hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.y, key.x);
             }
+            wallsMap.clear();
         }
     }
 }

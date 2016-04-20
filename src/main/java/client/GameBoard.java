@@ -40,7 +40,7 @@ public class GameBoard {
         //create all the spaces objects
         for (int i = 0; i < 9; i++) {
             for (int p = 0; p < 9; p++) {
-                s = new Space(i, p);
+                s = new Space(p, i);
                 gameBoard.add(s);
             }
         }
@@ -122,7 +122,7 @@ public class GameBoard {
      * @param column The column of the space to get
      * @return The space at (row, column)
      */
-    public Space getSpaceAt(int row, int column) {
+    public Space getSpaceAt(int column, int row) {
 
         return gameBoard.get(column + (row * 9));
     }

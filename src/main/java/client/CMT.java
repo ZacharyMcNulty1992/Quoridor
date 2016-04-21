@@ -59,7 +59,10 @@ public class CMT {
 
         Handshake();
         nameBuilder();
-        initGame();
+	if(playerCount == 4)
+            initGame4();
+	else
+	    initGame();
         Play();
         gui = Main.waitForStartUp();
     }
@@ -79,6 +82,26 @@ public class CMT {
     }
 
     public static void initGame() throws Exception {
+        int count = 0;
+        for (ClientThread c : threadList) {
+            c.write("GAME " + playerNumber + " " + names);
+            c.setPlayerNumber(playerNumber);
+            c.createPlayer();
+            playerList.add(c.getPlayer());
+            if(count == 0)
+                playerNumber = 2;
+            //if(count == 1)
+            //    playerNumber = 2;
+            //if(count == 2)
+            //    playerNumber = 3;
+            count++;
+        }
+
+        gui.setPlayers(playerList);
+        gui.setPlayerCount(playerCount);
+    }
+
+    public static void initGame4() throws Exception {
 	int count = 0;
         for (ClientThread c : threadList) {
             c.write("GAME " + playerNumber + " " + names);
@@ -118,22 +141,6 @@ public class CMT {
 			Kikashi(c.getPlayerNumber());
 			return;
 		    }
-                } else {
-                    Gote(c);
-                }
-            }
-        }
-    }
-
-    public static void Play4() throws Exception {
-        String tesuji = "";
-        int currentPlayer = 1;
-        while (true) {
-            for (ClientThread c : threadList) {
-                tesuji = c.Myoushu();
-                ps = new Parsed(tesuji);
-                if (ps.valid) {
-                    Atari(tesuji.substring(7), c.getPlayerNumber());
                 } else {
                     Gote(c);
                 }

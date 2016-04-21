@@ -30,7 +30,7 @@ public class CMT {
 
     public static void main(String[] args) throws Exception {
 
-        playerNumber = 0;
+        playerNumber = 1;
         playerCount = args.length;
         Socket clientSocket;
 
@@ -79,12 +79,21 @@ public class CMT {
     }
 
     public static void initGame() throws Exception {
+	int count = 0;
         for (ClientThread c : threadList) {
-            c.write("GAME " + ++playerNumber + " " + names);
+            c.write("GAME " + playerNumber + " " + names);
             c.setPlayerNumber(playerNumber);
             c.createPlayer();
             playerList.add(c.getPlayer());
+	    if(count == 0)
+		playerNumber = 4;
+	    if(count == 1)
+		playerNumber = 2;
+	    if(count == 2)
+		playerNumber = 3;
+	    count++;
         }
+	
         gui.setPlayers(playerList);
         gui.setPlayerCount(playerCount);
     }
@@ -102,8 +111,13 @@ public class CMT {
                         gui.AtariWall(gb.wallsMap);
                         AtariWall(tesuji.substring(7), c.getPlayerNumber());
                     } else {
+			c.getPlayer().movePawn(ps.c, ps.r);
                         Atari(tesuji.substring(7), c.getPlayerNumber());
                     }
+		    if(c.getPlayer().hasWon().equals("KIKASHI")) {
+			Kikashi(c.getPlayerNumber());
+			return;
+		    }
                 } else {
                     Gote(c);
                 }
@@ -125,6 +139,12 @@ public class CMT {
                 }
             }
         }
+    }
+
+    public static void Kikashi(int pn) throws Exception{
+	for(ClientThread c : threadList)
+	    c.write("KIKASHI " + pn);
+	System.out.println("KIKASHI " + pn);
     }
 
     public static void Atari(String message, int pn) throws Exception {
@@ -158,8 +178,7 @@ public class CMT {
         }
         gui.setPlayerCount(playerCount);
 
-    }
-    
+    } 
     
     public static void Gote(ClientThread g) throws Exception {
         for (ClientThread c : threadList) {

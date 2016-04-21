@@ -254,7 +254,7 @@ public class Player {
    * win position else return "ATARI" (Message for a legal 
    * pawn move).
    */
-  private String hasWon() {
+  public String hasWon() {
 
     if((playerNumber == 1 && pawnPos.y == 8) ||
         (playerNumber == 2 && pawnPos.y == 0) ||

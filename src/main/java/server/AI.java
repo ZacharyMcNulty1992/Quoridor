@@ -3,6 +3,7 @@ package server;
 import java.util.ArrayList;
 
 import client.GameBoard;
+import client.Player;
 import client.Space;
 import java.awt.Point;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class AI {
     private int Y[]; // Y-coord
 
     public AI(int playerNumber, int numberOfPlayers) {
-
+        
         playerNum = playerNumber; //give the ai its player number
         numOfPlayers = numberOfPlayers;
 
@@ -40,7 +41,7 @@ public class AI {
         } else {
             numWalls = 5;
         }
-
+        
         X = new int[5];
         Y = new int[5];
 
@@ -60,8 +61,14 @@ public class AI {
         gameBoard = new GameBoard();
     }
 
+    /*
+     * @Params: int player number 
+     * @Returns: an arrayList containing the shortest path
+     */
+    
     public ArrayList<Space> getShortestPath(int playerNum) {
 
+        //print where we are starting from
         System.out.println("starting from: " + X[playerNum] + ", " + Y[playerNum]);
 
         //initialization
@@ -69,24 +76,22 @@ public class AI {
         ArrayList<Space> visited = new ArrayList<>();
         path = new ArrayList<>();
 
+        //init variables
         int targetY = 0;
         int targetX = 0;
-
+        
+        //get the win condition for each player
         switch (playerNum) {
             case 1:
                 targetY = 8;
-                targetX = X[playerNum];
                 break;
             case 2:
                 targetY = 0;
-                targetX = X[playerNum];
                 break;
             case 3:
-                targetY = Y[playerNum];
                 targetX = 8;
                 break;
             case 4:
-                targetY = Y[playerNum];
                 targetX = 0;
                 break;
             default:
@@ -101,43 +106,82 @@ public class AI {
         HashSet<Space> NeighbourSet;
         q.add(current);
         visited.add(current);
-
+        boolean pathFound = false;
+        
         while (!q.isEmpty()) { //main loop
 
             //get the set of neighbour nodes
             NeighbourSet = current.edges;
             for (Space a : NeighbourSet) {
+                //if the node we are checking has not been visited
                 if (!visited.contains(a)) {
+                    //we add it to the queue
                     q.add(a);
+                    //add it to visited list
                     visited.add(a);
+                    //make the previous node the current node
                     a.prev = current;
+                    
+                    //if we are player 1 or 2
+                    if(playerNum == 1 || playerNum == 2){
+                        //check to see if this node is a winning node
+                        if(a.y == targetY){
+                            //if it is then we have found a path
+                             pathFound = true;
+                             //make the target node the node we are checking
+                             targetNode = a;
+                        }
+                        
+                     //if we are player 3 or 4
+                    }else if(playerNum == 3 || playerNum == 4){
+                        //check to see if the current node is a winning node
+                        if(a.x == targetX){
+                            //we have found a path
+                            pathFound = true;
+                            //the target node is the node we are looking at
+                            targetNode = a;
+                        }
+                    }
+                    
                 }
             }
-
+            //if the path is found then we break out of the loop
+            if(pathFound)
+                break;
+            
+            
             //get the next node to test
             if (!q.isEmpty()) {
-
+                //we remove the current node
                 q.remove(current);
-
+                
+                //see if the queue is empty
                 if (!q.isEmpty()) {
+                    //if it isnt then get the next node from the queue
                     current = q.get(0);
                 } else {
+                    //if it is empty then we are done
                     break;
                 }
 
             }
 
         } //end of while loop
-
+        
+        //look at the target node
         current = targetNode;
 
         while (true) {
-
+            
+            //here we are adding nodes to a list to have a path
             path.add(current);
 
+            //if the node we are looking at is the node occupied by the player
             if (current.x == X[playerNum] && current.y == Y[playerNum]) {
+                //if it is then we are done
                 break;
             } else {
+                //if not we get the next node
                 current = current.prev;
             }
         }
@@ -215,7 +259,7 @@ public class AI {
         //slow things down
         try {
 
-            Thread.sleep(3000);
+            Thread.sleep(2000);
 
         } catch (InterruptedException e) {
 
@@ -246,7 +290,7 @@ public class AI {
     }
 
     public void placeWalls(int x, int y, char direction) {
-        Point p = new Point(x, y);
+        Point p = new Point(x,y);
         gameBoard.placeWall(p, direction);
     }
 

@@ -91,8 +91,8 @@ public class EchoServer {
 			}else{
                             System.out.format("Server saw \"%s\"\n",
 				              clientMessage);
-                            cout.format(hostname +" Server saw \"%s\"\n",
-					clientMessage);
+                            //cout.format(hostname +" Server saw \"%s\"\n",
+				//	clientMessage);
                         } 
                     }
 

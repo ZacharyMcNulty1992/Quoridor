@@ -37,6 +37,8 @@ public class Main extends Application {
     // Gridpane for pawn locations.
     static GridPane pawns;
 
+    static GridPane board;
+
     // 4 cirlces to represnt th pawns
     static Circle pawn1 = new Circle(25, Color.WHITE);
     static Circle pawn2 = new Circle(25, Color.BLUE);
@@ -76,6 +78,7 @@ public class Main extends Application {
         return gui;
     }
 
+    // Returns the correct player object corresponding to the player number
     public static Player currentPlayer() {
         if (currentPlayer == 1) {
             return p1;
@@ -98,6 +101,7 @@ public class Main extends Application {
         latch.countDown();
     }
 
+    // Receives player moves from the client.
     public static void Atari(Point dest) {
         Platform.runLater(new Runnable() {
             @Override
@@ -109,6 +113,7 @@ public class Main extends Application {
 
     }
 
+    // Receives walls from the client.
     public static void AtariWall(HashMap<Point, Character> mappy) {
         Platform.runLater(new Runnable() {
             @Override
@@ -119,6 +124,7 @@ public class Main extends Application {
 
     }
 
+    // Starts the GUI and draws the inital board. Also starts a click event listener.
     @Override
     public void start(final Stage primaryStage) {
         drawBoard();
@@ -172,9 +178,10 @@ public class Main extends Application {
         });
     }
 
+    // Draws the inital board, spaces and possible wall locations,
     private void drawBoard() {
         // Creates a gridPane for the board squares
-        GridPane board = new GridPane();
+        board = new GridPane();
         board.setAlignment(Pos.CENTER);
         board.setHgap(10);
         board.setVgap(10);
@@ -194,12 +201,12 @@ public class Main extends Application {
         vWallGrid.setAlignment(Pos.CENTER);
         vWallGrid.setHgap(50);
         vWallGrid.setVgap(10);
-        vWallGrid.setPadding(new Insets(25, 25, 25, 25));
+        vWallGrid.setPadding(new Insets(25, 25, 25, 75));
 
         // Loop to create locations for vertical walls 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 9; j++) {
-                vWallGrid.add(new Rectangle(10, 50, Color.TRANSPARENT), i + 1, j);
+                vWallGrid.add(new Rectangle(10, 50, Color.TRANSPARENT), i, j);
             }
         }
 
@@ -208,12 +215,12 @@ public class Main extends Application {
         hWallGrid.setAlignment(Pos.CENTER);
         hWallGrid.setHgap(10);
         hWallGrid.setVgap(50);
-        hWallGrid.setPadding(new Insets(25, 25, 25, 25));
+        hWallGrid.setPadding(new Insets(75, 25, 25, 25));
 
         // Loop to create locations for horizontal walls
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 8; j++) {
-                hWallGrid.add(new Rectangle(50, 10, Color.TRANSPARENT), i, j + 1);
+                hWallGrid.add(new Rectangle(50, 10, Color.TRANSPARENT), i, j);
             }
         }
 
@@ -223,6 +230,7 @@ public class Main extends Application {
         root.getChildren().add(hWallGrid);
     }
 
+    // sets up locations for possible pawn movement.
     private void handlePawns() {
         // Creates a GridPane for pawns to move on
         pawns = new GridPane();
@@ -243,6 +251,7 @@ public class Main extends Application {
         root.getChildren().add(pawns);
     }
 
+    // Sets the Player objects to the correct players received from the client.
     public static void setPlayers(ArrayList<Player> playerList) {
         p1 = playerList.get(0);
         p2 = playerList.get(1);
@@ -252,6 +261,7 @@ public class Main extends Application {
         }
     }
 
+    // Checks player number (pn) and moves indicated pawn.
     public static void movePawns(int pn, Point dest) {
         switch (pn) {
             case 1:
@@ -270,16 +280,20 @@ public class Main extends Application {
         }
     }
 
+    // Recieves walls from the client, updates the GUI to show them.
     public static void drawWalls(HashMap<Point, Character> wallsMap) {
         for (Point key : wallsMap.keySet()) {
             if(!tempMap.containsKey(key)){
                 tempMap.put(key, wallsMap.get(key));
                 if (tempMap.get(key) == 'v') {
                     System.out.println("vWall = " + key);
-                    vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y);
+                     vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y);
+                     vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y + 1);
                 } else {
                     System.out.println("hWall = " + key);
-                    hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x, key.y);
+                     hWallGrid.add(new Rectangle(50, 10, Color.RED), key.x, key.y);
+                     hWallGrid.add(new Rectangle(50, 10, Color.RED), key.x + 1, key.y);
+                     board.add(new Rectangle(50, 50, Color.BLUE), key.x, key.y);
                 }
             }
         }

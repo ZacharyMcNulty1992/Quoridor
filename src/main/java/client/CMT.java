@@ -106,7 +106,7 @@ public class CMT {
                         Atari(tesuji.substring(7), c.getPlayerNumber());
                     }
 		    if(c.getPlayer().hasWon().equals("KIKASHI")) {
-			System.out.println("KIKASHI");
+			Kikashi(c.getPlayerNumber());
 			return;
 		    }
                 } else {
@@ -130,6 +130,12 @@ public class CMT {
                 }
             }
         }
+    }
+
+    public static void Kikashi(int pn) throws Exception{
+	for(ClientThread c : threadList)
+	    c.write("KIKASHI " + pn);
+	System.out.println("KIKASHI " + pn);
     }
 
     public static void Atari(String message, int pn) throws Exception {

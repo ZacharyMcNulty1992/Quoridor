@@ -144,17 +144,25 @@ public class PlayerTest {
     actualWallCount = Whitebox.getInternalState(player, "wallCount");
     Assert.assertEquals(9, actualWallCount);
 
+    Assert.assertEquals("ATARI", player.placeWall(5,1,'v'));
+
+    actualWallCount = Whitebox.getInternalState(player, "wallCount");
+    Assert.assertEquals(8, actualWallCount);
+
     //Test that you cannot place intersecting walls
     Assert.assertEquals("GOTE", player.placeWall(4,0,'v'));
     //or the same wall
     Assert.assertEquals("GOTE", player.placeWall(4,0,'h'));
     //or an overlapping wall
     Assert.assertEquals("GOTE", player.placeWall(5,0,'h'));
+    Assert.assertEquals("GOTE", player.placeWall(3,0,'h'));
+    Assert.assertEquals("GOTE", player.placeWall(5,0,'v'));
+    
 
     actualWallCount = Whitebox.getInternalState(player, "wallCount");
-    Assert.assertEquals(9, actualWallCount);
+    Assert.assertEquals(8, actualWallCount);
 
-    PowerMockito.verifyPrivate(player, Mockito.times(8))
+    PowerMockito.verifyPrivate(player, Mockito.times(11))
     .invoke("isValidWallPlacement", Matchers.any(), Matchers.anyChar());
   }
 }

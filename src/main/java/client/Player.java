@@ -189,30 +189,29 @@ public class Player {
 
     try { 
 
+	Space[] spaces = new Space[] { 
+	    gameBoard.getSpaceAt(wallPos.x, wallPos.y), // the current space
+	    gameBoard.getSpaceAt(wallPos.x+1, wallPos.y), // the space to the right
+	    gameBoard.getSpaceAt(wallPos.x, wallPos.y+1), //the space below 
+	    gameBoard.getSpaceAt(wallPos.x+1, wallPos.y+1), //the space to the right and below
+	};
+
       if( direction == 'v' ) { // A vertical wall
 
 
         // If this position and the position above or below of it already has a 
         // vertical wall an invalid move was made.
-        if( !gameBoard.getSpaceAt(wallPos.x, wallPos.y).edges
-            .contains(gameBoard.getSpaceAt(wallPos.x + 1, wallPos.y)) &&
-            (!gameBoard.getSpaceAt(wallPos.x, wallPos.y - 1).edges
-                .contains(gameBoard.getSpaceAt(wallPos.x + 1, 
-                    wallPos.y - 1 ) ) 
-                || !gameBoard.getSpaceAt(wallPos.x, wallPos.y + 1).edges
-                .contains(gameBoard.getSpaceAt(wallPos.x + 1, 
-                    wallPos.y + 1 ) )) ) {
+	
+	if( !spaces[0].edges.contains(spaces[1]) || 
+	    spaces[0].edges.contains(spaces[1]) && 
+	    !spaces[2].edges.contains(spaces[3]) ) {
 
-          return false;
+	    return false;
         }
 
         //Check for intersecting Walls
-        else if(!gameBoard.getSpaceAt(wallPos.x, wallPos.y).edges
-            .contains(gameBoard.getSpaceAt(wallPos.x, 
-                wallPos.y + 1 ) ) 
-            && !gameBoard.getSpaceAt(wallPos.x + 1, wallPos.y).edges
-            .contains(gameBoard.getSpaceAt(wallPos.x + 1, 
-                wallPos.y + 1 )) ) {
+        else if( !spaces[0].edges.contains(spaces[2]) && 
+		!spaces[1].edges.contains(spaces[3]) ) {
 
           return false;
         }
@@ -221,31 +220,23 @@ public class Player {
 
         // If this position and the position left or right of it already has a 
         // horizontal wall, an invalid move was made.
-        if( !gameBoard.getSpaceAt(wallPos.x, wallPos.y).edges
-            .contains(gameBoard.getSpaceAt(wallPos.x, wallPos.y + 1)) &&
-            (!gameBoard.getSpaceAt(wallPos.x - 1, wallPos.y).edges
-                .contains(gameBoard.getSpaceAt(wallPos.x - 1, 
-                    wallPos.y + 1 ) ) 
-                || !gameBoard.getSpaceAt(wallPos.x + 1, wallPos.y).edges
-                .contains(gameBoard.getSpaceAt(wallPos.x + 1, 
-                    wallPos.y + 1 ) )) ) {
 
-          return false;
-        }
+	  if( !spaces[0].edges.contains(spaces[2]) || 
+	      spaces[0].edges.contains(spaces[2]) && 
+	      !spaces[1].edges.contains(spaces[3]) ){
+
+	      return false;
+	  }
 
         //Check for intersecting wall
-        else if(!gameBoard.getSpaceAt(wallPos.x, wallPos.y).edges
-            .contains(gameBoard.getSpaceAt(wallPos.x + 1, 
-                wallPos.y) ) 
-            && !gameBoard.getSpaceAt(wallPos.x, wallPos.y + 1).edges
-            .contains(gameBoard.getSpaceAt(wallPos.x + 1, 
-                wallPos.y + 1 )) ) {
+        else if( !spaces[0].edges.contains(spaces[1]) && 
+		!spaces[2].edges.contains(spaces[3]) ) {
 
           return false;
         }
 
+	    
       }
-
 
     } catch(IndexOutOfBoundsException ex) {
 

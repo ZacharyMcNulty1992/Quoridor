@@ -15,6 +15,7 @@ public class Player {
   private int wallCount;
   private int playerNumber;
   private String playerName;
+  private ArrayList<Point> winPositions;
   private Point pawnPos;
   private GameBoard gameBoard;
 
@@ -29,9 +30,10 @@ public class Player {
     this.wallCount = wallCount;
     this.playerNumber = playerNumber;
     this.playerName = playerName;
+    this.winPositions = new ArrayList<Point>(9);
     this.gameBoard = GameBoard.getInstance();
 
-    setInitPos();
+    setInitPosWinPos();
   }
 
   /**
@@ -111,7 +113,11 @@ public class Player {
    */
   private boolean isValidMove(Space movePos) {
 
-    ArrayList<Space> validMoves = getValidMoves(new Space(pawnPos.x, pawnPos.y), new ArrayList<Space>(10), new ArrayList<Space>(4));
+      ArrayList<Space> validMoves = 
+	  getValidMoves(gameBoard
+			.getSpaceAt( gameBoard.getSpaceAt(pawnPos.x, pawnPos.y),
+				     new ArrayList<Space>(10), 
+				     new ArrayList<Space>(4) );
     
 
     if(validMoves.contains(movePos)) {
@@ -132,46 +138,45 @@ public class Player {
    * @return
    */
   private ArrayList<Space> getValidMoves(Space currentPos, 
-      ArrayList<Space> validPos, ArrayList<Space> visitedSpaces) {
+					 ArrayList<Space> validPos, 
+					 ArrayList<Space> visitedSpaces) {
 
-    visitedSpaces.add(currentPos);
-
-    // Point[] adjacentPos = new Point[] {
-        // new Point (currentPos.x+1, currentPos.y),
-        // new Point (currentPos.x-1, currentPos.y),
-        // new Point (currentPos.x, currentPos.y+1),
-        // new Point (currentPos.x, currentPos.y-1)
-    // };
-	
-	int sx = currentPos.x;
-	int sy = currentPos.y;
-	Space currSpace = gameBoard.getSpaceAt(sx, sy);
-	HashSet<Space> adjEdges = new HashSet<Space>(currSpace.edges);
-	
-    // for(int i = 0; i < adjacentPos.length; i++) {
-		
-	for(Space spc : adjEdges) {
-	
-		System.err.println(spc);
+      visitedSpaces.add(currentPos);
+      
+      // Point[] adjacentPos = new Point[] {
+      // new Point (currentPos.x+1, currentPos.y),
+      // new Point (currentPos.x-1, currentPos.y),
+      // new Point (currentPos.x, currentPos.y+1),
+      // new Point (currentPos.x, currentPos.y-1)
+      // };
+      
+      Space currSpace = gameBoard.getSpaceAt(currentPos.x, currentPos.y);
+      HashSet<Space> adjEdges = currSpace.edges;
+      
+      // for(int i = 0; i < adjacentPos.length; i++) {
+      
+      for(Space spc : adjEdges) {
+	  
+	  System.err.println(spc);
 	  // Haven't visited yet
-      if( !visitedSpaces.contains(spc)) {
-        
-        try {
-          
-          if(gameBoard.getSpaceAt(spc.x, spc.y).occupied)
-						getValidMoves(spc, validPos, visitedSpaces);
-          else    
-            validPos.add(spc);
-          
-        } catch (IndexOutOfBoundsException e) {}
+	  if( !visitedSpaces.contains(spc)) {
+	      
+	      try {
+		  
+		  if(spc.occupied)
+		      getValidMoves(spc, validPos, visitedSpaces);
+		  else    
+		      validPos.add(spc);
+		  
+	      } catch (IndexOutOfBoundsException e) {}
+	  }
+	  
       }
-
-    }
-
-    return validPos;
+      
+      return validPos;
   }
-
-  /**
+    
+   /**
    * Does not verify that the path has to the end has not been
    * blocked yet! Need shortest path algorithm to determine.
    * 

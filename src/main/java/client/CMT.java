@@ -30,7 +30,7 @@ public class CMT {
 
     public static void main(String[] args) throws Exception {
 
-        playerNumber = 0;
+        playerNumber = 1;
         playerCount = args.length;
         Socket clientSocket;
 
@@ -79,12 +79,21 @@ public class CMT {
     }
 
     public static void initGame() throws Exception {
+	int count = 0;
         for (ClientThread c : threadList) {
-            c.write("GAME " + ++playerNumber + " " + names);
+            c.write("GAME " + playerNumber + " " + names);
             c.setPlayerNumber(playerNumber);
             c.createPlayer();
             playerList.add(c.getPlayer());
+	    if(count == 0)
+		playerNumber = 4;
+	    if(count == 1)
+		playerNumber = 2;
+	    if(count == 2)
+		playerNumber = 3;
+	    count++;
         }
+	
         gui.setPlayers(playerList);
         gui.setPlayerCount(playerCount);
     }

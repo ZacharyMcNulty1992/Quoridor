@@ -12,8 +12,8 @@ import java.util.HashSet;
  */
 public class Player {
 
-  private int wallCount;
-  private int playerNumber;
+  protected int wallCount;
+  protected int playerNumber;
   private String playerName;
   private Point pawnPos;
   private GameBoard gameBoard;
@@ -32,6 +32,9 @@ public class Player {
     this.gameBoard = GameBoard.getInstance();
 
     setInitPos();
+  }
+  public Player(){
+      gameBoard = new GameBoard();
   }
 
   /**
@@ -179,7 +182,7 @@ public class Player {
    * @return False if the wall placed is intersecting another
    * wall or the same wall is placed. Else, return true.
    */
-  private boolean isValidWallPlacement(Point wallPos, char direction) {
+  protected boolean isValidWallPlacement(Point wallPos, char direction) {
 
     if (wallCount < 1)
       return false;    

@@ -22,6 +22,7 @@ public class EchoServer {
 
     private int portNumber;
     private AI ai;
+    private static EchoServer fc;
 
     public EchoServer(int portNumber) {
         this.portNumber = portNumber;
@@ -55,9 +56,6 @@ public class EchoServer {
 					       " or place your wall");
 	
 			    move = ai.getMove();
-			
-			    //move = keyboard.nextLine();
-			    //cout.println("TESUJI " + move);
                             cout.println(move);
                             
                         }else if(clientMessage.substring(0,4).equals("GAME")){
@@ -73,7 +71,6 @@ public class EchoServer {
 			    }
 			    System.out.format("Server saw \"%s\"\n",
                                               clientMessage);
-			    //cout.format("Server saw \"%s\"\n", clientMessage);
 			}else if(clientMessage.substring(0,5).equals("ATARI")){
 			    try{
 			        int pn = Integer.parseInt(clientMessage.substring(6,7));
@@ -88,12 +85,18 @@ public class EchoServer {
 			    }
 			    System.out.format("Server saw \"%s\"\n",
                                               clientMessage);
-			}else{
+			}else if(clientMessage.substring(0,7).equals("KIKASHI")){
+			    cout.close();
+			    cin.close();
+			    server.close();
                             System.out.format("Server saw \"%s\"\n",
 				              clientMessage);
-                            //cout.format(hostname +" Server saw \"%s\"\n",
-				//	clientMessage);
-                        } 
+			    //fc = new EchoServer(portNumber);
+			    fc.run();
+                        }else{
+			    System.out.format("Server saw \"%s\"\n",
+                                              clientMessage);
+			} 
                     }
 
                 if (!clientMessage.isEmpty()) {
@@ -149,7 +152,7 @@ public class EchoServer {
              ++argNdx;
         }
 
-        EchoServer fc = new EchoServer(port);
+        fc = new EchoServer(port);
         fc.run();
     }
 }

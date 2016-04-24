@@ -16,7 +16,7 @@ public class AI extends Player {
     public final int WEIGHT = 1;
     public int numWalls;
     public HashMap<Point, Character> wallsMap;
-    public GameBoard gameBoard; //the current game board
+    public GameBoard aiGameBoard; //the current game board
     private ArrayList<Space> openList; //locations where we can go
     private ArrayList<Space> closedList; //where we have visited
     private ArrayList<Space> path; //the shortest path
@@ -59,7 +59,7 @@ public class AI extends Player {
         Y[4] = 4;
 
         //create the game board here for future use
-        gameBoard = new GameBoard();
+        aiGameBoard = new GameBoard();
     }
 
     /*
@@ -289,10 +289,10 @@ public class AI extends Player {
         gameBoard.movePawn(currentPos, newPos);
     }
 
-    public void placeWalls(int x, int y, char direction) {
-        //super.placeWall(x, y, direction);
+    public void placeWall(int x, int y, char direction) {
+        super.placeWall(x, y, direction);
         Point p = new Point(x, y);
-        gameBoard.placeWall(p, direction);
+        aiGameBoard.placeWall(p, direction);
     }
 
     private String makeValidWallPlacement(ArrayList<Space> ais) {

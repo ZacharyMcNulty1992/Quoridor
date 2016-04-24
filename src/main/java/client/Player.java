@@ -36,7 +36,7 @@ public class Player {
     setInitPosWinPos();
   }
   public Player(){
-      gameBoard = new GameBoard();
+    gameBoard = GameBoard.getInstance();
   }
 
   /**
@@ -55,7 +55,7 @@ public class Player {
    */
   public String movePawn(int column, int row) {
 
-      Space movePos = new Space(column, row);
+    Space movePos = new Space(column, row);
 
     if(!isValidMove(movePos)){
 
@@ -67,13 +67,13 @@ public class Player {
     gameBoard.movePawn(pawnPos, movePos);
 
     pawnPos = movePos;
-    
+
     return hasWon();
   }
 
   public String placeWall(int column, int row, char direction) {
 
-      Point placementPos = new Point(column, row);
+    Point placementPos = new Point(column, row);
 
     if(!isValidWallPlacement(placementPos, direction)){
 
@@ -97,16 +97,20 @@ public class Player {
    * Sets the initial position of the pawn based on
    * on the player number
    */
-  private void setInitPos() {
+  private void setInitPosWinPos() {
 
-    if(playerNumber == 1)
+    if(playerNumber == 1){
       pawnPos = new Point(4, 0);
-    else if(playerNumber == 2) 
+    }
+    else if(playerNumber == 2){ 
       pawnPos = new Point(4, 8);
-    else if(playerNumber == 3)
+    }
+    else if(playerNumber == 3){
       pawnPos = new Point(0, 4);
-    else
+    }
+    else{
       pawnPos = new Point(8, 4);
+    }
   }
 
   /**
@@ -116,21 +120,20 @@ public class Player {
    */
   private boolean isValidMove(Space movePos) {
 
-      ArrayList<Space> validMoves = 
-	  getValidMoves(gameBoard
-			.getSpaceAt( gameBoard.getSpaceAt(pawnPos.x, pawnPos.y),
-				     new ArrayList<Space>(10), 
-				     new ArrayList<Space>(4) );
-    
+    ArrayList<Space> validMoves = 
+        getValidMoves(gameBoard.getSpaceAt(pawnPos.x, pawnPos.y),
+                      new ArrayList<Space>(10), 
+                      new ArrayList<Space>(4) );
 
-    if(validMoves.contains(movePos)) {
 
-      System.out.println(validMoves + "\n");      
+            if(validMoves.contains(movePos)) {
 
-      return true;
-    }
+              System.out.println(validMoves + "\n");      
 
-    return false;
+              return true;
+            }
+
+            return false;
   }
 
   /**
@@ -141,45 +144,45 @@ public class Player {
    * @return
    */
   private ArrayList<Space> getValidMoves(Space currentPos, 
-					 ArrayList<Space> validPos, 
-					 ArrayList<Space> visitedSpaces) {
+      ArrayList<Space> validPos, 
+      ArrayList<Space> visitedSpaces) {
 
-      visitedSpaces.add(currentPos);
-      
-      // Point[] adjacentPos = new Point[] {
-      // new Point (currentPos.x+1, currentPos.y),
-      // new Point (currentPos.x-1, currentPos.y),
-      // new Point (currentPos.x, currentPos.y+1),
-      // new Point (currentPos.x, currentPos.y-1)
-      // };
-      
-      Space currSpace = gameBoard.getSpaceAt(currentPos.x, currentPos.y);
-      HashSet<Space> adjEdges = currSpace.edges;
-      
-      // for(int i = 0; i < adjacentPos.length; i++) {
-      
-      for(Space spc : adjEdges) {
-	  
-	  System.err.println(spc);
-	  // Haven't visited yet
-	  if( !visitedSpaces.contains(spc)) {
-	      
-	      try {
-		  
-		  if(spc.occupied)
-		      getValidMoves(spc, validPos, visitedSpaces);
-		  else    
-		      validPos.add(spc);
-		  
-	      } catch (IndexOutOfBoundsException e) {}
-	  }
-	  
+    visitedSpaces.add(currentPos);
+
+    // Point[] adjacentPos = new Point[] {
+    // new Point (currentPos.x+1, currentPos.y),
+    // new Point (currentPos.x-1, currentPos.y),
+    // new Point (currentPos.x, currentPos.y+1),
+    // new Point (currentPos.x, currentPos.y-1)
+    // };
+
+    Space currSpace = gameBoard.getSpaceAt(currentPos.x, currentPos.y);
+    HashSet<Space> adjEdges = currSpace.edges;
+
+    // for(int i = 0; i < adjacentPos.length; i++) {
+
+    for(Space spc : adjEdges) {
+
+      System.err.println(spc);
+      // Haven't visited yet
+      if( !visitedSpaces.contains(spc)) {
+
+        try {
+
+          if(spc.occupied)
+            getValidMoves(spc, validPos, visitedSpaces);
+          else    
+            validPos.add(spc);
+
+        } catch (IndexOutOfBoundsException e) {}
       }
-      
-      return validPos;
+
+    }
+
+    return validPos;
   }
-    
-   /**
+
+  /**
    * Does not verify that the path has to the end has not been
    * blocked yet! Need shortest path algorithm to determine.
    * 
@@ -197,29 +200,29 @@ public class Player {
 
     try { 
 
-	Space[] spaces = new Space[] { 
-	    gameBoard.getSpaceAt(wallPos.x, wallPos.y), // the current space
-	    gameBoard.getSpaceAt(wallPos.x+1, wallPos.y), // the space to the right
-	    gameBoard.getSpaceAt(wallPos.x, wallPos.y+1), //the space below 
-	    gameBoard.getSpaceAt(wallPos.x+1, wallPos.y+1), //the space to the right and below
-	};
+      Space[] spaces = new Space[] { 
+          gameBoard.getSpaceAt(wallPos.x, wallPos.y), // the current space
+          gameBoard.getSpaceAt(wallPos.x+1, wallPos.y), // the space to the right
+          gameBoard.getSpaceAt(wallPos.x, wallPos.y+1), //the space below 
+          gameBoard.getSpaceAt(wallPos.x+1, wallPos.y+1), //the space to the right and below
+      };
 
       if( direction == 'v' ) { // A vertical wall
 
 
         // If this position and the position above or below of it already has a 
         // vertical wall an invalid move was made.
-	
-	if( !spaces[0].edges.contains(spaces[1]) || 
-	    spaces[0].edges.contains(spaces[1]) && 
-	    !spaces[2].edges.contains(spaces[3]) ) {
 
-	    return false;
+        if( !spaces[0].edges.contains(spaces[1]) || 
+            spaces[0].edges.contains(spaces[1]) && 
+            !spaces[2].edges.contains(spaces[3]) ) {
+
+          return false;
         }
 
         //Check for intersecting Walls
         else if( !spaces[0].edges.contains(spaces[2]) && 
-		!spaces[1].edges.contains(spaces[3]) ) {
+            !spaces[1].edges.contains(spaces[3]) ) {
 
           return false;
         }
@@ -229,21 +232,21 @@ public class Player {
         // If this position and the position left or right of it already has a 
         // horizontal wall, an invalid move was made.
 
-	  if( !spaces[0].edges.contains(spaces[2]) || 
-	      spaces[0].edges.contains(spaces[2]) && 
-	      !spaces[1].edges.contains(spaces[3]) ){
-
-	      return false;
-	  }
-
-        //Check for intersecting wall
-        else if( !spaces[0].edges.contains(spaces[1]) && 
-		!spaces[2].edges.contains(spaces[3]) ) {
+        if( !spaces[0].edges.contains(spaces[2]) || 
+            spaces[0].edges.contains(spaces[2]) && 
+            !spaces[1].edges.contains(spaces[3]) ){
 
           return false;
         }
 
-	    
+        //Check for intersecting wall
+        else if( !spaces[0].edges.contains(spaces[1]) && 
+            !spaces[2].edges.contains(spaces[3]) ) {
+
+          return false;
+        }
+
+
       }
 
     } catch(IndexOutOfBoundsException ex) {
@@ -270,7 +273,7 @@ public class Player {
         (playerNumber == 4 && pawnPos.x == 0)) {
 
       gameBoard.removePawn(pawnPos);
-	
+
       return "KIKASHI";
     }
 

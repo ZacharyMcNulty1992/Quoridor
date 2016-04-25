@@ -20,6 +20,7 @@ public class EchoServer {
     public final static String MSG_HELLO = "HELLO";
     static String hostname = "localhost";
 
+    private static int playerNumber;
     private int portNumber;
     private AI ai;
     private static EchoServer fc;
@@ -62,6 +63,7 @@ public class EchoServer {
 			    try{
                                 String[] message = clientMessage.split(" ");
 			        int pn = Integer.parseInt(clientMessage.substring(5,6));
+				playerNumber = pn;
                                 if(message.length == 4)
                                     ai = new AI(pn, 2);
                                 else
@@ -85,15 +87,32 @@ public class EchoServer {
 			    }
 			    System.out.format("Server saw \"%s\"\n",
                                               clientMessage);
+                        }else if(clientMessage.substring(0,4).equals("GOTE")){
+		            try{
+				String[] message = clientMessage.split(" ");
+				int pn = Integer.parseInt(clientMessage.substring(5,6));
+				if(pn == playerNumber){
+				    cout.close();
+				    cin.close();
+				    server.close();
+				    System.out.format("Server saw \"%s\"\n",
+                                              clientMessage);
+				    fc.run();
+				}else{
+				    System.out.format("Server saw \"%s\"\n",
+                                              clientMessage);
+				}
+			    }catch(NumberFormatException e){
+				System.out.println(e);
+			    }
 			}else if(clientMessage.substring(0,7).equals("KIKASHI")){
-			    cout.close();
-			    cin.close();
-			    server.close();
+                            cout.close();
+                            cin.close();
+                            server.close();
                             System.out.format("Server saw \"%s\"\n",
-				              clientMessage);
-			    //fc = new EchoServer(portNumber);
-			    fc.run();
-                        }else{
+                                              clientMessage);
+                            fc.run();
+			}else {
 			    System.out.format("Server saw \"%s\"\n",
                                               clientMessage);
 			} 

@@ -16,17 +16,20 @@ public class EchoServer {
     
     public final static String ARG_PORT = "--port";
     public final static String ARG_MACHINE = "--machine";
+    public final static String ARG_DELAY = "--delay";
     public final static String MSG_GOODBYE = "Goodbye";
     public final static String MSG_HELLO = "HELLO";
     static String hostname = "localhost";
 
     private static int playerNumber;
     private int portNumber;
+    private int delay;
     private AI ai;
     private static EchoServer fc;
 
-    public EchoServer(int portNumber) {
+    public EchoServer(int portNumber, int delay) {
         this.portNumber = portNumber;
+	this.delay = delay;
     }
 
     public void run() {
@@ -64,10 +67,11 @@ public class EchoServer {
                                 String[] message = clientMessage.split(" ");
 			        int pn = Integer.parseInt(clientMessage.substring(5,6));
 				playerNumber = pn;
+				System.out.println("Testing message.legnth: " + message.length);
                                 if(message.length == 4)
-                                    ai = new AI(pn, 2);
+                                    ai = new AI(pn, 2, delay);
                                 else
-                                    ai = new AI(pn, 4);
+                                    ai = new AI(pn, 4, delay);
 			    }catch(NumberFormatException e){
 			        System.out.println(e);
 			    }
@@ -136,12 +140,13 @@ public class EchoServer {
 
     private static void usage() {
         System.err.print("usage: java FirstServer [options]\n" +
-            "       where options:\n" + "       --port port\n");
+            "       where options:\n" + "       --port port\n" +
+	    "--delay (delay in ms)");
     }
 
     public static void main(String[] args) {
         int port = DEFAULT_PORT_NUMBER;
-
+        int delay = 1;
         /* Parsing parameters. argNdx will move forward across the
          * indices; remember for arguments that have their own parameters, you
          * must advance past the value for the argument too.
@@ -162,6 +167,10 @@ public class EchoServer {
                  ++argNdx;
                  String numberStr = args[argNdx];
                  port = Integer.parseInt(numberStr);
+	     }else if(curr.equals(ARG_DELAY)) {
+	         ++argNdx;
+		 String delayStr = args[argNdx];
+                 delay = Integer.parseInt(delayStr);
              } else {
                  System.err.println("Unknown parameter \"" + curr + "\"");
                  usage();
@@ -171,7 +180,7 @@ public class EchoServer {
              ++argNdx;
         }
 
-        fc = new EchoServer(port);
+        fc = new EchoServer(port,delay);
         fc.run();
     }
 }

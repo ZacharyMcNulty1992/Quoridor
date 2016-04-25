@@ -197,7 +197,10 @@ public class GameBoard {
 
         getSpaceAt(pawnPos.x, pawnPos.y).occupied = false;
     }
-    
+
+    /**
+     *
+     */
     public void removeWall(Point wallPos, char direction) {
       
       wallsMap.remove(wallPos, new Character(direction));

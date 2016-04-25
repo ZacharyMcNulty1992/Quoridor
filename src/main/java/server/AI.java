@@ -22,19 +22,21 @@ public class AI {
     private ArrayList<Space> path; //the shortest path
     private ArrayList<Space> aiPath; //path of the ai
     private ArrayList<Space> opponentPath; //path of the opponent
-
+    
     //ai player number
     private int playerNum;
     private int numOfPlayers;
+    private int delay;    
 
     //arrays for the current position of each player
     private int X[]; // X-coord
     private int Y[]; // Y-coord
 
-    public AI(int playerNumber, int numberOfPlayers) {
+    public AI(int playerNumber, int numberOfPlayers, int delayTime) {
         
         playerNum = playerNumber; //give the ai its player number
         numOfPlayers = numberOfPlayers;
+        delay = delayTime;
 
         if (numOfPlayers == 2) {
             numWalls = 10;
@@ -200,6 +202,7 @@ public class AI {
         //based on the player number we see other players shortest path
         //the they are shorter than our path then we will want to place a wall
         //assuming we have some left.
+	System.out.println("Number of Walls left: " + numWalls);
         if (numWalls >= 1) {
             String wall = makeValidWallPlacement(ais);
 
@@ -259,7 +262,7 @@ public class AI {
         //slow things down
         try {
 
-            Thread.sleep(2000);
+            Thread.sleep(delay);
 
         } catch (InterruptedException e) {
 

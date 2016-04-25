@@ -163,23 +163,28 @@ public class CMT {
         if (ps.valid) {
           if (ps.isWall) {
             GameBoard gb = GameBoard.getInstance();
-            c.getPlayer().placeWall(ps.c, ps.r, ps.wallPos);
-            //if(!moveResult.equals("GOTE")){
+            moveResult = c.getPlayer().placeWall(ps.c, ps.r, ps.wallPos);
+            if(!moveResult.equals("GOTE")){
               gui.AtariWall(gb.wallsMap);
               AtariWall(tesuji.substring(7), c.getPlayerNumber());
-            //}
-          } else {
+            }else if(moveResult.equals("GOTE")){
+              Gote(c);
+            }
+          }else {
             c.getPlayer().movePawn(ps.c, ps.r);
             
-            //if(!moveResult.equals("GOTE"))
-            Atari(tesuji.substring(7), c.getPlayerNumber());
+            if(!moveResult.equals("GOTE"))
+              Atari(tesuji.substring(7), c.getPlayerNumber());
+            else if(moveResult.equals("GOTE")){
+              Gote(c);
+            }
+
           }
           if(c.getPlayer().movePawn(ps.c, ps.r).equals("KIKASHI")) {
             Kikashi(c.getPlayerNumber());
             return;
           }
-        } else {
-	  //System.out.println("Testing if GOTE is called");
+        }else {
           Gote(c);
         }
       }

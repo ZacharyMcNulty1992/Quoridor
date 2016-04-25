@@ -338,7 +338,7 @@ public class Player {
 
     for(int i = 0; i < pawnPos.size(); i++){
 
-      boolean pathIsBlocked = true;
+      boolean pathIsBlocked = false;
 
       Space current = gameBoard.getSpaceAt(pawnPos.get(i).x, pawnPos.get(i).y);
 
@@ -361,9 +361,11 @@ public class Player {
             //make the previous node the current node
             a.prev = current;
 
-            if(winPositions.get(i).contains(a)){
-              pathIsBlocked = false;
+            if(!winPositions.get(i).contains(a)){
+              pathIsBlocked = true;
             }
+            else
+              pathIsBlocked = false;
           }// end if !viseted...
         } // end for each Space...
         
@@ -377,11 +379,10 @@ public class Player {
 
       } // end while !q...
       
-      //if (pathIsBlocked){
-      //  gameBoard.removeWall(wallPos, direction);
-        
+       if (pathIsBlocked){
+          gameBoard.removeWall(wallPos, direction);
         return true;
-     // }
+        }
     } // end for int i...
 
     return false;

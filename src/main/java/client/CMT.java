@@ -171,7 +171,7 @@ public class CMT {
               Gote(c);
             }
           }else {
-            c.getPlayer().movePawn(ps.c, ps.r);
+            moveResult = c.getPlayer().movePawn(ps.c, ps.r);
             
             if(!moveResult.equals("GOTE"))
               Atari(tesuji.substring(7), c.getPlayerNumber());
@@ -180,7 +180,7 @@ public class CMT {
             }
 
           }
-          if(c.getPlayer().movePawn(ps.c, ps.r).equals("KIKASHI")) {
+          if(moveResult.equals("KIKASHI")) {
             Kikashi(c.getPlayerNumber());
             return;
           }

@@ -1,9 +1,12 @@
 package client;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,26 +26,18 @@ import org.powermock.reflect.Whitebox;
 @PrepareForTest(Player.class)
 public class PlayerTest {
 
-  private Player player;
+  private static Player player;
 
-  @Before //This runs before every test
-  public void setup() {
+  @BeforeClass //This runs before every test
+  public static void setup() {
 
-    player = PowerMockito.spy(new Player(1, "playerName", 10));
+    player = PowerMockito.spy(new Player(1, 10));
   }
 
   @Test
   public void testPlayerConstructor() throws Exception {
 
     Assert.assertNotNull(player);
-
-    Point pawnPos = Whitebox.getInternalState(player, "pawnPos");
-    Point expectedPos = new Point(4,0);
-    Assert.assertEquals(expectedPos, pawnPos);
-
-    String playerName = Whitebox.getInternalState(player, "playerName");
-    String expectedName = "playerName";
-    Assert.assertEquals(expectedName, playerName);
 
     int playerNumber = Whitebox.getInternalState(player, "playerNumber");
     Assert.assertEquals(1, playerNumber);
@@ -54,73 +49,67 @@ public class PlayerTest {
   @Test
   public void testMovePawn() throws Exception {
 
-      System.out.println("Move Pawn Test");
-      
-      Assert.assertEquals("ATARI", player.movePawn(4,1));
-      Assert.assertEquals("ATARI", player.movePawn(3,1));
-      Assert.assertEquals("ATARI", player.movePawn(3,0));
-      Assert.assertEquals("ATARI", player.movePawn(4,0));
-      
-      Assert.assertEquals("GOTE", player.movePawn(3,1));
-      
-      PowerMockito.verifyPrivate(player, Mockito.times(5))
-	  .invoke("isValidMove", Matchers.any());
-      
-      
-      
-      //Reinitialize player
-      player = PowerMockito.spy(new Player(1, "playerName", 10));
-      
-      //Test 2 player pawn jumps
-      Player p2 = PowerMockito.spy(new Player(2,"player2Name", 10));
-      
-      System.out.println("Test Pawn Jump");
+    System.out.println("Move Pawn Test");
 
-      //Move pawns so they are next to each other
-      for (int i = 1; i < 4; i++) {
-	  
-	  Assert.assertEquals("ATARI",player.movePawn(4, i));
-	  Assert.assertEquals("ATARI",p2.movePawn(4, 8-i));
-      }
-      Assert.assertEquals("ATARI", player.movePawn(4,4));
-      
-      //Test player pawn jumps
-      Assert.assertEquals("ATARI", player.movePawn(4,6));    
-      Assert.assertEquals("ATARI", player.movePawn(5,5));
-      Assert.assertEquals("ATARI", player.movePawn(3,5));
-      Assert.assertEquals("ATARI", player.movePawn(4,4));
-      
-      //Test p2 pawn jumps
-      Assert.assertEquals("ATARI", p2.movePawn(4,3));
-      Assert.assertEquals("ATARI", p2.movePawn(3,4));
-      Assert.assertEquals("ATARI", p2.movePawn(4,5));
-      Assert.assertEquals("ATARI", p2.movePawn(5,4));
-      
-      Assert.assertEquals("GOTE", player.movePawn(0,0));
-      Assert.assertEquals("GOTE", p2.movePawn(0,0));
-      
+    Assert.assertEquals("ATARI", player.movePawn(4,1));
+    Assert.assertEquals("ATARI", player.movePawn(3,1));
+    Assert.assertEquals("ATARI", player.movePawn(3,0));
+    Assert.assertEquals("ATARI", player.movePawn(4,0));
+
+    player.resetBoard();
+
+    //Test 2 player pawn jumps
+    Player p2 = PowerMockito.spy(new Player(2, 10));
+    
+    System.out.printf("p1: %s\n"
+        + "p2: %s\n", player, p2);  
+
+    System.out.println("Test Pawn Jump");
+
+    //Move pawns so they are next to each other
+    for (int i = 1; i < 4; i++) {
+
+      Assert.assertEquals("ATARI",player.movePawn(4, i));
+      Assert.assertEquals("ATARI",p2.movePawn(4, 8-i));
+    }
+    Assert.assertEquals("ATARI", player.movePawn(4,4));
+
+    //Test player pawn jumps
+    Assert.assertEquals("ATARI", player.movePawn(4,6));    
+    Assert.assertEquals("ATARI", player.movePawn(5,5));
+    Assert.assertEquals("ATARI", player.movePawn(3,5));
+    Assert.assertEquals("ATARI", player.movePawn(4,4));
+
+    //Test p2 pawn jumps
+    Assert.assertEquals("ATARI", p2.movePawn(4,3));
+    Assert.assertEquals("ATARI", p2.movePawn(3,4));
+    Assert.assertEquals("ATARI", p2.movePawn(4,5));
+    Assert.assertEquals("ATARI", p2.movePawn(5,4));
+
+    player.resetBoard();
+
   }
 
   @Test
   public void testHasWon() throws Exception {
 
-      System.out.println("Has Won Test");  
-
-    String actualResult = Whitebox.invokeMethod(player, "hasWon");
-    Assert.assertEquals("ATARI", actualResult);
+    System.out.println("Has Won Test");  
+    
+    String actualResult = "";
 
     //move to win position
     for(int i = 1; i < 9; i++) {
 
-	actualResult = player.movePawn(4, i);
+      actualResult = player.movePawn(4, i);
 
       if(i != 8){
 
-	Assert.assertEquals("ATARI", actualResult);
+        Assert.assertEquals("ATARI", actualResult);
       }
     }
 
     Assert.assertEquals("KIKASHI", actualResult);
+    player.resetBoard();
   }
 
   /**
@@ -157,12 +146,14 @@ public class PlayerTest {
     Assert.assertEquals("GOTE", player.placeWall(5,0,'h'));
     Assert.assertEquals("GOTE", player.placeWall(3,0,'h'));
     Assert.assertEquals("GOTE", player.placeWall(5,0,'v'));
-    
+
 
     actualWallCount = Whitebox.getInternalState(player, "wallCount");
     Assert.assertEquals(8, actualWallCount);
 
     PowerMockito.verifyPrivate(player, Mockito.times(11))
     .invoke("isValidWallPlacement", Matchers.any(), Matchers.anyChar());
+    
+    player.resetBoard();
   }
 }

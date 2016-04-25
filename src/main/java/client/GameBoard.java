@@ -140,6 +140,11 @@ public class GameBoard {
         getSpaceAt(currentPos.x, currentPos.y).occupied = false;
         getSpaceAt(newPos.x, newPos.y).occupied = true;
     }
+    
+    public void placePawn(Point position) {
+      
+      getSpaceAt(position.x, position.y).occupied = true;
+    }
 
     /**
      *

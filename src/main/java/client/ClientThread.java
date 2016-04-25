@@ -75,7 +75,7 @@ class ClientThread extends Thread{
     }
 
     public void createPlayer() {
-        player = new Player(playerNumber,playerName,10);
+        player = new Player(playerNumber,10);
     }
 
     public void run(){

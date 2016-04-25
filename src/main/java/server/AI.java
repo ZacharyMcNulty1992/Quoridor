@@ -62,7 +62,7 @@ public class AI extends Player {
         aiGameBoard = new GameBoard();
     }
 
-    /*
+    /**
      * @Params: int player number 
      * @Returns: an arrayList containing the shortest path
      */
@@ -98,9 +98,9 @@ public class AI extends Player {
                 break;
         }
 
-        Space targetNode = gameBoard.getSpaceAt(targetX, targetY);
+        Space targetNode = aiGameBoard.getSpaceAt(targetX, targetY);
 
-        Space current = gameBoard.getSpaceAt(X[playerNum], Y[playerNum]); //where to start our search
+        Space current = aiGameBoard.getSpaceAt(X[playerNum], Y[playerNum]); //where to start our search
 
         current.prev = null;
         HashSet<Space> NeighbourSet;
@@ -286,11 +286,11 @@ public class AI extends Player {
 
         Point newPos = new Point(X[playerNum], Y[playerNum]);
 
-        gameBoard.movePawn(currentPos, newPos);
+        aiGameBoard.movePawn(currentPos, newPos);
     }
 
-    public void placeWall(int x, int y, char direction) {
-        super.placeWall(x, y, direction);
+    public void placeWalls(int x, int y, char direction) {
+        //super.placeWall(x, y, direction);
         Point p = new Point(x, y);
         aiGameBoard.placeWall(p, direction);
     }

@@ -86,7 +86,7 @@ public class CMT {
     for (ClientThread c : threadList) {
       c.write("GAME " + playerNumber + " " + names);
       c.setPlayerNumber(playerNumber);
-      c.createPlayer();
+      c.createPlayer(10);
       playerList.add(c.getPlayer());
       if(count == 0)
         playerNumber = 2;
@@ -106,7 +106,7 @@ public class CMT {
     for (ClientThread c : threadList) {
       c.write("GAME " + playerNumber + " " + names);
       c.setPlayerNumber(playerNumber);
-      c.createPlayer();
+      c.createPlayer(5);
       playerList.add(c.getPlayer());
       if(count == 0)
         playerNumber = 4;

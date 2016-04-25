@@ -52,8 +52,6 @@ public class Player {
     }
 
     setInitPosWinPos();
-    
-    System.out.println(pawnPos);
   }
   
   /**
@@ -198,14 +196,14 @@ public class Player {
    */
   private boolean isValidMove(Space movePos) {
     
-    System.out.println("Position to move to: " + movePos);
+    //System.out.println("Position to move to: " + movePos);
 
     ArrayList<Space> validMoves = 
         getValidMoves(gameBoard.getSpaceAt(pawnPos.get(playerNumber - 1).x, pawnPos.get(playerNumber - 1).y),
             new ArrayList<Space>(10), 
             new ArrayList<Space>(4) );
 
-    System.out.printf("All valid positions are: %s\n\n", validMoves);  
+    //System.out.printf("All valid positions are: %s\n\n", validMoves);  
     
         if(validMoves.contains(movePos)) 		
           return true;
@@ -228,18 +226,18 @@ public class Player {
 
     for(Space spc : currentPos.edges) {
 
-      System.out.printf("%s\n%s\n%s\n\n", currentPos, validPos, visitedSpaces);
+      //System.out.printf("%s\n%s\n%s\n\n", currentPos, validPos, visitedSpaces);
       // Haven't visited yet
       if( !visitedSpaces.contains(spc)) {
         
-        System.out.printf("Space: %s unvisited\n", spc);
+        //System.out.printf("Space: %s unvisited\n", spc);
           
         if(spc.occupied){
-          System.out.printf("Space: %s is occupied\n", spc);
+          //System.out.printf("Space: %s is occupied\n", spc);
           getValidMoves(spc, validPos, visitedSpaces);
         }
         else
-          System.out.printf("Space: %s is valid position\n", spc);
+          //System.out.printf("Space: %s is valid position\n", spc);
           validPos.add(spc);
       }
 

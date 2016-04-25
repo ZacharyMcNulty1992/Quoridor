@@ -74,8 +74,8 @@ class ClientThread extends Thread{
 	return playerName;
     }
 
-    public void createPlayer() {
-        player = new Player(playerNumber,10);
+    public void createPlayer(int wallCount) {
+        player = new Player(playerNumber, wallCount);
     }
 
     public void run(){

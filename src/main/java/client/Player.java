@@ -377,11 +377,11 @@ public class Player {
 
       } // end while !q...
       
-      if (pathIsBlocked){
-        gameBoard.removeWall(wallPos, direction);
+      //if (pathIsBlocked){
+      //  gameBoard.removeWall(wallPos, direction);
         
         return true;
-      }
+     // }
     } // end for int i...
 
     return false;

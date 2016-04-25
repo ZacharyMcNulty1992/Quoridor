@@ -11,12 +11,12 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Stack;
 
-public class AI extends Player {
+public class AI {
 
     public final int WEIGHT = 1;
     public int numWalls;
     public HashMap<Point, Character> wallsMap;
-    public GameBoard aiGameBoard; //the current game board
+    public GameBoard gameBoard; //the current game board
     private ArrayList<Space> openList; //locations where we can go
     private ArrayList<Space> closedList; //where we have visited
     private ArrayList<Space> path; //the shortest path
@@ -32,7 +32,7 @@ public class AI extends Player {
     private int Y[]; // Y-coord
 
     public AI(int playerNumber, int numberOfPlayers) {
-
+        
         playerNum = playerNumber; //give the ai its player number
         numOfPlayers = numberOfPlayers;
 
@@ -41,8 +41,7 @@ public class AI extends Player {
         } else {
             numWalls = 5;
         }
-        super.wallCount = numWalls;
-
+        
         X = new int[5];
         Y = new int[5];
 
@@ -59,13 +58,14 @@ public class AI extends Player {
         Y[4] = 4;
 
         //create the game board here for future use
-        aiGameBoard = new GameBoard();
+        gameBoard = new GameBoard();
     }
 
-    /**
+    /*
      * @Params: int player number 
      * @Returns: an arrayList containing the shortest path
      */
+    
     public ArrayList<Space> getShortestPath(int playerNum) {
 
         //print where we are starting from
@@ -79,7 +79,7 @@ public class AI extends Player {
         //init variables
         int targetY = 0;
         int targetX = 0;
-
+        
         //get the win condition for each player
         switch (playerNum) {
             case 1:
@@ -98,16 +98,16 @@ public class AI extends Player {
                 break;
         }
 
-        Space targetNode = aiGameBoard.getSpaceAt(targetX, targetY);
+        Space targetNode = gameBoard.getSpaceAt(targetX, targetY);
 
-        Space current = aiGameBoard.getSpaceAt(X[playerNum], Y[playerNum]); //where to start our search
+        Space current = gameBoard.getSpaceAt(X[playerNum], Y[playerNum]); //where to start our search
 
         current.prev = null;
         HashSet<Space> NeighbourSet;
         q.add(current);
         visited.add(current);
         boolean pathFound = false;
-
+        
         while (!q.isEmpty()) { //main loop
 
             //get the set of neighbour nodes
@@ -121,40 +121,40 @@ public class AI extends Player {
                     visited.add(a);
                     //make the previous node the current node
                     a.prev = current;
-
+                    
                     //if we are player 1 or 2
-                    if (playerNum == 1 || playerNum == 2) {
+                    if(playerNum == 1 || playerNum == 2){
                         //check to see if this node is a winning node
-                        if (a.y == targetY) {
+                        if(a.y == targetY){
                             //if it is then we have found a path
-                            pathFound = true;
-                            //make the target node the node we are checking
-                            targetNode = a;
+                             pathFound = true;
+                             //make the target node the node we are checking
+                             targetNode = a;
                         }
-
-                        //if we are player 3 or 4
-                    } else if (playerNum == 3 || playerNum == 4) {
+                        
+                     //if we are player 3 or 4
+                    }else if(playerNum == 3 || playerNum == 4){
                         //check to see if the current node is a winning node
-                        if (a.x == targetX) {
+                        if(a.x == targetX){
                             //we have found a path
                             pathFound = true;
                             //the target node is the node we are looking at
                             targetNode = a;
                         }
                     }
-
+                    
                 }
             }
             //if the path is found then we break out of the loop
-            if (pathFound) {
+            if(pathFound)
                 break;
-            }
-
+            
+            
             //get the next node to test
             if (!q.isEmpty()) {
                 //we remove the current node
                 q.remove(current);
-
+                
                 //see if the queue is empty
                 if (!q.isEmpty()) {
                     //if it isnt then get the next node from the queue
@@ -167,12 +167,12 @@ public class AI extends Player {
             }
 
         } //end of while loop
-
+        
         //look at the target node
         current = targetNode;
 
         while (true) {
-
+            
             //here we are adding nodes to a list to have a path
             path.add(current);
 
@@ -286,13 +286,12 @@ public class AI extends Player {
 
         Point newPos = new Point(X[playerNum], Y[playerNum]);
 
-        aiGameBoard.movePawn(currentPos, newPos);
+        gameBoard.movePawn(currentPos, newPos);
     }
 
     public void placeWalls(int x, int y, char direction) {
-        //super.placeWall(x, y, direction);
-        Point p = new Point(x, y);
-        aiGameBoard.placeWall(p, direction);
+        Point p = new Point(x,y);
+        gameBoard.placeWall(p, direction);
     }
 
     private String makeValidWallPlacement(ArrayList<Space> ais) {
@@ -305,7 +304,7 @@ public class AI extends Player {
         char d; //direction of wall
         int r;
         int e;
-
+        
         switch (playerNum) {
 
             case 1: //this case we are player 1
@@ -320,14 +319,12 @@ public class AI extends Player {
                         for (; true;) {
                             r = xcoord.nextInt() % 7 + 1;
                             e = ycoord.nextInt() % 7 + 1;
-                            if (r < 0) {
+                            if(r < 0)
                                 r = r * -1;
-                            }
-                            if (e < 0) {
+                            if(e < 0)
                                 e = e * -1;
-                            }
-
-                            p = new Point(r, e);
+                            
+                            p = new Point(r,e);
 
                             if ((xcoord.nextInt() % 2) == 1) {
                                 d = 'v';
@@ -335,7 +332,7 @@ public class AI extends Player {
                                 d = 'h';
                             }
 
-                            if (super.isValidWallPlacement(p, d)) {
+                            if (gameBoard.isWallPlacementValid(p, d)) {
                                 numWalls--;
                                 return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
@@ -346,14 +343,12 @@ public class AI extends Player {
                         for (; true;) {
                             r = xcoord.nextInt() % 7 + 1;
                             e = ycoord.nextInt() % 7 + 1;
-                            if (r < 0) {
+                            if(r < 0)
                                 r = r * -1;
-                            }
-                            if (e < 0) {
+                            if(e < 0)
                                 e = e * -1;
-                            }
-
-                            p = new Point(r, e);
+                            
+                            p = new Point(r,e);
 
                             if ((xcoord.nextInt() % 2) == 1) {
                                 d = 'v';
@@ -361,7 +356,7 @@ public class AI extends Player {
                                 d = 'h';
                             }
 
-                            if (super.isValidWallPlacement(p, d)) {
+                            if (gameBoard.isWallPlacementValid(p, d)) {
                                 numWalls--;
                                 return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
@@ -373,15 +368,13 @@ public class AI extends Player {
                     //return a wall blocking player 2
                     for (; true;) {
                         r = xcoord.nextInt() % 7 + 1;
-                        e = ycoord.nextInt() % 7 + 1;
-                        if (r < 0) {
-                            r = r * -1;
-                        }
-                        if (e < 0) {
-                            e = e * -1;
-                        }
-
-                        p = new Point(r, e);
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         if ((xcoord.nextInt() % 2) == 1) {
                             d = 'v';
@@ -389,10 +382,10 @@ public class AI extends Player {
                             d = 'h';
                         }
 
-                        if (super.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //if it is then we reduce the number of walls
                             numWalls--;
-
+                            
                             //we return a wall placement string
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -416,24 +409,21 @@ public class AI extends Player {
                             //get a random point
                             r = xcoord.nextInt() % 7 + 1;
                             e = ycoord.nextInt() % 7 + 1;
-                            if (r < 0) {
+                            if(r < 0)
                                 r = r * -1;
-                            }
-                            if (e < 0) {
+                            if(e < 0)
                                 e = e * -1;
-                            }
-
-                            p = new Point(r, e);
+                            
+                            p = new Point(r,e);
 
                             //get a random direction
-                            if ((xcoord.nextInt() % 2) == 1) {
+                            if ((xcoord.nextInt() % 2) == 1) 
                                 d = 'v';
-                            } else {
+                             else 
                                 d = 'h';
-                            }
-
+                            
                             //see if the wall placement is valid
-                            if (super.isValidWallPlacement(p, d)) {
+                            if (gameBoard.isWallPlacementValid(p, d)) {
                                 //if it is then we reduce the number of walls we have
                                 numWalls--;
                                 //return the wall placement string
@@ -445,24 +435,21 @@ public class AI extends Player {
                             //make a random point
                             r = xcoord.nextInt() % 7 + 1;
                             e = ycoord.nextInt() % 7 + 1;
-                            if (r < 0) {
+                            if(r < 0)
                                 r = r * -1;
-                            }
-                            if (e < 0) {
+                            if(e < 0)
                                 e = e * -1;
-                            }
-
-                            p = new Point(r, e);
+                            
+                            p = new Point(r,e);
 
                             //get a random direction
-                            if ((xcoord.nextInt() % 2) == 1) {
+                            if ((xcoord.nextInt() % 2) == 1) 
                                 d = 'v';
-                            } else {
+                             else 
                                 d = 'h';
-                            }
-
+                            
                             //check to see if the wall is valid
-                            if (super.isValidWallPlacement(p, d)) {
+                            if (gameBoard.isWallPlacementValid(p, d)) {
                                 //if it is reduce the number of walls we have
                                 numWalls--;
                                 //and return a wall placement string
@@ -477,27 +464,25 @@ public class AI extends Player {
                     for (; true;) {
                         //get a random point
                         r = xcoord.nextInt() % 7 + 1;
-                        e = ycoord.nextInt() % 7 + 1;
-                        if (r < 0) {
-                            r = r * -1;
-                        }
-                        if (e < 0) {
-                            e = e * -1;
-                        }
-
-                        p = new Point(r, e);
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get a random direction
-                        if ((xcoord.nextInt() % 2) == 1) {
+                        if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
-                        } else {
+                         else 
                             d = 'h';
-                        }
+                        
 
-                        if (super.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //reduce the number of walls
                             numWalls--;
-
+                            
                             //return a wall placement string
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -518,25 +503,22 @@ public class AI extends Player {
                     for (; true;) {
                         //get a random point
                         r = xcoord.nextInt() % 7 + 1;
-                        e = ycoord.nextInt() % 7 + 1;
-                        if (r < 0) {
-                            r = r * -1;
-                        }
-                        if (e < 0) {
-                            e = e * -1;
-                        }
-
-                        p = new Point(r, e);
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get a random direction
-                        if ((xcoord.nextInt() % 2) == 1) {
+                        if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
-                        } else {
+                         else 
                             d = 'h';
-                        }
-
+                        
                         //see if the wall placement is valid
-                        if (super.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             numWalls--;
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -547,28 +529,25 @@ public class AI extends Player {
                     for (; true;) {
                         //get random point
                         r = xcoord.nextInt() % 7 + 1;
-                        e = ycoord.nextInt() % 7 + 1;
-                        if (r < 0) {
-                            r = r * -1;
-                        }
-                        if (e < 0) {
-                            e = e * -1;
-                        }
-
-                        p = new Point(r, e);
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get random direction
-                        if ((xcoord.nextInt() % 2) == 1) {
+                        if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
-                        } else {
+                         else 
                             d = 'h';
-                        }
-
+                        
                         //see if the wall placement is valid
-                        if (super.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //if it is then we reduce the number of walls we have
                             numWalls--;
-
+                            
                             //and return a wall placement string
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -581,28 +560,25 @@ public class AI extends Player {
                     for (; true;) {
                         //get a random point
                         r = xcoord.nextInt() % 7 + 1;
-                        e = ycoord.nextInt() % 7 + 1;
-                        if (r < 0) {
-                            r = r * -1;
-                        }
-                        if (e < 0) {
-                            e = e * -1;
-                        }
-
-                        p = new Point(r, e);
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get a random direction
-                        if ((xcoord.nextInt() % 2) == 1) {
+                        if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
-                        } else {
+                         else 
                             d = 'h';
-                        }
-
+                        
                         //see if the wall placement is valid
-                        if (super.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //reduce the number of walls
                             numWalls--;
-
+                            
                             //return a wall placement string
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -622,25 +598,22 @@ public class AI extends Player {
                     for (; true;) {
                         //get a random point
                         r = xcoord.nextInt() % 7 + 1;
-                        e = ycoord.nextInt() % 7 + 1;
-                        if (r < 0) {
-                            r = r * -1;
-                        }
-                        if (e < 0) {
-                            e = e * -1;
-                        }
-
-                        p = new Point(r, e);
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get a random direction
-                        if ((xcoord.nextInt() % 2) == 1) {
+                        if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
-                        } else {
+                         else 
                             d = 'h';
-                        }
-
+                        
                         //see if the wall placement is valid
-                        if (super.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             numWalls--;
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -651,28 +624,25 @@ public class AI extends Player {
                     for (; true;) {
                         //get random point
                         r = xcoord.nextInt() % 7 + 1;
-                        e = ycoord.nextInt() % 7 + 1;
-                        if (r < 0) {
-                            r = r * -1;
-                        }
-                        if (e < 0) {
-                            e = e * -1;
-                        }
-
-                        p = new Point(r, e);
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get random direction
-                        if ((xcoord.nextInt() % 2) == 1) {
+                        if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
-                        } else {
+                         else 
                             d = 'h';
-                        }
-
+                        
                         //see if the wall placement is valid
-                        if (super.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //if it is then we reduce the number of walls we have
                             numWalls--;
-
+                            
                             //and return a wall placement string
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -685,28 +655,25 @@ public class AI extends Player {
                     for (; true;) {
                         //get a random point
                         r = xcoord.nextInt() % 7 + 1;
-                        e = ycoord.nextInt() % 7 + 1;
-                        if (r < 0) {
-                            r = r * -1;
-                        }
-                        if (e < 0) {
-                            e = e * -1;
-                        }
-
-                        p = new Point(r, e);
+                            e = ycoord.nextInt() % 7 + 1;
+                            if(r < 0)
+                                r = r * -1;
+                            if(e < 0)
+                                e = e * -1;
+                            
+                            p = new Point(r,e);
 
                         //get a random direction
-                        if ((xcoord.nextInt() % 2) == 1) {
+                        if ((xcoord.nextInt() % 2) == 1) 
                             d = 'v';
-                        } else {
+                         else 
                             d = 'h';
-                        }
-
+                        
                         //see if the wall placement is valid
-                        if (super.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //reduce the number of walls
                             numWalls--;
-
+                            
                             //return a wall placement string
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -714,9 +681,8 @@ public class AI extends Player {
                 }
                 //if we are the shortest path we do nothing
                 break;
-
-            default:
-                break; //we only get here if something has gone wrong
+                
+            default : break; //we only get here if something has gone wrong
         }
 
         //if we get here we do not want to place a wall

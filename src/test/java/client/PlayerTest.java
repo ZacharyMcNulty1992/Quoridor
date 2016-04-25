@@ -26,17 +26,18 @@ import org.powermock.reflect.Whitebox;
 @PrepareForTest(Player.class)
 public class PlayerTest {
 
-  private static Player player;
+  private Player player;
 
-  @BeforeClass //This runs before every test
-  public static void setup() {
+  @Before //This runs before every test
+  public void setup() {
 
     player = PowerMockito.spy(new Player(1, 10));
+    player.resetBoard();
   }
 
   @Test
   public void testPlayerConstructor() throws Exception {
-
+    
     Assert.assertNotNull(player);
 
     int playerNumber = Whitebox.getInternalState(player, "playerNumber");
@@ -134,9 +135,12 @@ public class PlayerTest {
     Assert.assertEquals(9, actualWallCount);
 
     Assert.assertEquals("ATARI", player.placeWall(5,1,'v'));
+    Assert.assertEquals("ATARI", player.placeWall(3, 0, 'v'));
+    Assert.assertEquals("ATARI", player.placeWall(6, 1, 'h'));
+    
 
     actualWallCount = Whitebox.getInternalState(player, "wallCount");
-    Assert.assertEquals(8, actualWallCount);
+    Assert.assertEquals(6, actualWallCount);
 
     //Test that you cannot place intersecting walls
     Assert.assertEquals("GOTE", player.placeWall(4,0,'v'));
@@ -146,12 +150,16 @@ public class PlayerTest {
     Assert.assertEquals("GOTE", player.placeWall(5,0,'h'));
     Assert.assertEquals("GOTE", player.placeWall(3,0,'h'));
     Assert.assertEquals("GOTE", player.placeWall(5,0,'v'));
+    //Wall cuts off path to end
+    Assert.assertEquals("GOTE", player.placeWall(7, 0, 'v'));
 
 
     actualWallCount = Whitebox.getInternalState(player, "wallCount");
-    Assert.assertEquals(8, actualWallCount);
+    Assert.assertEquals(6, actualWallCount);
+    
+    
 
-    PowerMockito.verifyPrivate(player, Mockito.times(11))
+    PowerMockito.verifyPrivate(player, Mockito.times(14))
     .invoke("isValidWallPlacement", Matchers.any(), Matchers.anyChar());
     
     player.resetBoard();

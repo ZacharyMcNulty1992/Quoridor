@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * 
@@ -13,9 +14,15 @@ public class Player {
 
   protected int wallCount;
   private int playerNumber;
+
   private static boolean isFirstInstance = true;
+
+  //Keeps track of all players win positions 
   private static ArrayList<ArrayList<Point>> winPositions;
+
+  //Keeps track of all players pawn positions
   private static ArrayList<Point> pawnPos;
+
   private static GameBoard gameBoard;
 
 
@@ -28,11 +35,11 @@ public class Player {
 
     this.wallCount = wallCount;
     this.playerNumber = playerNumber;
-    
+
     if(isFirstInstance) {
-      
+
       isFirstInstance = false;
-      
+
       if(wallCount == 10){
         Player.winPositions = new ArrayList<ArrayList<Point>>(2);
         Player.pawnPos = new ArrayList<Point>(2);
@@ -53,7 +60,7 @@ public class Player {
 
     setInitPosWinPos();
   }
-  
+
   /**
    * Use for AI only
    */
@@ -116,9 +123,9 @@ public class Player {
    * Testing purposes only
    */
   public void resetBoard() {
-    
+
     gameBoard  = new GameBoard();
-    
+
     if(pawnPos.size() == 2){
       wallCount = 10;
       Player.winPositions = new ArrayList<ArrayList<Point>>(2);
@@ -135,19 +142,19 @@ public class Player {
       for(int i = 0; i < 4; i++)
         winPositions.add(new ArrayList<Point>(9));
     }
-    
+
     setInitPosWinPos();
   }
-  
+
   @Override
   public String toString(){
-    
+
     return String.format("Player number: %s\n"
         + "Win Positions: %s\n"
         + "Current Position: %s", playerNumber,
         winPositions.get(playerNumber-1), pawnPos.get(playerNumber-1));
   }
-  
+
   /**
    * Sets the initial position of the pawn based on
    * on the player number
@@ -155,26 +162,26 @@ public class Player {
   private void setInitPosWinPos() {
 
     Point initPoint;
-    
+
     if(playerNumber == 1 && !pawnPos.contains(new Point(4,0))) {
       pawnPos.add(initPoint = new Point(4, 0));
       gameBoard.placePawn(initPoint);
-      
+
       for(int i = 0; i < 9; i++)
         winPositions.get(0).add(new Point(i, 8));
     }
     else if(playerNumber == 2 && !pawnPos.contains(new Point(4,8)))  {
       pawnPos.add(initPoint = new Point(4, 8));
       gameBoard.placePawn(initPoint);
-      
+
       for(int i = 0; i < 9; i++)
         winPositions.get(1).add(new Point(i, 0));
-      
+
     }
     else if(playerNumber == 3 && !pawnPos.contains(new Point(0,4))) {
       pawnPos.add(initPoint = new Point(0, 4));
       gameBoard.placePawn(initPoint);
-      
+
       for(int i = 0; i < 9; i++)
         winPositions.get(2).add(new Point(8, i));
 
@@ -182,7 +189,7 @@ public class Player {
     else if(playerNumber == 4 && !pawnPos.contains(new Point(8,4))) {
       pawnPos.add(initPoint = new Point(8, 4));
       gameBoard.placePawn(initPoint);
-      
+
       for(int i = 0; i < 9; i++)
         winPositions.get(3).add(new Point(0, i));
 
@@ -195,7 +202,7 @@ public class Player {
    * @param movePos The requested move to validate
    */
   private boolean isValidMove(Space movePos) {
-    
+
     //System.out.println("Position to move to: " + movePos);
 
     ArrayList<Space> validMoves = 
@@ -204,11 +211,11 @@ public class Player {
             new ArrayList<Space>(4) );
 
     //System.out.printf("All valid positions are: %s\n\n", validMoves);  
-    
-        if(validMoves.contains(movePos)) 		
-          return true;
 
-        return false;
+    if(validMoves.contains(movePos)) 		
+      return true;
+
+    return false;
   }
 
   /**
@@ -229,9 +236,9 @@ public class Player {
       //System.out.printf("%s\n%s\n%s\n\n", currentPos, validPos, visitedSpaces);
       // Haven't visited yet
       if( !visitedSpaces.contains(spc)) {
-        
+
         //System.out.printf("Space: %s unvisited\n", spc);
-          
+
         if(spc.occupied){
           //System.out.printf("Space: %s is occupied\n", spc);
           getValidMoves(spc, validPos, visitedSpaces);
@@ -306,9 +313,9 @@ public class Player {
 
         //Check for intersecting wall
         else if( !spaces[0].edges.contains(spaces[1]) && 
-              !spaces[2].edges.contains(spaces[3]) )
+            !spaces[2].edges.contains(spaces[3]) )
 
-            return false;
+          return false;
       }
 
 
@@ -321,71 +328,74 @@ public class Player {
   }
 
   private boolean doesBlockPath(Point wallPos, char direction) {
-/*
+
     //initialization
     ArrayList<Space> q = new ArrayList<>();
     ArrayList<Space> visited = new ArrayList<>();
 
     gameBoard.placeWall(wallPos, direction);
 
-    //where to start our search
-    Space current = gameBoard.getSpaceAt(pawnPos.x, pawnPos.y);
 
-    current.prev = null;
-    HashSet<Space> NeighbourSet;
-    q.add(current);
-    visited.add(current);
-    boolean pathFound = false;
+    for(int i = 0; i < pawnPos.size(); i++){
 
-    while (!q.isEmpty()) { //main loop
+      boolean pathIsBlocked = true;
 
-      //get the set of neighbour nodes
-      NeighbourSet = current.edges;
-      for (Space a : NeighbourSet) {
-        //if the node we are checking has not been visited
-        if (!visited.contains(a)) {
-          //we add it to the queue
-          q.add(a);
-          //add it to visited list
-          visited.add(a);
-          //make the previous node the current node
-          a.prev = current;
+      Space current = gameBoard.getSpaceAt(pawnPos.get(i).x, pawnPos.get(i).y);
 
-          //if we are player 1 or 2
-          if(playerNum == 1 || playerNum == 2){
-            //check to see if this node is a winning node
-            if(winPositions.contains(a)){
+      current.prev = null;
+      HashSet<Space> NeighbourSet;
+      q.add(current);
+      visited.add(current);
 
-              return false;
+      while (!q.isEmpty()) { //main loop
+
+        //get the set of neighbour nodes
+        NeighbourSet = current.edges;
+        for (Space a : NeighbourSet) {
+          //if the node we are checking has not been visited
+          if (!visited.contains(a)) {
+            //we add it to the queue
+            q.add(a);
+            //add it to visited list
+            visited.add(a);
+            //make the previous node the current node
+            a.prev = current;
+
+            if(winPositions.get(i).contains(a)){
+              pathIsBlocked = false;
             }
+          }// end if !viseted...
+        } // end for each Space...
+        
+        q.remove(current);
 
-            //if we are player 3 or 4
-          }else if(playerNum == 3 || playerNum == 4){
-            //check to see if the current node is a winning node
-            if(a.x == targetX){
-              //we have found a path
-              pathFound = true;
-              //the target node is the node we are looking at
-              targetNode = a;
-            }
-          }
+        //see if the queue is empty
+        if (!q.isEmpty()) {
+          //if it isnt then get the next node from the queue
+          current = q.get(0);
         }
+
+      } // end while !q...
+      
+      if (pathIsBlocked){
+        gameBoard.removeWall(wallPos, direction);
+        
+        return true;
       }
+    } // end for int i...
 
-      return true;*/
-    
     return false;
-    }
+  }
 
-    /**
-     * Checks to see if the player has won
-     * 
-     * @return "KIKASHI" if the pawn is in the appropriate
-     * win position else return "ATARI" (Message for a legal 
-     * pawn move).
-     */
-    private String hasWon() {
+  /**
+   * Checks to see if the player has won
+   * 
+   * @return "KIKASHI" if the pawn is in the appropriate
+   * win position else return "ATARI" (Message for a legal 
+   * pawn move).
+   */
+  private String hasWon() {
 
-      return winPositions.get(playerNumber - 1).contains(pawnPos.get(playerNumber - 1)) ? "KIKASHI" : "ATARI";
-    }
+    return winPositions.get(playerNumber - 1).contains(pawnPos.get(playerNumber - 1)) ? "KIKASHI" : "ATARI";
+  }
 }

@@ -13,7 +13,6 @@ import client.gui.Main;
 
 public class CMT {
 
-  //commenting for push
   static String hostname = "localhost";
   static String names = "";
   static String move = "";
@@ -42,6 +41,10 @@ public class CMT {
       System.out.println("Hostname can not be resolved");
     }
 
+    // loops through args[], ensures that the hostname:portnumber entered are
+    // valid and creates a thread to handle each move-server entered at the
+    // command line. Adds the thread to our list of threads (threadList) and
+    // starts each thread.
     for (int i = 0; i < args.length; i++) {
       String[] temp = args[i].split(":");
       clientSocket = errorCheck(temp);
@@ -50,29 +53,43 @@ public class CMT {
       client.start();
     }
 
+    // Creates a thread to run / launch the GUI. Facilitates sending messages
+    // From the client to the GUI because of javafx's run-loop.
     new Thread() {
       @Override
       public void run() {
         javafx.application.Application.launch(client.gui.Main.class);
       }
-    }.start();
-
+    }.start(); 
+    
+    // HELLO -> IAM Handshake
     Handshake();
+
+    // Build list of names
     nameBuilder();
+
+    // Initialize Game of 4 or 2 players    
     if(playerCount == 4)
       initGame4();
     else
       initGame();
+
+    // Runs Play loop (MYOUSHU -> TESUJI -> ATARI)
     Play();
+
+    // Retrieving gui object after run-loop has started and startup test is done
+    // Facilitates sending messages from client to gui due to javafx's run-loop.
     gui = Main.waitForStartUp();
   }
 
+  // Builds string containing the names of all connected players as per protocol
   public static void nameBuilder() {
     for (int i = 0; i < playerNames.size(); i++) {
       names += playerNames.get(i) + " ";
     }
   }
 
+  // Completes the HELLO -> IAM handshake for each connected client
   public static void Handshake() throws Exception {
     int counter = 1;
     for (ClientThread c : threadList) {
@@ -81,6 +98,10 @@ public class CMT {
     }
   }
 
+  // Initializes a game instance for two connected move-servers.
+  // Creates a player for each move-server, gives it the appropriate player #,
+  // adds it to the list of players and sends GAME message to move-servers
+  // as per protocol. Also hands list of players & number of players to the GUI.
   public static void initGame() throws Exception {
     int count = 0;
     for (ClientThread c : threadList) {
@@ -90,10 +111,6 @@ public class CMT {
       playerList.add(c.getPlayer());
       if(count == 0)
         playerNumber = 2;
-      //if(count == 1)
-      //    playerNumber = 2;
-      //if(count == 2)
-      //    playerNumber = 3;
       count++;
     }
 
@@ -101,6 +118,10 @@ public class CMT {
     gui.setPlayerCount(playerCount);
   }
 
+  // Initializes a game instance for four connected move-servers.
+  // Creates a player for each move-server, gives it the appropriate player #,
+  // adds it to the list of players and sends GAME message to move-servers
+  // as per protocol. Also hands list of players & number of players to the GUI.
   public static void initGame4() throws Exception {
     int count = 0;
     for (ClientThread c : threadList) {
@@ -121,6 +142,17 @@ public class CMT {
     gui.setPlayerCount(playerCount);
   }
 
+  // Workhorse of the program. Continously loops through list of threads
+  // that are handling each connected move-server until a winner has been found.
+  // Completes the MYOUSHU -> TESUJI -> ATARI loop as per protocol.
+  // Writes MYOUSHU to each connected move-server, checks if their TESUJI
+  // response is valid via Parsed Object (smh.) If it is, we then check if it is
+  // a wall or if it is a move. If it is a wall, we update the gameboard / GUI,
+  // attempt to placeWall and ATARI the message. If it is a move, we attempt to 
+  // move the pawn for the connected move-server. If a move is not valid, we
+  // GOTE (kick) the player from the game. Upon each iteration, we check if a 
+  // player has satisfied a win condition via KIKASHI. If they have, we tell the
+  // Connected move-servers who won and return to main to end the game.
   public static void Play() throws Exception {
     String tesuji = "";
     String moveResult = "";
@@ -153,18 +185,22 @@ public class CMT {
     }
   }
 
+  // Method for sending KIKASHI message to each connected move-server should
+  // a player satisfy a win condition.
   public static void Kikashi(int pn) throws Exception{
     for(ClientThread c : threadList)
       c.write("KIKASHI " + pn);
     System.out.println("KIKASHI " + pn);
   }
 
+  // Method for sending ATARI (broadcast) message to each connected move-server.
+  // Used for alerting move-servers to other move-server's moves. Also updates
+  // GUI with move information for the specific player.
   public static void Atari(String message, int pn) throws Exception {
     int count = 0;
     for (ClientThread c : threadList) {
       c.write("ATARI " + pn + " " + message);
       if (count == 0) {
-        //need to add functionality to check if placing wall or actual atari before calling;
         gui.setCurrentPlayer(pn);
         Point dest = new Point(ps.c, ps.r);
         gui.Atari(dest);
@@ -175,30 +211,36 @@ public class CMT {
 
   }
 
-
+  // Separate method for sending ATARI message to each connected move-server.
+  // Used for alerting move-servers to other move-servers wall placements.
+  // Might refactor AtariWall and Atari into single method at some point.
   public static void AtariWall(String message, int pn) throws Exception {
     int count = 0;
     for (ClientThread c : threadList) {
       c.write("ATARI " + pn + " " + message);
       if (count == 0) {
-        //need to add functionality to check if placing wall or actual atari before calling;
         gui.setCurrentPlayer(pn);
         Point dest = new Point(ps.c, ps.r);
-        //                gui.Atari(dest);
       }
       count++;
     }
     gui.setPlayerCount(playerCount);
-
   } 
 
+  // Method for sending GOTE message to each connected move-server so as to
+  // alert them of a player being kicked for sending an invalid move/wall or
+  // not adhering to protocol. After sending message to each move-server, the
+  // player is removed and the thread handling them is pruned from threadList. 
   public static void Gote(ClientThread g) throws Exception {
     for (ClientThread c : threadList) {
       c.write("GOTE " + g.getPlayerNumber());
     }
+    System.out.println("Kicking Player#: " + g.getPlayerNumber());
     threadList.remove(g);
   }
 
+  // Ensures that the ports entered are valid. Returns Socket open on provided
+  // Port and host name (unless defaulted.) 
   public static Socket errorCheck(String[] temp) {
     Socket ec = new Socket();
     int portNumber = 0;

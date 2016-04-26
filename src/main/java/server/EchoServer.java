@@ -18,28 +18,42 @@ public class EchoServer {
     public final static String ARG_DELAY = "--delay";
     public final static String MSG_HELLO = "HELLO";
     static String hostname = "localhost";
-
+    
+    //Player number for our move server. Handed to use by the client.
     private static int playerNumber;
+    //Port number that our server will listen to connections on.
     private int portNumber;
+    //Amount of delay in ms that we will set Thread.sleep() to.
     private int delay;
+    //Instance of AI object.
     private AI ai;
+    //Instance of EchoServer object.
     private static EchoServer fc;
 
+    //EchoServer constructor. Sets portNumber and delay to what was provided.
     public EchoServer(int portNumber, int delay) {
         this.portNumber = portNumber;
 	this.delay = delay;
     }
 
+    // Handles the HELLO message from the client.
+    // Responds to client with our team ID and hostname.
     public void handshake(String clientMessage, PrintStream cout){
         cout.println("IAM 4tr:" + hostname);
         System.out.format("Server saw \"%s\"\n", clientMessage); 
     }
 
+    // Handles MYOUSHU message from client. Responds with TESUJI followed by
+    // The move our AI decided to make.
     public void myoushu(PrintStream cout){
         System.out.println("Please make your move or place a wall");
         cout.println(ai.getMove());
     }
 
+    // Handles the GAME message from the client. If formatted correctly
+    // the method sets our playerNumber to the one handed to us in the message
+    // and then creates a new AI, also handing it our playerNumber and the
+    // number of players.
     public void gameInit(String clientMessage){
         try{
             String[] message = clientMessage.split(" ");
@@ -54,9 +68,10 @@ public class EchoServer {
             System.out.println(e);
         }
         System.out.format("Server saw \"%s\"\n", clientMessage);
-
     }
 
+    // Handles ATARI message from client. When ATARI is received, updates our AI
+    // with wall placement and opponent move information.
     public void updateAI(String clientMessage){
         try{
             int pn = Integer.parseInt(clientMessage.substring(6,7));
@@ -72,6 +87,9 @@ public class EchoServer {
         System.out.format("Server saw \"%s\"\n", clientMessage);
     }
 
+    // Handles GOTE message from the client. Checks if it is our player number
+    // being kicked, and if it is, we reset the connection so that we can handle
+    // other requests to play.
     public void handleGOTE(String clientMessage, Scanner cin, PrintStream cout,
 			   ServerSocket server) throws IOException{
         try{
@@ -87,6 +105,8 @@ public class EchoServer {
         }
     }
 
+    // Resets our connections and then runs again so that we can handle other
+    // requests to play against our move-server.
     public void resetConnection(Scanner cin, PrintStream cout,
                 ServerSocket server, String clientMessage) throws IOException{
 
@@ -97,6 +117,8 @@ public class EchoServer {
         fc.run();
     }
 
+    // Handles incoming connections and communications from client.
+    // Runs until our move-server is kicked or a winner is reported from client.
     public void run() {
         try {
             ServerSocket server = new ServerSocket(portNumber);
@@ -144,7 +166,7 @@ public class EchoServer {
     private static void usage() {
         System.err.print("usage: java FirstServer [options]\n" +
             "       where options:\n" + "       --port port\n" +
-	    "--delay (delay in ms)");
+	    "                           --delay (delay in ms)");
     }
 
     public static void main(String[] args) {

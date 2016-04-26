@@ -12,8 +12,9 @@ import java.util.HashSet;
  */
 public class Player {
 
-  protected int wallCount;
   private int playerNumber;
+
+  private static int wallCount;
 
   private static boolean isFirstInstance = true;
 
@@ -261,7 +262,7 @@ public class Player {
    * @return False if the wall placed is intersecting another
    * wall or the same wall is placed. Else, return true.
    */
-  protected boolean isValidWallPlacement(Point wallPos, char direction) {
+  public static boolean isValidWallPlacement(Point wallPos, char direction) {
 
     if (wallCount < 1)
       return false;		 
@@ -327,7 +328,7 @@ public class Player {
     return !doesBlockPath(wallPos, direction);
   }
 
-  private boolean doesBlockPath(Point wallPos, char direction) {
+  private static boolean doesBlockPath(Point wallPos, char direction) {
 
     //initialization
     ArrayList<Space> q = new ArrayList<>();

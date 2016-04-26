@@ -15,9 +15,7 @@ public class EchoServer {
     public final static String DEFAULT_MACHINE_NAME = "localhost";
     
     public final static String ARG_PORT = "--port";
-    public final static String ARG_MACHINE = "--machine";
     public final static String ARG_DELAY = "--delay";
-    public final static String MSG_GOODBYE = "Goodbye";
     public final static String MSG_HELLO = "HELLO";
     static String hostname = "localhost";
 
@@ -32,9 +30,74 @@ public class EchoServer {
 	this.delay = delay;
     }
 
+    public void handshake(String clientMessage, PrintStream cout){
+        cout.println("IAM 4tr:" + hostname);
+        System.out.format("Server saw \"%s\"\n", clientMessage); 
+    }
+
+    public void myoushu(PrintStream cout){
+        System.out.println("Please make your move or place a wall");
+        cout.println(ai.getMove());
+    }
+
+    public void gameInit(String clientMessage){
+        try{
+            String[] message = clientMessage.split(" ");
+            int pn = Integer.parseInt(clientMessage.substring(5,6));
+            playerNumber = pn;
+            System.out.println("Testing message.legnth: " + message.length);
+            if(message.length == 4)
+                ai = new AI(pn, 2, delay);
+            else
+                ai = new AI(pn, 4, delay);
+        }catch(NumberFormatException e){
+            System.out.println(e);
+        }
+        System.out.format("Server saw \"%s\"\n", clientMessage);
+
+    }
+
+    public void updateAI(String clientMessage){
+        try{
+            int pn = Integer.parseInt(clientMessage.substring(6,7));
+            Parsed parsed = new Parsed(clientMessage);
+            if(parsed.isWall){
+                ai.placeWalls(parsed.c, parsed.r, parsed.wallPos);
+             }else{
+                ai.updatePlayerPosition(parsed.c , parsed.r , pn);
+             }
+        }catch(NumberFormatException e){
+             System.out.println(e);
+        }
+        System.out.format("Server saw \"%s\"\n", clientMessage);
+    }
+
+    public void handleGOTE(String clientMessage, Scanner cin, PrintStream cout,
+			   ServerSocket server) throws IOException{
+        try{
+            String[] message = clientMessage.split(" ");
+            int pn = Integer.parseInt(clientMessage.substring(5,6));
+            if(pn == playerNumber){
+                resetConnection(cin,cout,server,clientMessage);
+            }else{
+                System.out.format("Server saw \"%s\"\n", clientMessage);
+            }
+        }catch(NumberFormatException e){
+            System.out.println(e);
+        }
+    }
+
+    public void resetConnection(Scanner cin, PrintStream cout,
+                ServerSocket server, String clientMessage) throws IOException{
+
+        System.out.format("Server saw \"%s\"\n", clientMessage);
+        cout.close();
+        cin.close();
+        server.close();
+        fc.run();
+    }
+
     public void run() {
-	Scanner keyboard = new Scanner(System.in);
-	String move = "";
         try {
             ServerSocket server = new ServerSocket(portNumber);
             System.out.format("Server now accepting connections on port %d\n",
@@ -48,91 +111,31 @@ public class EchoServer {
                 PrintStream cout = new PrintStream(client.getOutputStream());
                 String clientMessage = "";
 
-                    while (cin.hasNextLine() &&
-                    (!(clientMessage = cin.nextLine()).equals(MSG_GOODBYE))) {
-
-                        if(clientMessage.equals(MSG_HELLO)) {
-                            cout.println("IAM 4tr:" + hostname);
-                            System.out.format("Server saw \"%s\"\n", 
-				              clientMessage);
-			}else if(clientMessage.equals("MYOUSHU")){   
-			    System.out.println("Please make your move" + 
-					       " or place your wall");
-	
-			    move = ai.getMove();
-                            cout.println(move);
-                            
-                        }else if(clientMessage.substring(0,4).equals("GAME")){
-			    try{
-                                String[] message = clientMessage.split(" ");
-			        int pn = Integer.parseInt(clientMessage.substring(5,6));
-				playerNumber = pn;
-				System.out.println("Testing message.legnth: " + message.length);
-                                if(message.length == 4)
-                                    ai = new AI(pn, 2, delay);
-                                else
-                                    ai = new AI(pn, 4, delay);
-			    }catch(NumberFormatException e){
-			        System.out.println(e);
-			    }
-			    System.out.format("Server saw \"%s\"\n",
-                                              clientMessage);
-			}else if(clientMessage.substring(0,5).equals("ATARI")){
-			    try{
-			        int pn = Integer.parseInt(clientMessage.substring(6,7));
-				Parsed parsed = new Parsed(clientMessage);
-				if(parsed.isWall){
-				    ai.placeWalls(parsed.c, parsed.r, parsed.wallPos);
-				}else{
-				    ai.updatePlayerPosition(parsed.c , parsed.r , pn);
-				}
-			    }catch(NumberFormatException e){
-				System.out.println(e);
-			    }
-			    System.out.format("Server saw \"%s\"\n",
-                                              clientMessage);
-                        }else if(clientMessage.substring(0,4).equals("GOTE")){
-		            try{
-				String[] message = clientMessage.split(" ");
-				int pn = Integer.parseInt(clientMessage.substring(5,6));
-				if(pn == playerNumber){
-				    cout.close();
-				    cin.close();
-				    server.close();
-				    System.out.format("Server saw \"%s\"\n",
-                                              clientMessage);
-				    fc.run();
-				}else{
-				    System.out.format("Server saw \"%s\"\n",
-                                              clientMessage);
-				}
-			    }catch(NumberFormatException e){
-				System.out.println(e);
-			    }
-			}else if(clientMessage.substring(0,7).equals("KIKASHI")){
-                            cout.close();
-                            cin.close();
-                            server.close();
-                            System.out.format("Server saw \"%s\"\n",
-                                              clientMessage);
-                            fc.run();
-			}else {
-			    System.out.format("Server saw \"%s\"\n",
-                                              clientMessage);
-			} 
+                    while (cin.hasNextLine()) {
+		        clientMessage = cin.nextLine();
+                        if(clientMessage.equals(MSG_HELLO))
+                            handshake(clientMessage, cout);
+			else if(clientMessage.equals("MYOUSHU"))   
+                            myoushu(cout);                            
+                        else if(clientMessage.substring(0,4).equals("GAME"))
+                            gameInit(clientMessage);
+			else if(clientMessage.substring(0,5).equals("ATARI"))
+                            updateAI(clientMessage);
+                        else if(clientMessage.substring(0,4).equals("GOTE"))
+                            handleGOTE(clientMessage, cin, cout, server);
+			else if(clientMessage.substring(0,7).equals("KIKASHI"))
+                            resetConnection(cin,cout,server,clientMessage);
+			else
+			    System.out.format("Server saw \"%s\"\n",clientMessage);
                     }
 
                 if (!clientMessage.isEmpty()) {
                     System.out.format("Server saw \"%s\" and is exiting.\n",
               		              clientMessage);
                 }
-
-                cout.close();
-                cin.close();
+                resetConnection(cin,cout,server,clientMessage);
             }
         } catch (IOException ioe) {
-
-            // there was a standard input/output error (lower-level from uhe)
             ioe.printStackTrace();
             System.exit(1);
         }

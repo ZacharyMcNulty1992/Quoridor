@@ -165,10 +165,10 @@ public class CMT {
             GameBoard gb = GameBoard.getInstance();
             moveResult = c.getPlayer().placeWall(ps.c, ps.r, ps.wallPos);
             if(!moveResult.equals("GOTE")){
-              gui.AtariWall(gb.wallsMap);
               AtariWall(tesuji.substring(7), c.getPlayerNumber());
+              gui.AtariWall(gb.wallsMap);
             }else if(moveResult.equals("GOTE")){
-              Gote(c);
+              Gote(c,tesuji);
             }
           }else {
             moveResult = c.getPlayer().movePawn(ps.c, ps.r);
@@ -176,7 +176,7 @@ public class CMT {
             if(!moveResult.equals("GOTE"))
               Atari(tesuji.substring(7), c.getPlayerNumber());
             else if(moveResult.equals("GOTE")){
-              Gote(c);
+              Gote(c,tesuji);
             }
 
           }
@@ -185,7 +185,7 @@ public class CMT {
             return;
           }
         }else {
-          Gote(c);
+          Gote(c,tesuji);
         }
       }
     }
@@ -237,11 +237,13 @@ public class CMT {
   // alert them of a player being kicked for sending an invalid move/wall or
   // not adhering to protocol. After sending message to each move-server, the
   // player is removed and the thread handling them is pruned from threadList. 
-  public static void Gote(ClientThread g) throws Exception {
+  public static void Gote(ClientThread g, String tesuji) throws Exception {
     for (ClientThread c : threadList) {
       c.write("GOTE " + g.getPlayerNumber());
     }
-    System.out.println("Kicking Player#: " + g.getPlayerNumber());
+    System.out.println("Kicking Player#: " + g.getPlayerNumber() +
+                       " for " + tesuji);
+    gui.setPlayerCount(playerCount);
     threadList.remove(g);
   }
 

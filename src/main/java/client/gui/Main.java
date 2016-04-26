@@ -107,7 +107,7 @@ public class Main extends Application {
             @Override
             public void run() {
                 movePawns(currentPlayer, dest);
-                System.out.println("Dest = " + dest);
+                System.out.println("Player " + currentPlayer + " Dest = " + dest);
             }
         });
 
@@ -286,11 +286,11 @@ public class Main extends Application {
             if(!tempMap.containsKey(key)){
                 tempMap.put(key, wallsMap.get(key));
                 if (tempMap.get(key) == 'v') {
-                    System.out.println("vWall = " + key);
+                    System.out.println("Player " + currentPlayer + " vWall = " + key);
                      vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y);
                      vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y + 1);
                 } else {
-                    System.out.println("hWall = " + key);
+                    System.out.println("Player " + currentPlayer + " hWall = " + key);
                      hWallGrid.add(new Rectangle(50, 10, Color.RED), key.x, key.y);
                      hWallGrid.add(new Rectangle(50, 10, Color.RED), key.x + 1, key.y);
                      board.add(new Rectangle(50, 50, Color.BLUE), key.x, key.y);

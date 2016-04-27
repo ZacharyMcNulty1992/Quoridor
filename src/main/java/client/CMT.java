@@ -8,6 +8,7 @@ import java.util.*;
 import java.io.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import common.Parsed;
+import common.Interpreter;
 import javafx.application.Application;
 import client.gui.Main;
 
@@ -19,7 +20,7 @@ public class CMT {
   static int playerNumber;
   static int playerCount;
   static GuiThread gt;
-  private static Parsed ps;
+  private static Interpreter pr = new Interpreter();
   static Main gui = null;
 
   private static ArrayList<Player> playerList = new ArrayList<Player>();
@@ -159,11 +160,11 @@ public class CMT {
     while (true) {
       for (ClientThread c : threadList) {
         tesuji = c.Myoushu();
-        ps = new Parsed(tesuji);
-        if (ps.valid) {
-          if (ps.isWall) {
+        pr.parse(tesuji);
+        if (pr.isValid()) {
+          if (pr.isWall()) {
             GameBoard gb = GameBoard.getInstance();
-            moveResult = c.getPlayer().placeWall(ps.c, ps.r, ps.wallPos);
+            moveResult = c.getPlayer().placeWall(pr.getX(), pr.getY(), pr.getWallDirection());
             if(!moveResult.equals("GOTE")){
               AtariWall(tesuji.substring(7), c.getPlayerNumber());
               gui.AtariWall(gb.wallsMap);
@@ -171,7 +172,7 @@ public class CMT {
               Gote(c,tesuji);
             }
           }else {
-            moveResult = c.getPlayer().movePawn(ps.c, ps.r);
+            moveResult = c.getPlayer().movePawn(pr.getX(), pr.getY());
             
             if(!moveResult.equals("GOTE"))
               Atari(tesuji.substring(7), c.getPlayerNumber());
@@ -208,7 +209,7 @@ public class CMT {
       c.write("ATARI " + pn + " " + message);
       if (count == 0) {
         gui.setCurrentPlayer(pn);
-        Point dest = new Point(ps.c, ps.r);
+        Point dest = new Point(pr.getX(), pr.getY());
         gui.Atari(dest);
       }
       count++;
@@ -226,7 +227,7 @@ public class CMT {
       c.write("ATARI " + pn + " " + message);
       if (count == 0) {
         gui.setCurrentPlayer(pn);
-        Point dest = new Point(ps.c, ps.r);
+        Point dest = new Point(pr.getX(), pr.getY());
       }
       count++;
     }

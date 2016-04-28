@@ -245,6 +245,7 @@ public class CMT {
     System.out.println("Kicking Player#: " + g.getPlayerNumber() +
                        " for " + tesuji);
     gui.setPlayerCount(playerCount);
+    gui.gote(g.getPlayerNumber());
     threadList.remove(g);
   }
 

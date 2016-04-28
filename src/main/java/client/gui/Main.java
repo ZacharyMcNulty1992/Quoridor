@@ -124,6 +124,15 @@ public class Main extends Application {
 
     }
 
+    public static void gote(int pn){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                removePlayer(pn);
+            }
+        });
+    }
+
     // Starts the GUI and draws the inital board. Also starts a click event listener.
     @Override
     public void start(final Stage primaryStage) {
@@ -277,6 +286,25 @@ public class Main extends Application {
                 pawns.setConstraints(pawn4, dest.x, dest.y);
                 break;
 
+        }
+    }
+
+    public static void removePlayer(int pn) {
+        switch(pn) {
+            case 1:
+                pawns.getChildren().remove(pawn1);
+                break;
+            case 2:
+                pawns.getChildren().remove(pawn2);
+                break;
+            case 3:
+                pawns.getChildren().remove(pawn3);
+                break;
+            case 4:
+                pawns.getChildren().remove(pawn4);
+                break;
+            default:
+                break;
         }
     }
 

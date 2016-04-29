@@ -319,9 +319,8 @@ public class Main extends Application {
                      vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y + 1);
                 } else {
                     System.out.println("Player " + currentPlayer + " hWall = " + key);
-                     hWallGrid.add(new Rectangle(50, 10, Color.RED), key.x, key.y);
-                     hWallGrid.add(new Rectangle(50, 10, Color.RED), key.x + 1, key.y);
-                     board.add(new Rectangle(50, 50, Color.BLUE), key.x, key.y);
+                     hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x, key.y);
+                     hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x + 1, key.y);
                 }
             }
         }

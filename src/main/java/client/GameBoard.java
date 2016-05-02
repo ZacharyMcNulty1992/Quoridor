@@ -236,7 +236,7 @@ public class GameBoard {
           getSpaceAt(wallPos.x + 1, wallPos.y).edges
                   .add(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
       }
-    }
+    } 
     
     /**
      * @param Space

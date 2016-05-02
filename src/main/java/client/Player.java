@@ -12,10 +12,11 @@ import java.util.HashSet;
  */
 public class Player {
 
-    protected int wallCount;
-    private int playerNumber;
 
     private static GameBoard gameBoard;
+    private int playerNumber;
+
+    private int wallCount;
 
     private static boolean isFirstInstance = true;
 
@@ -416,7 +417,7 @@ public class Player {
       
             if(isPathBlocked) {
 
-                System.out.printf("Path is blocked for player %d\n", i+1);
+                gameBoard.removeWall(wallPos, direction);
                 
                 return true;
             }

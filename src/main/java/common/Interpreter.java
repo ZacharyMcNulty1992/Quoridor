@@ -3,7 +3,7 @@
 package common;
 
 import java.util.Arrays;
-
+import java.awt.Point;
 /**
  * @author Jade
  * @edited Brandon
@@ -11,12 +11,48 @@ import java.util.Arrays;
  */
 public class Interpreter {
 
+  private static boolean valid; //if command is valid
+  private static String commandName; //command name
+  private static int pnumber; //player number
+  private static String pname; //used for IAM
+  private static String p1; private static String p2;//player names
+  private static String p3; private static String p4;
+  private static int c; private static int r; // c=column; r=row
+  private static boolean isWall; //if wall true
+  private static Point endPos; // point of position, wall or pawn
+  private static char wallPos;
+
+  public static boolean isValid() {
+    return valid;
+  }
+
+  public static boolean isWall(){
+    return isWall;
+  }
+
+  public static Point getWallPos(){
+    return endPos;
+  }
+
+  public static int getX(){
+    return c;
+  }
+
+  public static int getY(){
+    return r;
+  }
+
+  public static char getWallDirection(){
+    return wallPos;
+  }
+
   /**
    * Parses and validates the message coming in from
    * the server.
    * 
    * @param input The message recieved from the client or server.
    */
+ 
   public static boolean isValidString(String input){
 
     String[] splitInput = input.split(" ");
@@ -210,4 +246,82 @@ public class Interpreter {
     
     return validateTesuji(Arrays.copyOfRange(args, 1, args.length));
   }
-}
+
+  public static void parse(String input) {
+
+    if(!Util.isValid(input)){
+      valid=false;
+      System.out.println("Testing input: " + input);
+    }else{
+      valid=true;
+      String[] spl = input.split(" ");
+      switch(spl[0]){
+        case "IAM":
+          pname = spl[1];
+          commandName = "IAM";
+          break;
+        
+        case "GAME":
+          commandName = "GAME";
+          p1 = spl[2];
+          p2 = spl[3];
+          if(spl.length>4){
+            p3 = spl[4];
+            p4 = spl[5];
+          }
+          break;
+
+        case "TESUJI":
+          commandName = "TESUJI";
+          if(spl.length==4){
+            isWall = true;
+            c = Util.getCoor(input)[0];
+            r = Util.getCoor(input)[1];
+            wallPos = spl[3].charAt(0);
+            endPos = new Point(c,r);
+          }else{
+            isWall = false;
+            c = Util.getCoor(input)[0];
+            r = Util.getCoor(input)[1];
+            endPos = new Point(c,r);
+          }
+            break;
+
+        case "ATARI":
+            commandName = "ATARI";
+            if(spl.length==5){
+              isWall = true;
+              pnumber=Integer.parseInt(spl[1]);
+              c = Util.getCoor(input)[0];
+              r = Util.getCoor(input)[1];
+              wallPos = spl[4].charAt(0);
+              endPos = new Point(c,r);
+
+            }else{
+              isWall = false;
+              pnumber=Integer.parseInt(spl[1]);
+              c = Util.getCoor(input)[0];
+              r = Util.getCoor(input)[1];
+              endPos = new Point(c,r);
+            }
+              break;
+
+        case "GOTE":
+          commandName = "GOTE";
+          pnumber = Integer.parseInt(spl[1]);
+          break;
+
+        case "KIKASHI":
+          commandName = "KIKASHI";
+          pnumber = Integer.parseInt(spl[1]);          
+          break;
+
+        default:
+       }
+     }
+
+   }
+
+
+  }
+

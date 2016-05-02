@@ -107,7 +107,7 @@ public class Main extends Application {
             @Override
             public void run() {
                 movePawns(currentPlayer, dest);
-                System.out.println("Dest = " + dest);
+                System.out.println("Player " + currentPlayer + " Dest = " + dest);
             }
         });
 
@@ -122,6 +122,15 @@ public class Main extends Application {
             }
         });
 
+    }
+
+    public static void gote(int pn){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                removePlayer(pn);
+            }
+        });
     }
 
     // Starts the GUI and draws the inital board. Also starts a click event listener.
@@ -280,20 +289,38 @@ public class Main extends Application {
         }
     }
 
+    public static void removePlayer(int pn) {
+        switch(pn) {
+            case 1:
+                pawns.getChildren().remove(pawn1);
+                break;
+            case 2:
+                pawns.getChildren().remove(pawn2);
+                break;
+            case 3:
+                pawns.getChildren().remove(pawn3);
+                break;
+            case 4:
+                pawns.getChildren().remove(pawn4);
+                break;
+            default:
+                break;
+        }
+    }
+
     // Recieves walls from the client, updates the GUI to show them.
     public static void drawWalls(HashMap<Point, Character> wallsMap) {
         for (Point key : wallsMap.keySet()) {
             if(!tempMap.containsKey(key)){
                 tempMap.put(key, wallsMap.get(key));
                 if (tempMap.get(key) == 'v') {
-                    System.out.println("vWall = " + key);
+                    System.out.println("Player " + currentPlayer + " vWall = " + key);
                      vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y);
                      vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y + 1);
                 } else {
-                    System.out.println("hWall = " + key);
-                     hWallGrid.add(new Rectangle(50, 10, Color.RED), key.x, key.y);
-                     hWallGrid.add(new Rectangle(50, 10, Color.RED), key.x + 1, key.y);
-                     board.add(new Rectangle(50, 50, Color.BLUE), key.x, key.y);
+                    System.out.println("Player " + currentPlayer + " hWall = " + key);
+                     hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x, key.y);
+                     hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x + 1, key.y);
                 }
             }
         }

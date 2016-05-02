@@ -22,19 +22,21 @@ public class AI {
     private ArrayList<Space> path; //the shortest path
     private ArrayList<Space> aiPath; //path of the ai
     private ArrayList<Space> opponentPath; //path of the opponent
-
+    
     //ai player number
     private int playerNum;
     private int numOfPlayers;
+    private int delay;    
 
     //arrays for the current position of each player
     private int X[]; // X-coord
     private int Y[]; // Y-coord
 
-    public AI(int playerNumber, int numberOfPlayers) {
+    public AI(int playerNumber, int numberOfPlayers, int delayTime) {
         
         playerNum = playerNumber; //give the ai its player number
         numOfPlayers = numberOfPlayers;
+        delay = delayTime;
 
         if (numOfPlayers == 2) {
             numWalls = 10;
@@ -69,7 +71,7 @@ public class AI {
     public ArrayList<Space> getShortestPath(int playerNum) {
 
         //print where we are starting from
-        System.out.println("starting from: " + X[playerNum] + ", " + Y[playerNum]);
+        System.out.println("player : " + playerNum + " Starting from: " + X[playerNum] + ", " + Y[playerNum]);
 
         //initialization
         ArrayList<Space> q = new ArrayList<>();
@@ -200,6 +202,9 @@ public class AI {
         //based on the player number we see other players shortest path
         //the they are shorter than our path then we will want to place a wall
         //assuming we have some left.
+        
+        
+	System.out.println("Number of Walls left: " + numWalls);
         if (numWalls >= 1) {
             String wall = makeValidWallPlacement(ais);
 
@@ -211,6 +216,8 @@ public class AI {
             //do nothing
 
         }
+
+
 
         //compare the sizes of the arrays
         int aiSize = ais.size();
@@ -240,8 +247,8 @@ public class AI {
         //see if we can pawn jump
         ArrayList<Space> valid;
         //if the space we want to move to is occupied
-        if (move.occupied) {
-
+        if (move.occupied && ais.size() > 2) {
+         
             //we check the spaces in our path if they are occupied we can jump past them
             for (Space balls : ais) {
                 //if a space in our path is not occupied then we can move there
@@ -251,15 +258,24 @@ public class AI {
                 }
             }
 
+        }else if(move.occupied && ais.size() < 2){
+            //in this case we only have one space we can move but it is occupied
+            HashSet<Space> lastMove = move.edges;
+            for(Space v : lastMove){
+                if(!v.occupied){
+                    move = v;
+                    break;
+                }
+            }
         }
 
         //to show where the ai is moving to
-        System.out.println("moving to: " + move.x + ", " + move.y);
+        System.out.println("player: " + playerNum + " is moving to: " + move.x + ", " + move.y);
 
         //slow things down
         try {
 
-            Thread.sleep(2000);
+            Thread.sleep(delay);
 
         } catch (InterruptedException e) {
 
@@ -267,6 +283,8 @@ public class AI {
 
         }
 
+        System.out.println("player: " + playerNum + " is sending " + "TESUJI (" + move.x + ", " + move.y + ")");
+        
         //return a properly formated move string
         return ("TESUJI (" + move.x + ", " + move.y + ")");
     }

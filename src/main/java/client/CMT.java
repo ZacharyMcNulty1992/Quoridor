@@ -8,6 +8,7 @@ import java.util.*;
 import java.io.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import common.Parsed;
+import common.Interpreter;
 import javafx.application.Application;
 import client.gui.Main;
 
@@ -19,7 +20,7 @@ public class CMT {
   static int playerNumber;
   static int playerCount;
   static GuiThread gt;
-  private static Parsed ps;
+  private static Interpreter pr = new Interpreter();
   static Main gui = null;
 
   private static ArrayList<Player> playerList = new ArrayList<Player>();
@@ -159,49 +160,35 @@ public class CMT {
     while (true) {
       for (ClientThread c : threadList) {
         tesuji = c.Myoushu();
-        ps = new Parsed(tesuji);
-        if (ps.valid) {
-          if (ps.isWall) {
+        pr.parse(tesuji);
+        if (pr.isValid()) {
+          if (pr.isWall()) {
             GameBoard gb = GameBoard.getInstance();
-            
-            System.out.printf("tesuji = %s\n", tesuji);
-            System.out.printf("column: %s, row: %s, direction: %s\n",
-                                         ps.c, ps.r, ps.wallPos);
-
-            moveResult = c.getPlayer().placeWall(ps.c, ps.r, ps.wallPos);
-
-            System.out.printf("moveResult is: %s\n\n", moveResult);
-
+            moveResult = c.getPlayer().placeWall(pr.getX(), pr.getY(), pr.getWallDirection());
             if(!moveResult.equals("GOTE")){
 
               gui.AtariWall(gb.wallsMap);
               AtariWall(tesuji.substring(7), c.getPlayerNumber());
+              gui.AtariWall(gb.wallsMap);
+            }else if(moveResult.equals("GOTE")){
+              Gote(c,tesuji);
             }
-
-            else if(moveResult.equals("GOTE")){
-                 Gote(c);
-                }
-
-          } else {
-
-            System.out.printf("move pawn to: %s, %s\n\n", ps.c, ps.r);
-              
-            moveResult = c.getPlayer().movePawn(ps.c, ps.r);
+          }else {
+            moveResult = c.getPlayer().movePawn(pr.getX(), pr.getY());
             
             if(!moveResult.equals("GOTE"))
-                Atari(tesuji.substring(7), c.getPlayerNumber());
-
+              Atari(tesuji.substring(7), c.getPlayerNumber());
             else if(moveResult.equals("GOTE")){
-                 Gote(c);
-                }
+              Gote(c,tesuji);
+            }
 
           }
           if(moveResult.equals("KIKASHI")) {
             Kikashi(c.getPlayerNumber());
             return;
           }
-        } else {
-          Gote(c);
+        }else {
+          Gote(c,tesuji);
         }
       }
     }
@@ -224,7 +211,7 @@ public class CMT {
       c.write("ATARI " + pn + " " + message);
       if (count == 0) {
         gui.setCurrentPlayer(pn);
-        Point dest = new Point(ps.c, ps.r);
+        Point dest = new Point(pr.getX(), pr.getY());
         gui.Atari(dest);
       }
       count++;
@@ -242,7 +229,7 @@ public class CMT {
       c.write("ATARI " + pn + " " + message);
       if (count == 0) {
         gui.setCurrentPlayer(pn);
-        Point dest = new Point(ps.c, ps.r);
+        Point dest = new Point(pr.getX(), pr.getY());
       }
       count++;
     }
@@ -253,11 +240,14 @@ public class CMT {
   // alert them of a player being kicked for sending an invalid move/wall or
   // not adhering to protocol. After sending message to each move-server, the
   // player is removed and the thread handling them is pruned from threadList. 
-  public static void Gote(ClientThread g) throws Exception {
+  public static void Gote(ClientThread g, String tesuji) throws Exception {
     for (ClientThread c : threadList) {
       c.write("GOTE " + g.getPlayerNumber());
     }
-    System.out.println("Kicking Player#: " + g.getPlayerNumber());
+    System.out.println("Kicking Player#: " + g.getPlayerNumber() +
+                       " for " + tesuji);
+    gui.setPlayerCount(playerCount);
+    gui.gote(g.getPlayerNumber());
     threadList.remove(g);
   }
 

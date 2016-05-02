@@ -26,6 +26,7 @@ import org.powermock.reflect.Whitebox;
 @PrepareForTest(Player.class)
 public class PlayerTest {
     
+
     private Player player;
     private Player p2;
     
@@ -130,6 +131,7 @@ public class PlayerTest {
         int actualWallCount = Whitebox.getInternalState(player, "wallCount");
         Assert.assertEquals(10, actualWallCount);
 
+
         Assert.assertEquals("ATARI", player.placeWall(4,0,'h'));
 
         actualWallCount = Whitebox.getInternalState(player, "wallCount");
@@ -154,11 +156,9 @@ public class PlayerTest {
         //Wall cuts off path to end
         Assert.assertEquals("GOTE", player.placeWall(7, 0, 'v'));
 
-
         actualWallCount = Whitebox.getInternalState(player, "wallCount");
         Assert.assertEquals(6, actualWallCount);
      
-
         PowerMockito.verifyPrivate(player, Mockito.times(14))
             .invoke("isValidWallPlacement", Matchers.any(), Matchers.anyChar());
     }

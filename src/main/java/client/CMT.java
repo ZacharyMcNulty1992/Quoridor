@@ -173,6 +173,7 @@ public class CMT {
             System.out.printf("moveResult is: %s\n\n", moveResult);
 
             if(!moveResult.equals("GOTE")){
+
               gui.AtariWall(gb.wallsMap);
               AtariWall(tesuji.substring(7), c.getPlayerNumber());
             }
@@ -182,6 +183,9 @@ public class CMT {
                 }
 
           } else {
+
+            System.out.printf("move pawn to: %s, %s\n\n", ps.c, ps.r);
+              
             moveResult = c.getPlayer().movePawn(ps.c, ps.r);
             
             if(!moveResult.equals("GOTE"))

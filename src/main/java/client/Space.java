@@ -31,7 +31,7 @@ public class Space extends Point{
 
 	
 	public String toString() {
-		return "(" + x + "," + y + "):" + ((occupied) ? "Y" : "N");
+      return String.format("(%d, %d) : %s", x, y, occupied ? "Y" : "N");
 	}
   
 }// end of class

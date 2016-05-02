@@ -12,7 +12,7 @@ accessible through the object's public fields.
 */
 
 
-
+@Deprecated
 public class Parsed{
 		public boolean valid; //if command is valid
 		public String commandName; //command name

@@ -168,8 +168,9 @@ public class CMT {
             if(!moveResult.equals("GOTE")){
 
               gui.AtariWall(gb.wallsMap);
+              System.out.println("Zach's check");
               AtariWall(tesuji.substring(7), c.getPlayerNumber());
-              gui.AtariWall(gb.wallsMap);
+              //gui.AtariWall(gb.wallsMap);
             }else if(moveResult.equals("GOTE")){
               Gote(c,tesuji);
             }

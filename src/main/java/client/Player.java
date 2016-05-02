@@ -101,7 +101,7 @@ public class Player {
         Point placementPos = new Point(column, row);
 
         if(!isValidWallPlacement(placementPos, direction)){
-
+            gameBoard.removePawn(pawnPos[playerNumber - 1]);
             return "GOTE";
         }
         gameBoard.placeWall(placementPos, direction);
@@ -417,7 +417,7 @@ public class Player {
       
             if(isPathBlocked) {
 
-                gameBoard.removeWall(wallPos, direction);
+                //gameBoard.removeWall(wallPos, direction);
                 
                 return true;
             }

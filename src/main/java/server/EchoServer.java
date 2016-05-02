@@ -59,7 +59,7 @@ public class EchoServer {
             String[] message = clientMessage.split(" ");
             int pn = Integer.parseInt(clientMessage.substring(5,6));
             playerNumber = pn;
-            System.out.println("Testing message.legnth: " + message.length);
+            System.out.println("Testing message.length: " + message.length);
             if(message.length == 4)
                 ai = new AI(pn, 2, delay);
             else

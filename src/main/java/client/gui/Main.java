@@ -12,6 +12,10 @@ import javafx.scene.paint.*;
 import javafx.scene.input.*;
 import javafx.scene.Node.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.application.*;
 import javafx.event.*;
 import javafx.stage.*;
@@ -143,6 +147,10 @@ public class Main extends Application {
         mainPane = new BorderPane();
         root = new Pane();
         mainPane.setCenter(root);
+        //mainPane.setTop(setTitleRegion());
+        //mainPane.setLeft(setLeftRegion());
+        //mainPane.setAlignment(root, Pos.CENTER);
+
         drawBoard();
         handlePawns();
 
@@ -154,7 +162,7 @@ public class Main extends Application {
         }
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
-        Scene scene = new Scene(mainPane, 600, 600, Color.GREY);
+        Scene scene = new Scene(mainPane, 1000, 1000, Color.GREY);
         primaryStage.setScene(scene);
 
         // Display primaryStage
@@ -338,4 +346,43 @@ public class Main extends Application {
             }
         }
     }
+
+    /*private Region setTitleRegion() {
+        Text text = new Text("QUORIDOR");
+        text.setStyle("-fx-background-color: gray");
+        text.setId("title_text");
+        text.setFont(Font.font("Arial", FontWeight.BOLD, 50));
+        
+        StackPane stackPane = new StackPane();
+        Insets inset = new Insets(20, 20, 20, 20);
+        stackPane.setPadding(inset);
+        
+        stackPane.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(text);
+        // set the max width 
+        stackPane.setMinHeight(135);
+        //stackPane.getStylesheets().addAll(this.getClass().getResource("Layout.css").toExternalForm());
+        stackPane.setId("title");
+        return stackPane;
+    }
+
+    private Region setLeftRegion() {
+        VBox vb = new VBox();
+        
+        vb.setPadding(new Insets(20,20,20,20));
+        vb.setAlignment(Pos.CENTER);
+        
+        Label label = new Label("Move");
+        label.setAlignment(Pos.CENTER);
+        TextArea output = new TextArea();
+        output.setWrapText(true);
+        output.setPrefWidth(200);
+        output.setPrefHeight(100);
+        
+        vb.getChildren().addAll(label, output);
+        vb.getStylesheets().addAll(this.getClass().getResource("Main.css").toExternalForm());
+        vb.setId("description");
+        
+        return vb;
+    }*/
 }

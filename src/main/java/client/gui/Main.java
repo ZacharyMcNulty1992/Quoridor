@@ -76,6 +76,7 @@ public class Main extends Application {
         guiStartUpTest(this);
     }
 
+    // Sets the playerCount for the game, used in intial board setup.
     public static void setPlayerCount(int pc) {
         playerCount = pc;
     }
@@ -136,6 +137,7 @@ public class Main extends Application {
         //     player2walls --;
     }
 
+    // Calls removePlayer when gote is recieved.
     public static void gote(int pn){
         Platform.runLater(new Runnable() {
             @Override
@@ -252,11 +254,6 @@ public class Main extends Application {
             }
         }
 
-        // BorderPane bp = new BorderPane();
-        // HBox wallCount = new HBox();
-        // bp.setRight(wallCount);
-        // wallCount.getChildren().addAll(new Label("Name:"), new TextArea());
-
         // Adds the gridpanes to the root pane which will be displayed
         root.getChildren().add(board);
         root.getChildren().add(vWallGrid);
@@ -314,6 +311,7 @@ public class Main extends Application {
         }
     }
 
+    // Removes pawns form the guis as the players are kicked.
     public static void removePlayer(int pn) {
         switch(pn) {
             case 1:

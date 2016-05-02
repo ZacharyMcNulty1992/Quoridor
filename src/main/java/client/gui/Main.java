@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.Group;
 import javafx.application.*;
 import javafx.event.*;
 import javafx.stage.*;
@@ -34,7 +35,7 @@ public class Main extends Application {
     static BorderPane mainPane;
 
     // root pane all other panes will be added to
-    static Pane root;
+    static Pane root; // Making this a group will allow it to be dynamically centered
 
     // Gridpane for vertical walls.
     static GridPane vWallGrid;
@@ -58,6 +59,8 @@ public class Main extends Application {
     static Player p2;
     static Player p3;
     static Player p4;
+
+    //public static int player2walls;
 
     static HashMap<Point, Character> tempMap;
 
@@ -129,7 +132,8 @@ public class Main extends Application {
                 drawWalls(mappy);
             }
         });
-
+        // if (currentPlayer == 2)
+        //     player2walls --;
     }
 
     public static void gote(int pn){
@@ -162,7 +166,7 @@ public class Main extends Application {
         }
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
-        Scene scene = new Scene(mainPane, 1000, 1000, Color.GREY);
+        Scene scene = new Scene(mainPane, 600, 600, Color.GREY);
         primaryStage.setScene(scene);
 
         // Display primaryStage
@@ -364,25 +368,30 @@ public class Main extends Application {
         //stackPane.getStylesheets().addAll(this.getClass().getResource("Layout.css").toExternalForm());
         stackPane.setId("title");
         return stackPane;
-    }
-
-    private Region setLeftRegion() {
-        VBox vb = new VBox();
-        
-        vb.setPadding(new Insets(20,20,20,20));
-        vb.setAlignment(Pos.CENTER);
-        
-        Label label = new Label("Move");
-        label.setAlignment(Pos.CENTER);
-        TextArea output = new TextArea();
-        output.setWrapText(true);
-        output.setPrefWidth(200);
-        output.setPrefHeight(100);
-        
-        vb.getChildren().addAll(label, output);
-        vb.getStylesheets().addAll(this.getClass().getResource("Main.css").toExternalForm());
-        vb.setId("description");
-        
-        return vb;
     }*/
+
+    /*private Region setLeftRegion() {
+        player2walls = p2.wallCount;
+
+        VBox vb = new VBox();
+        vb.setPadding(new Insets(100, 10, 50, 10));
+        vb.setSpacing(20);
+
+        Label lbl = new Label("Walls");
+        lbl.setFont(Font.font("Amble CN", FontWeight.BOLD, 24));
+        vb.getChildren().add(lbl);
+
+        Label p1walls = new Label("Player 1: " + p1.wallCount);
+        vb.getChildren().add(p1walls);
+
+        Label p2walls = new Label("Player 2: " + player2walls);
+        vb.getChildren().add(p2walls);
+
+        Label p3walls = new Label("Player 3: " + p3.wallCount);
+        vb.getChildren().add(p3walls);
+
+        Label p4walls = new Label("Player 4: " + p4.wallCount);
+        vb.getChildren().add(p4walls);
+        return vb;
+  }*/
 }

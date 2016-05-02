@@ -16,7 +16,7 @@ public class Player {
     private static GameBoard gameBoard;
     private int playerNumber;
 
-    private int wallCount;
+    public int wallCount;
 
     private static boolean isFirstInstance = true;
 

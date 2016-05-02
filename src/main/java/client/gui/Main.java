@@ -11,6 +11,7 @@ import javafx.scene.shape.*;
 import javafx.scene.paint.*;
 import javafx.scene.input.*;
 import javafx.scene.Node.*;
+import javafx.scene.layout.HBox;
 import javafx.application.*;
 import javafx.event.*;
 import javafx.stage.*;
@@ -25,8 +26,11 @@ public class Main extends Application {
     // current player to handle turns
     public static int currentPlayer = 1;
 
+    // BorderPane to have access the sides and not just the center. 
+    static BorderPane mainPane;
+
     // root pane all other panes will be added to
-    static Pane root = new Pane();
+    static Pane root;
 
     // Gridpane for vertical walls.
     static GridPane vWallGrid;
@@ -136,6 +140,9 @@ public class Main extends Application {
     // Starts the GUI and draws the inital board. Also starts a click event listener.
     @Override
     public void start(final Stage primaryStage) {
+        mainPane = new BorderPane();
+        root = new Pane();
+        mainPane.setCenter(root);
         drawBoard();
         handlePawns();
 
@@ -147,7 +154,7 @@ public class Main extends Application {
         }
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
-        Scene scene = new Scene(root, 600, 600, Color.BLACK);
+        Scene scene = new Scene(mainPane, 600, 600, Color.GREY);
         primaryStage.setScene(scene);
 
         // Display primaryStage
@@ -233,10 +240,16 @@ public class Main extends Application {
             }
         }
 
+        // BorderPane bp = new BorderPane();
+        // HBox wallCount = new HBox();
+        // bp.setRight(wallCount);
+        // wallCount.getChildren().addAll(new Label("Name:"), new TextArea());
+
         // Adds the gridpanes to the root pane which will be displayed
         root.getChildren().add(board);
         root.getChildren().add(vWallGrid);
         root.getChildren().add(hWallGrid);
+        //root.getChildren().add(bp);
     }
 
     // sets up locations for possible pawn movement.
@@ -310,7 +323,6 @@ public class Main extends Application {
 
     // Recieves walls from the client, updates the GUI to show them.
     public static void drawWalls(HashMap<Point, Character> wallsMap) {
-
         for (Point key : wallsMap.keySet()) {
             if(!tempMap.containsKey(key)){
                 tempMap.put(key, wallsMap.get(key));

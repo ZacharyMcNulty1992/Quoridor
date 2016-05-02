@@ -100,6 +100,9 @@ public class Player {
 
         Point placementPos = new Point(column, row);
 
+	if(wallCount < 1)
+	    return "GOTE";
+
         if(!isValidWallPlacement(placementPos, direction)){
             gameBoard.removePawn(pawnPos[playerNumber - 1]);
             return "GOTE";
@@ -249,14 +252,8 @@ public class Player {
      * @return False if the wall placed is intersecting another
      * wall or the same wall is placed. Else, return true.
      */
-    protected boolean isValidWallPlacement(Point wallPos, char direction) {
+    public static boolean isValidWallPlacement(Point wallPos, char direction) {
 
-        if (wallCount < 1){
-            
-            System.err.println("You don't have any walls to place");
-            
-            return false;	
-        }	 
 
         if (wallPos.x >= 8 || wallPos.y >= 8) {
          
@@ -367,7 +364,7 @@ public class Player {
         return !doesWallBlockPath(wallPos, direction);
     }
 
-    private boolean doesWallBlockPath(Point wallPos, char direction) {
+    private static boolean doesWallBlockPath(Point wallPos, char direction) {
 
         gameBoard.placeWall(wallPos, direction);
 
@@ -417,7 +414,7 @@ public class Player {
       
             if(isPathBlocked) {
 
-                //gameBoard.removeWall(wallPos, direction);
+                gameBoard.removeWall(wallPos, direction);
                 
                 return true;
             }

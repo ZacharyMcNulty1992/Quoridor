@@ -159,7 +159,7 @@ public class PlayerTest {
         actualWallCount = Whitebox.getInternalState(player, "wallCount");
         Assert.assertEquals(6, actualWallCount);
      
-        PowerMockito.verifyPrivate(player, Mockito.times(14))
-            .invoke("isValidWallPlacement", Matchers.any(), Matchers.anyChar());
+	/*        PowerMockito.verifyPrivate(player, Mockito.times(14))
+		  .invoke("isValidWallPlacement", Matchers.any(), Matchers.anyChar());*/
     }
 }

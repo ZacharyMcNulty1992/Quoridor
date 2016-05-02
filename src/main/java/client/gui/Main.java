@@ -312,9 +312,7 @@ public class Main extends Application {
     public static void drawWalls(HashMap<Point, Character> wallsMap) {
 
         for (Point key : wallsMap.keySet()) {
-		System.out.println("Key: " + tempMap.containsKey(key));
             if(!tempMap.containsKey(key)){
-                System.out.println("Placing wall!!!!!!!!!!!!!!!");
                 tempMap.put(key, wallsMap.get(key));
                 if (tempMap.get(key) == 'v') {
                     System.out.println("Player " + currentPlayer + " vWall = " + key);

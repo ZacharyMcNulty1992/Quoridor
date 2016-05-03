@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Brandon Williams
- * @date   2/21/2016 - Last updated
+ * @ft.date   2/21/2016 - Last updated
  */
 public class GameBoardTest {
 

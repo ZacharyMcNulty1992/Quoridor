@@ -6,8 +6,8 @@ import static org.junit.Assert.*;
 
 /**
  * @author Jade Kevin Betsami
- * @edited Brandon Williams
- * @date   04/7/2016
+ * @ft.edited Brandon Williams
+ * @ft.date   04/7/2016
  */
 
 public class InterpreterTest {

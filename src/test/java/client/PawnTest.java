@@ -9,7 +9,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 /**
  * @author Brandon Williams
- * @date   2/10/2016 - Last Updated
+ * @ft.date   2/10/2016
  */
 @Deprecated
 public class PawnTest {

@@ -13,3 +13,10 @@ dependencies {
     testCompile "org.powermock:powermock-mockito-release-full:1.6.+"
 }
 
+javadoc {
+
+	def tagList = ["ft.date:a:\"Last Updated:\"",
+		    "ft.edited:a:\"Last Edited By:\""]
+
+	options.setTags(tagList)
+}

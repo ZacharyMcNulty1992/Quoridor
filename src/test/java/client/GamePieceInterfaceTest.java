@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
 
 /**
  * @author Brandon Williams
- * @date   2/10/2016 - Last updated
+ * @ft.date   2/10/2016
  */
 @Deprecated
 public class GamePieceInterfaceTest {

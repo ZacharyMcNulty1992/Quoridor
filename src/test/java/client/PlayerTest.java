@@ -20,7 +20,8 @@ import org.powermock.reflect.Whitebox;
 
 /**
  * @author Brandon
- * @date 3/18/16
+ * @ft.date 5/1/16
+ * @ft.edited Brandon
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Player.class)
@@ -115,9 +116,6 @@ public class PlayerTest {
         Assert.assertEquals("KIKASHI", player.movePawn(3,8));
     }
 
-    /**
-     * Tests both placeWall and isValidWallPlacement()
-     */
     @Test
     public void testPlaceWall() throws Exception{
 

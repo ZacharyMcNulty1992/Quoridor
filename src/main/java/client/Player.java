@@ -2,13 +2,12 @@ package client;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * 
  * @author Brandon
- * @date 5/1/16
- * @edited Brandon
+ * @ft.date 5/1/16
+ * @ft.edited Brandon
  */
 public class Player {
 
@@ -30,9 +29,10 @@ public class Player {
 
     /**
      * 
-     * @param playerNumber
-     * @param playerName
+     * @param playerNumber The number of the player
+     * @param wallCount How many walls is the player allowed to place
      */
+    @SuppressWarnings("unchecked")
     public Player (int playerNumber, int wallCount) {
 
         this.wallCount = wallCount;
@@ -115,7 +115,7 @@ public class Player {
     }
 
     /**
-     *
+     * @return the position of the current player
      */
     public Point getCurrentPos(){
         return pawnPos[playerNumber - 1];
@@ -245,10 +245,8 @@ public class Player {
     }
 
     /**
-     * Does not verify that the path has to the end has not been
-     * blocked yet! Need shortest path algorithm to determine.
-     * 
-     * @param wallPos - The position to place the wall on the board
+     * @param wallPos The position to place the wall on the board
+     * @param direction The direction of the wall
      * @return False if the wall placed is intersecting another
      * wall or the same wall is placed. Else, return true.
      */

@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.awt.Point;
 /**
  * @author Jade
- * @edited Brandon
- * @date 3/31/16
+ * @ft.edited Brandon
+ * @ft.date 3/31/16
  */
 public class Interpreter {
 
@@ -51,6 +51,7 @@ public class Interpreter {
    * the server.
    * 
    * @param input The message recieved from the client or server.
+   * @return True if the string is valid. False otherwise 
    */
  
   public static boolean isValidString(String input){

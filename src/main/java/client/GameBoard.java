@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 /**
  * @author Brandon Williams
- * @date 3/18/16
- * @edited Brandon Williams
+ * @ft.date 3/18/16
+ * @ft.edited Brandon Williams
  */
 public class GameBoard {
 
@@ -132,8 +132,8 @@ public class GameBoard {
 
     /**
      *
-     * @param currentPos
-     * @param newPos
+     * @param currentPos The current position of the pawn to move
+     * @param newPos The position to move the pawn to
      */
     public void movePawn(Point currentPos, Point newPos) {
 
@@ -148,8 +148,8 @@ public class GameBoard {
 
     /**
      *
-     * @param wallPos
-     * @param direction
+     * @param wallPos The position to place the wall
+     * @param direction The direction of the wall
      */
     public void placeWall(Point wallPos, char direction) {
 
@@ -190,7 +190,7 @@ public class GameBoard {
 
     /**
      *
-     * @param pawnPos
+     * @param pawnPos The position of the pawn to be removed
      */
     public void removePawn(Point pawnPos) {
 
@@ -198,7 +198,9 @@ public class GameBoard {
     }
 
     /**
-     *
+     * 
+     * @param wallPos The position to remove the wall
+     * @param direction The direction of the wall
      */
     public void removeWall(Point wallPos, char direction) {
       
@@ -238,10 +240,9 @@ public class GameBoard {
     } 
     
     /**
-     * @param Space
-     * @return ArrayList<Space>
-     */
-    
+     * @param space The current position of the pawn
+     * @return The list of valid Spaces for the pawn to move to
+     */   
     public ArrayList<Space> getValidPlayerJumpMoves(Space space) {
         ArrayList<Space> validSpaces = new ArrayList<>();
         

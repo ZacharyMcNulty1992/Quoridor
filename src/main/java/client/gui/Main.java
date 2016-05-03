@@ -151,11 +151,15 @@ public class Main extends Application {
     @Override
     public void start(final Stage primaryStage) {
         mainPane = new BorderPane();
+        mainPane.setId("main");
         root = new Pane();
         mainPane.setCenter(root);
         //mainPane.setTop(setTitleRegion());
         //mainPane.setLeft(setLeftRegion());
         //mainPane.setAlignment(root, Pos.CENTER);
+        mainPane.setLeft(setLeftRegion());
+        mainPane.setAlignment(root, Pos.CENTER);
+
 
         drawBoard();
         handlePawns();
@@ -168,9 +172,9 @@ public class Main extends Application {
         }
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
-        Scene scene = new Scene(mainPane, 600, 600, Color.GREY);
+        Scene scene = new Scene(mainPane, 800, 800, Color.GREY);
         primaryStage.setScene(scene);
-
+        scene.getStylesheets().add("Main.css");
         // Display primaryStage
         primaryStage.show();
 
@@ -392,4 +396,31 @@ public class Main extends Application {
         vb.getChildren().add(p4walls);
         return vb;
   }*/
+
+  private Region setLeftRegion() {
+        //player2walls = p2.wallCount;
+
+        VBox vb = new VBox();
+        vb.setPadding(new Insets(100, 0, 0, 0));
+        vb.setSpacing(20);
+
+        Label lbl = new Label("Walls");
+        lbl.setFont(Font.font("Amble CN", FontWeight.BOLD, 24));
+        vb.getChildren().add(lbl);
+
+        Label p1walls = new Label("Player 1: " + p1.wallCount);
+        vb.getChildren().add(p1walls);
+
+        Label p2walls = new Label("Player 2: " + p2.wallCount);
+        vb.getChildren().add(p2walls);
+
+        if (playerCount > 2){
+            Label p3walls = new Label("Player 3: " + p3.wallCount);
+            vb.getChildren().add(p3walls);
+
+            Label p4walls = new Label("Player 4: " + p4.wallCount);
+            vb.getChildren().add(p4walls);
+        }
+        return vb;
+    }
 }

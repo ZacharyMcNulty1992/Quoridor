@@ -154,11 +154,11 @@ public class Main extends Application {
         mainPane.setId("main");
         root = new Pane();
         mainPane.setCenter(root);
-        //mainPane.setTop(setTitleRegion());
+        mainPane.setTop(setTitleRegion());
         //mainPane.setLeft(setLeftRegion());
         //mainPane.setAlignment(root, Pos.CENTER);
         mainPane.setLeft(setLeftRegion());
-        mainPane.setAlignment(root, Pos.CENTER);
+        //mainPane.setAlignment(root, Pos.CENTER);
 
 
         drawBoard();
@@ -353,7 +353,7 @@ public class Main extends Application {
         }
     }
 
-    /*private Region setTitleRegion() {
+    private Region setTitleRegion() {
         Text text = new Text("QUORIDOR");
         text.setStyle("-fx-background-color: gray");
         text.setId("title_text");
@@ -370,32 +370,7 @@ public class Main extends Application {
         //stackPane.getStylesheets().addAll(this.getClass().getResource("Layout.css").toExternalForm());
         stackPane.setId("title");
         return stackPane;
-    }*/
-
-    /*private Region setLeftRegion() {
-        player2walls = p2.wallCount;
-
-        VBox vb = new VBox();
-        vb.setPadding(new Insets(100, 10, 50, 10));
-        vb.setSpacing(20);
-
-        Label lbl = new Label("Walls");
-        lbl.setFont(Font.font("Amble CN", FontWeight.BOLD, 24));
-        vb.getChildren().add(lbl);
-
-        Label p1walls = new Label("Player 1: " + p1.wallCount);
-        vb.getChildren().add(p1walls);
-
-        Label p2walls = new Label("Player 2: " + player2walls);
-        vb.getChildren().add(p2walls);
-
-        Label p3walls = new Label("Player 3: " + p3.wallCount);
-        vb.getChildren().add(p3walls);
-
-        Label p4walls = new Label("Player 4: " + p4.wallCount);
-        vb.getChildren().add(p4walls);
-        return vb;
-  }*/
+    }
 
   private Region setLeftRegion() {
         //player2walls = p2.wallCount;

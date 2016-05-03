@@ -259,8 +259,10 @@ public class GameBoard {
 
     public boolean isWallPlacementValid(Point wall, char dir){
         //true if the point is not in the map and if the key at that point is not the same
-        boolean base = (wallsMap.containsKey(wall) && wallsMap.get(wall) == dir); //the base if we have 
+        //boolean base = (wallsMap.containsKey(wall) && wallsMap.get(wall) == dir); //the base if we have 
         
+        boolean base = (wallsMap.containsKey(wall));
+
         //if we are trying to place a wall where one was placed perv we say that 
         //the placement is invalid
         if(base)
@@ -275,7 +277,7 @@ public class GameBoard {
                 Point above = new Point(wall.x , wall.y + 1);
                 Point below = new Point(wall.x , wall.y - 1);
                 
-                
+                 
                 if(wallsMap.containsKey(above))
                     return false;
                 else if(wallsMap.containsKey(below))

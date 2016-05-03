@@ -184,7 +184,7 @@ public class Main extends Application {
                     //node.setOpacity(0.0);
 
                     if (node.getBoundsInParent().contains(e.getSceneX(), e.getSceneY())) {
-                        System.out.println(GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
+                        System.out.println(GridPane.getColumnIndex(node) + "," + GridPane.getRowIndex(node));
                         //node.setOpacity(1.0);
                     }
                 }
@@ -193,7 +193,7 @@ public class Main extends Application {
                 for (Node node : vWallGrid.getChildren()) {
 
                     if (node.getBoundsInParent().contains(e.getSceneX(), e.getSceneY())) {
-                        System.out.println("v " + GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
+                        System.out.println("v " + GridPane.getColumnIndex(node) + "," + GridPane.getRowIndex(node));
                     }
                 }
 
@@ -201,7 +201,7 @@ public class Main extends Application {
                 for (Node node : hWallGrid.getChildren()) {
 
                     if (node.getBoundsInParent().contains(e.getSceneX(), e.getSceneY())) {
-                        System.out.println("h " + GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node));
+                        System.out.println("h " + GridPane.getColumnIndex(node) + "," + GridPane.getRowIndex(node));
                     }
                 }
             }

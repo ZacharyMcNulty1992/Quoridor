@@ -259,7 +259,46 @@ public class GameBoard {
 
     public boolean isWallPlacementValid(Point wall, char dir){
         //true if the point is not in the map and if the key at that point is not the same
-        return (!(wallsMap.containsKey(wall) && wallsMap.get(wall) == dir));
+        boolean base = (wallsMap.containsKey(wall) && wallsMap.get(wall) == dir); //the base if we have 
+        
+        //if we are trying to place a wall where one was placed perv we say that 
+        //the placement is invalid
+        if(base)
+            return false;
+        
+        //if we are here then we where we are placeing a wall we need to check 
+        //in the direction, if vert the above and below the point 
+        //if horz then to the left and the right of the point
+        
+        switch(dir){
+            case 'v':
+                Point above = new Point(wall.x , wall.y + 1);
+                Point below = new Point(wall.x , wall.y - 1);
+                
+                
+                if(wallsMap.containsKey(above))
+                    return false;
+                else if(wallsMap.containsKey(below))
+                    return false;
+                else 
+                    return true;
+            case 'h':
+                Point left = new Point(wall.x - 1, wall.y);
+                Point right = new Point(wall.x + 1, wall.y);
+                
+                if(wallsMap.containsKey(right))
+                    return false;
+                else if(wallsMap.containsKey(left))
+                    return false;
+                else
+                    return true;
+                
+            default:
+                System.out.println("what the shit?!?!?!?!?!?!?");
+                return false;
+                
+        }
+        
     }
     
 }

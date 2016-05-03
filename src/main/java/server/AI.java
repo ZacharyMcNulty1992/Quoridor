@@ -350,7 +350,7 @@ public class AI {
                                 d = 'h';
                             }
 
-                            if (Player.isValidWallPlacement(p, d)) {
+                            if (gameBoard.isWallPlacementValid(p, d)) {
                                 numWalls--;
                                 return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
@@ -374,7 +374,7 @@ public class AI {
                                 d = 'h';
                             }
 
-                            if (Player.isValidWallPlacement(p, d)) {
+                            if (gameBoard.isWallPlacementValid(p, d)) {
                                 numWalls--;
                                 return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                             }
@@ -400,7 +400,7 @@ public class AI {
                             d = 'h';
                         }
 
-                        if (Player.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //if it is then we reduce the number of walls
                             numWalls--;
                             
@@ -441,7 +441,7 @@ public class AI {
                                 d = 'h';
                             
                             //see if the wall placement is valid
-                            if (Player.isValidWallPlacement(p, d)) {
+                            if (gameBoard.isWallPlacementValid(p, d)) {
                                 //if it is then we reduce the number of walls we have
                                 numWalls--;
                                 //return the wall placement string
@@ -467,7 +467,7 @@ public class AI {
                                 d = 'h';
                             
                             //check to see if the wall is valid
-                            if (Player.isValidWallPlacement(p, d)) {
+                            if (gameBoard.isWallPlacementValid(p, d)) {
                                 //if it is reduce the number of walls we have
                                 numWalls--;
                                 //and return a wall placement string
@@ -497,7 +497,7 @@ public class AI {
                             d = 'h';
                         
 
-                        if (Player.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //reduce the number of walls
                             numWalls--;
                             
@@ -536,7 +536,7 @@ public class AI {
                             d = 'h';
                         
                         //see if the wall placement is valid
-                        if (Player.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             numWalls--;
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -562,7 +562,7 @@ public class AI {
                             d = 'h';
                         
                         //see if the wall placement is valid
-                        if (Player.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //if it is then we reduce the number of walls we have
                             numWalls--;
                             
@@ -593,7 +593,7 @@ public class AI {
                             d = 'h';
                         
                         //see if the wall placement is valid
-                        if (Player.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //reduce the number of walls
                             numWalls--;
                             
@@ -631,7 +631,7 @@ public class AI {
                             d = 'h';
                         
                         //see if the wall placement is valid
-                        if (Player.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             numWalls--;
                             return ("TESUJI [(" + p.x + ", " + p.y + "), " + d + "]");
                         }
@@ -657,7 +657,7 @@ public class AI {
                             d = 'h';
                         
                         //see if the wall placement is valid
-                        if (Player.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //if it is then we reduce the number of walls we have
                             numWalls--;
                             
@@ -688,7 +688,7 @@ public class AI {
                             d = 'h';
                         
                         //see if the wall placement is valid
-                        if (Player.isValidWallPlacement(p, d)) {
+                        if (gameBoard.isWallPlacementValid(p, d)) {
                             //reduce the number of walls
                             numWalls--;
                             

@@ -131,6 +131,7 @@ public class Main extends Application {
             @Override
             public void run() {
                 drawWalls(mappy);
+                mainPane.setLeft(setLeftRegion());
             }
         });
         // if (currentPlayer == 2)
@@ -342,12 +343,12 @@ public class Main extends Application {
                 tempMap.put(key, wallsMap.get(key));
                 if (tempMap.get(key) == 'v') {
                     System.out.println("Player " + currentPlayer + " vWall = " + key);
-                     vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y);
-                     vWallGrid.add(new Rectangle(10, 50, Color.WHITE), key.x, key.y + 1);
+                     vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y);
+                     vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y + 1);
                 } else {
                     System.out.println("Player " + currentPlayer + " hWall = " + key);
-                     hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x, key.y);
-                     hWallGrid.add(new Rectangle(50, 10, Color.WHITE), key.x + 1, key.y);
+                     hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x, key.y);
+                     hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x + 1, key.y);
                 }
             }
         }
@@ -372,7 +373,7 @@ public class Main extends Application {
         return stackPane;
     }
 
-  private Region setLeftRegion() {
+  private static Region setLeftRegion() {
         //player2walls = p2.wallCount;
 
         VBox vb = new VBox();

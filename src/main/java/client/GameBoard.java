@@ -264,6 +264,10 @@ public class GameBoard {
         //true if the point is not in the map and if the key at that point is not the same
         //boolean base = (wallsMap.containsKey(wall) && wallsMap.get(wall) == dir); //the base if we have 
 
+        if((wall.x > 7 || wall.y > 7) || (wall.x < 0 || wall.y < 0)) 
+            return false;
+        
+        
         boolean base = (wallsMap.containsKey(wall));
 
         //if we are trying to place a wall where one was placed perv we say that 

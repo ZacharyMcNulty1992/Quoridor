@@ -348,6 +348,8 @@ public class AI {
         boolean blockpath1 = false;
         boolean blockpath2 = false;
         int opponent = 0;
+        int count = 0;
+        int pathSize = o1.size();
         char dir; //direction the other player is going
         Space tmp; //current space of the player 2
 
@@ -368,10 +370,14 @@ public class AI {
         //change in x and y
         int deltaX = 0;
         int deltaY = 0;
-
+        
         //counter to check different nodes in the opponent's path
-        int count = o1.size() - 1;
-
+        if(pathSize > 0)
+            count = o1.size() - 1;
+        else
+            count = 0;
+        
+        
         //get the move infront of the player
         tmp = o1.get(count);
         if (tmp.x < 8 || tmp.y < 8) {
@@ -392,7 +398,7 @@ public class AI {
             //if our change in x between the space we are checking and the next space
             if (deltaX != 0) {
                 //if we are here the shortest path says the ai will move either left or right
-                dir = 'h';
+                dir = 'v';
                 //see if the wall is a valid placement first
                 //ie) it doesnt intersect other walls and it is not placed off the board
                 valid = gameBoard.isWallPlacementValid(tmp, dir);
@@ -415,7 +421,7 @@ public class AI {
 
             } else if (deltaY != 0) { //here the player will be moving forward or backward
                 //here the ai will determine if the player will move from 
-                dir = 'v';
+                dir = 'h';
 
                 //check to see if the wall is a valid wall placement
                 valid = gameBoard.isWallPlacementValid(tmp, dir);

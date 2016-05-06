@@ -362,7 +362,7 @@ public class Player {
         return !doesWallBlockPath(wallPos, direction);
     }
 
-    private static boolean doesWallBlockPath(Point wallPos, char direction) {
+    public static boolean doesWallBlockPath(Point wallPos, char direction) {
 
         gameBoard.placeWall(wallPos, direction);
 

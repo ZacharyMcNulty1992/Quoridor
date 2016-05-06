@@ -47,7 +47,9 @@ public class EchoServer {
     // The move our AI decided to make.
     public void myoushu(PrintStream cout){
         System.out.println("Please make your move or place a wall");
-        cout.println(ai.getMove());
+        String m = ai.getMove();
+        System.out.println(m);
+        cout.println(m);
     }
 
     // Handles the GAME message from the client. If formatted correctly

@@ -90,22 +90,24 @@ public class GameBoard {
                         s.edges.add(gameBoard.get(p + (i * 9) + 1)); //here we get the node next to the current one
                     }
                 } else //here we are looking at the middle of the board
-                if (p == 0) {
-                    //here we are on the right hand side of the board
-                    s.edges.add(gameBoard.get(p + (i * 9) + 1)); //here we get the node next to the current one
-                    s.edges.add(gameBoard.get(p + (i * 9) - 9)); //get the node directly above the current node
-                    s.edges.add(gameBoard.get(p + (i * 9) + 9)); //get the node directly below this node
-                } else if (p == 8) {
-                    //here we are at the left hand side of the board
-                    s.edges.add(gameBoard.get(p + (i * 9) - 9)); //get the node directly above the current node
-                    s.edges.add(gameBoard.get(p + (i * 9) - 1)); //get the node that is just before the current node
-                    s.edges.add(gameBoard.get(p + (i * 9) + 9)); //get the node directly below this node
-                } else {
-                    //here we are in the middle of the board
-                    s.edges.add(gameBoard.get(p + (i * 9) - 9)); //get the node directly above this node
-                    s.edges.add(gameBoard.get(p + (i * 9) - 1)); //get the node that is just before the current node
-                    s.edges.add(gameBoard.get(p + (i * 9) + 1)); //here we get the node next to the current one
-                    s.edges.add(gameBoard.get(p + (i * 9) + 9)); //get the node directly below this node
+                {
+                    if (p == 0) {
+                        //here we are on the right hand side of the board
+                        s.edges.add(gameBoard.get(p + (i * 9) + 1)); //here we get the node next to the current one
+                        s.edges.add(gameBoard.get(p + (i * 9) - 9)); //get the node directly above the current node
+                        s.edges.add(gameBoard.get(p + (i * 9) + 9)); //get the node directly below this node
+                    } else if (p == 8) {
+                        //here we are at the left hand side of the board
+                        s.edges.add(gameBoard.get(p + (i * 9) - 9)); //get the node directly above the current node
+                        s.edges.add(gameBoard.get(p + (i * 9) - 1)); //get the node that is just before the current node
+                        s.edges.add(gameBoard.get(p + (i * 9) + 9)); //get the node directly below this node
+                    } else {
+                        //here we are in the middle of the board
+                        s.edges.add(gameBoard.get(p + (i * 9) - 9)); //get the node directly above this node
+                        s.edges.add(gameBoard.get(p + (i * 9) - 1)); //get the node that is just before the current node
+                        s.edges.add(gameBoard.get(p + (i * 9) + 1)); //here we get the node next to the current one
+                        s.edges.add(gameBoard.get(p + (i * 9) + 9)); //get the node directly below this node
+                    }
                 }
             }
         }
@@ -140,10 +142,10 @@ public class GameBoard {
         getSpaceAt(currentPos.x, currentPos.y).occupied = false;
         getSpaceAt(newPos.x, newPos.y).occupied = true;
     }
-    
+
     public void placePawn(Point position) {
-      
-      getSpaceAt(position.x, position.y).occupied = true;
+
+        getSpaceAt(position.x, position.y).occupied = true;
     }
 
     /**
@@ -155,9 +157,9 @@ public class GameBoard {
 
         wallsMap.put(wallPos, new Character(direction));
         if (direction == 'v') {
-             //Point temp = new Point(wallPos.x, wallPos.y + 1);
-             //wallsMap.put(temp, new Character(direction));
-      
+            //Point temp = new Point(wallPos.x, wallPos.y + 1);
+            //wallsMap.put(temp, new Character(direction));
+
             getSpaceAt(wallPos.x + 1, wallPos.y).edges
                     .remove(getSpaceAt(wallPos.x, wallPos.y));
 
@@ -170,8 +172,8 @@ public class GameBoard {
             getSpaceAt(wallPos.x, wallPos.y + 1).edges
                     .remove(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
         } else {
-             //Point temp = new Point(wallPos.x + 1, wallPos.y);
-             //wallsMap.put(temp, new Character(direction));
+            //Point temp = new Point(wallPos.x + 1, wallPos.y);
+            //wallsMap.put(temp, new Character(direction));
 
             getSpaceAt(wallPos.x, wallPos.y + 1).edges
                     .remove(getSpaceAt(wallPos.x, wallPos.y));
@@ -198,109 +200,116 @@ public class GameBoard {
     }
 
     /**
-     * 
+     *
      * @param wallPos The position to remove the wall
      * @param direction The direction of the wall
      */
     public void removeWall(Point wallPos, char direction) {
-      
-      wallsMap.remove(wallPos, new Character(direction));
 
-      if (direction == 'v') {
-           //Point temp = new Point(wallPos.x, wallPos.y + 1);
-           //wallsMap.put(temp, new Character(direction));
+        wallsMap.remove(wallPos, direction);
 
-          getSpaceAt(wallPos.x + 1, wallPos.y).edges
-                  .add(getSpaceAt(wallPos.x, wallPos.y));
+        if (direction == 'v') {
+            //Point temp = new Point(wallPos.x, wallPos.y + 1);
+            //wallsMap.put(temp, new Character(direction));
 
-          getSpaceAt(wallPos.x, wallPos.y).edges
-                  .add(getSpaceAt(wallPos.x + 1, wallPos.y));
+            getSpaceAt(wallPos.x  , wallPos.y).edges
+                    .add(getSpaceAt(wallPos.x + 1, wallPos.y));
 
-          getSpaceAt(wallPos.x + 1, wallPos.y + 1).edges
-                  .add(getSpaceAt(wallPos.x, wallPos.y + 1));
+            getSpaceAt(wallPos.x, wallPos.y + 1 ).edges
+                    .add(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
 
-          getSpaceAt(wallPos.x, wallPos.y + 1).edges
-                  .add(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
-      } else {
-           //Point temp = new Point(wallPos.x + 1, wallPos.y);
-           //wallsMap.put(temp, new Character(direction));
+            getSpaceAt(wallPos.x + 1, wallPos.y + 1).edges
+                    .add(getSpaceAt(wallPos.x, wallPos.y + 1));
 
-          getSpaceAt(wallPos.x, wallPos.y + 1).edges
-                  .add(getSpaceAt(wallPos.x, wallPos.y));
+            getSpaceAt(wallPos.x + 1, wallPos.y).edges
+                    .add(getSpaceAt(wallPos.x, wallPos.y));
+        } else {
+            //Point temp = new Point(wallPos.x + 1, wallPos.y);
+            //wallsMap.put(temp, new Character(direction));
 
-          getSpaceAt(wallPos.x, wallPos.y).edges
-                  .add(getSpaceAt(wallPos.x, wallPos.y + 1));
+            getSpaceAt(wallPos.x, wallPos.y).edges
+                    .add(getSpaceAt(wallPos.x, wallPos.y + 1));
 
-          getSpaceAt(wallPos.x + 1, wallPos.y + 1).edges
-                  .add(getSpaceAt(wallPos.x + 1, wallPos.y));
+            getSpaceAt(wallPos.x + 1, wallPos.y).edges
+                    .add(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
 
-          getSpaceAt(wallPos.x + 1, wallPos.y).edges
-                  .add(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
-      }
-    } 
-    
+            getSpaceAt(wallPos.x + 1, wallPos.y + 1).edges
+                    .add(getSpaceAt(wallPos.x + 1, wallPos.y));
+
+            getSpaceAt(wallPos.x + 1, wallPos.y).edges
+                    .add(getSpaceAt(wallPos.x, wallPos.y));
+        }
+    }
+
     /**
      * @param space The current position of the pawn
      * @return The list of valid Spaces for the pawn to move to
-     */   
+     */
     public ArrayList<Space> getValidPlayerJumpMoves(Space space) {
         ArrayList<Space> validSpaces = new ArrayList<>();
-        
+
         Space occ = getSpaceAt(space.x, space.y);
         HashSet<Space> connectedNodes = occ.edges;
-        
-        for(Space v : connectedNodes){
-            if(!v.occupied)
+
+        for (Space v : connectedNodes) {
+            if (!v.occupied) {
                 validSpaces.add(v);
+            }
         }
-        
+
         return validSpaces;
     }
 
-    public boolean isWallPlacementValid(Point wall, char dir){
+    public boolean isWallPlacementValid(Point wall, char dir) {
         //true if the point is not in the map and if the key at that point is not the same
         //boolean base = (wallsMap.containsKey(wall) && wallsMap.get(wall) == dir); //the base if we have 
-        
+
         boolean base = (wallsMap.containsKey(wall));
 
         //if we are trying to place a wall where one was placed perv we say that 
         //the placement is invalid
-        if(base)
+        if (base) {
             return false;
+        }
+
+        //see if the walls are with in the game board
+        if ((dir == 'v') && !((wall.y <= 8) && (wall.x <= 8))) {
+            return false;
+        } else if ((dir == 'h') && !((wall.x <= 8) && (wall.y <= 8))) {
+            return false;
+        }
         
         //if we are here then we where we are placeing a wall we need to check 
         //in the direction, if vert the above and below the point 
         //if horz then to the left and the right of the point
-        
-        switch(dir){
+        switch (dir) {
             case 'v':
-                Point above = new Point(wall.x , wall.y + 1);
-                Point below = new Point(wall.x , wall.y - 1);
-                
-                 
-                if(wallsMap.containsKey(above))
+                Point above = new Point(wall.x, wall.y + 1);
+                Point below = new Point(wall.x, wall.y - 1);
+
+                if (wallsMap.containsKey(above)) {
                     return false;
-                else if(wallsMap.containsKey(below))
+                } else if (wallsMap.containsKey(below)) {
                     return false;
-                else 
+                } else {
                     return true;
+                }
             case 'h':
                 Point left = new Point(wall.x - 1, wall.y);
                 Point right = new Point(wall.x + 1, wall.y);
-                
-                if(wallsMap.containsKey(right))
+
+                if (wallsMap.containsKey(right)) {
                     return false;
-                else if(wallsMap.containsKey(left))
+                } else if (wallsMap.containsKey(left)) {
                     return false;
-                else
+                } else {
                     return true;
-                
+                }
+
             default:
                 System.out.println("what the shit?!?!?!?!?!?!?");
                 return false;
-                
+
         }
-        
     }
-    
 }

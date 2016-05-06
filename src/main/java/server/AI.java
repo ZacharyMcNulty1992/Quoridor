@@ -179,7 +179,7 @@ public class AI {
             path.add(current);
 
             //if the node we are looking at is the node occupied by the player
-            if(current == null){
+            if (current == null) {
                 return null;
             }
             if (current.x == X[playerNum] && current.y == Y[playerNum]) {
@@ -205,23 +205,21 @@ public class AI {
         //get player 2's shortestPath
         ArrayList<Space> o2 = new ArrayList<>();
 
+        //implement some randomness in the ai
         Random rand = new Random();
         int r = (rand.nextInt(98765431)) % 2;
+
         //based on the player number we see other players shortest path
         //the they are shorter than our path then we will want to place a wall
         //assuming we have some left.
+
         System.out.println("Number of Walls left: " + numWalls);
         if (r == 1) {
+//        if (ais.size() > o2.size()) {
             if (numWalls >= 1) {
                 //String wall = makeValidWallPlacement(ais);
 
                 String wall = "";
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
 
                 if (numOfPlayers == 2) {
 
@@ -239,13 +237,29 @@ public class AI {
 
                 //if we want to place a wall return here
                 if (wall != null) {
+
+                    //slow things down
+                    try {
+
+                        Thread.sleep(delay);
+
+                    } catch (InterruptedException e) {
+
+                        e.printStackTrace();
+
+                    }
+                    
+                    //decrement the number of walls we have
+                    numWalls--;
+                    
+                    //return the wall string
                     return wall;
                 }
                 //else 
-                //do nothing
-
+                //we are going to move
             }
         }
+        
         //compare the sizes of the arrays
         int aiSize = ais.size();
 
@@ -302,8 +316,7 @@ public class AI {
         //slow things down
         try {
 
-//            Thread.sleep(delay);
-              Thread.sleep(2000);
+            Thread.sleep(delay);
 
         } catch (InterruptedException e) {
 
@@ -342,42 +355,48 @@ public class AI {
 
     private String makeGoodWallPlacement2(ArrayList<Space> ais, ArrayList<Space> o1) {
 
+        //check to see if the list we are passing in is null
+        if(o1 == null)
+            return null; //if it is we will not return a wall placement string
+        
         String wallPlacement = "";
         boolean done = false; //if we are done finding a wall to place
         boolean valid = false; //used to see if a wall placement is valid
         boolean blockpath1 = false;
         boolean blockpath2 = false;
-        int opponent = 0;
-        int count = 0;
-        int pathSize = o1.size();
+        int opponent = 0; //number of the opponent
+        int count = 0; //counter variable used later on
+        int pathSize = o1.size(); //size of the opponents path
         char dir; //direction the other player is going
         Space tmp; //current space of the player 2
 
-        int x = 0;
+        //variables for the x and y values we are looking for
+        int x = 0; 
         int y = 0;
 
         //x and y of player 1 or 2
         if (playerNum == 1) { //get player 2's coords
             x = X[1];
             y = Y[1];
-            opponent = 2;
+            opponent = 2; //if we are player 1 here then our opponent is player 2
         } else if (playerNum == 2) { //get player 1's coords
             x = X[0];
             y = Y[0];
-            opponent = 1;
+            opponent = 1; //if we are player 2 then our oppnent is player 1
         }
 
         //change in x and y
+        //based on the node we are looking at compared to the previous node
         int deltaX = 0;
         int deltaY = 0;
-        
+
         //counter to check different nodes in the opponent's path
-        if(pathSize > 0)
+        if (pathSize > 0) {
             count = o1.size() - 1;
-        else
+        } else {
             count = 0;
-        
-        
+        }
+
         //get the move infront of the player
         tmp = o1.get(count);
         if (tmp.x < 8 || tmp.y < 8) {
@@ -409,14 +428,14 @@ public class AI {
                     blockpath1 = doesWallBlockPath(tmp, dir, 1);
                     blockpath2 = doesWallBlockPath(tmp, dir, 2);
 
-                    System.out.println("path 1 blocked: " + blockpath1);
-                    System.out.println("path 2 blocked: " + blockpath2);
+//                    System.out.println("path 1 blocked: " + blockpath1);
+//                    System.out.println("path 2 blocked: " + blockpath2);
 
                     if (!blockpath1 && !blockpath2) { //if not then we can place the wall
                         return "TESUJI [(" + tmp.x + ", " + tmp.y + "), " + dir + "]";
                     }
                 } else {
-                    //do nothing
+                    //do nothing and check next node
                 }
 
             } else if (deltaY != 0) { //here the player will be moving forward or backward
@@ -430,8 +449,8 @@ public class AI {
                     blockpath1 = doesWallBlockPath(tmp, dir, 1);
                     blockpath2 = doesWallBlockPath(tmp, dir, 2);
 
-                    System.out.println("path 1 blocked: " + blockpath1);
-                    System.out.println("path 2 blocked: " + blockpath2);
+//                    System.out.println("path 1 blocked: " + blockpath1);
+//                    System.out.println("path 2 blocked: " + blockpath2);
 
                     if (!blockpath1 && !blockpath2) { //if not then we can place the wall
                         {
@@ -439,11 +458,11 @@ public class AI {
                         }
                     }
                 } else {
-                    //do nothing 
+                    //do nothing and check next node
                 }
             }
 
-            //here we need to check the next node since we did not 
+            //we need to update the previous nodes coordinates to the node we are currently looking at
             x = tmp.x;
             y = tmp.y;
 
@@ -917,10 +936,10 @@ public class AI {
         //get the shortest path of the current player
         ArrayList<Space> spath = getShortestPath(playerNum);
 
-        if(spath == null){
+        if (spath == null) {
             return true;
         }
-        
+
         //target- should be the target node if it isnt then we dont have
         //a path to the end of the board
         Space target = spath.get(0);
@@ -963,14 +982,12 @@ public class AI {
                 return true;//we do block the player with that wall placement
             }
         } else //we are looking for player 3 or 4
-        {
-            if ((target.x == targetX) && spath.contains(startingPos)) {
+         if ((target.x == targetX) && spath.contains(startingPos)) {
                 gameBoard.removeWall(wallPos, direction); //remove the wall
                 return false; //we dont block the player with the wall placement
             } else {
                 gameBoard.removeWall(wallPos, direction); //remove the wall
                 return true; //we do block the player with that wall placement
             }
-        }
     }
 }

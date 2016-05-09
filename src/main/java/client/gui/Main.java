@@ -176,7 +176,7 @@ public class Main extends Application {
         primaryStage.show();
 
         // Handles click events for the game
-        root.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+        /*root.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
 
@@ -206,7 +206,7 @@ public class Main extends Application {
                     }
                 }
             }
-        });
+        });*/
     }
 
     // Draws the inital board, spaces and possible wall locations,

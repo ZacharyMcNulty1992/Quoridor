@@ -155,11 +155,7 @@ public class Main extends Application {
         mainPane.setId("main");
         root = new Pane();
         mainPane.setCenter(root);
-        mainPane.setTop(setTitleRegion());
-        //mainPane.setLeft(setLeftRegion());
-        //mainPane.setAlignment(root, Pos.CENTER);
         mainPane.setLeft(setLeftRegion());
-        //mainPane.setAlignment(root, Pos.CENTER);
 
 
         drawBoard();
@@ -354,7 +350,7 @@ public class Main extends Application {
         }
     }
 
-    private Region setTitleRegion() {
+    /*private Region setTitleRegion() {
         Text text = new Text("QUORIDOR");
         text.setStyle("-fx-background-color: gray");
         text.setId("title_text");
@@ -371,11 +367,9 @@ public class Main extends Application {
         //stackPane.getStylesheets().addAll(this.getClass().getResource("Layout.css").toExternalForm());
         stackPane.setId("title");
         return stackPane;
-    }
+    }*/
 
   private static Region setLeftRegion() {
-        //player2walls = p2.wallCount;
-
         VBox vb = new VBox();
         vb.setPadding(new Insets(100, 0, 0, 0));
         vb.setSpacing(20);

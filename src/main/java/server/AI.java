@@ -3,15 +3,12 @@ package server;
 import java.util.ArrayList;
 
 import client.GameBoard;
-import client.Player;
 import client.Space;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AI {
 

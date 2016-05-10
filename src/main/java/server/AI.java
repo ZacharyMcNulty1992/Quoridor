@@ -204,14 +204,14 @@ public class AI {
 
         //implement some randomness in the ai
         Random rand = new Random();
-        int r = (rand.nextInt(98765431)) % 2;
+        int r = (rand.nextInt(98765431)) % 10 + 1;
 
         //based on the player number we see other players shortest path
         //the they are shorter than our path then we will want to place a wall
         //assuming we have some left.
 
         System.out.println("Number of Walls left: " + numWalls);
-        if (r == 1) {
+        if (r <= 7) {
 //        if (ais.size() > o2.size()) {
             if (numWalls >= 1) {
                 //String wall = makeValidWallPlacement(ais);
@@ -414,7 +414,7 @@ public class AI {
             //if our change in x between the space we are checking and the next space
             if (deltaX != 0) {
                 //if we are here the shortest path says the ai will move either left or right
-                dir = 'v';
+                dir = 'h';
                 //see if the wall is a valid placement first
                 //ie) it doesnt intersect other walls and it is not placed off the board
                 valid = gameBoard.isWallPlacementValid(tmp, dir);
@@ -425,9 +425,6 @@ public class AI {
                     blockpath1 = doesWallBlockPath(tmp, dir, 1);
                     blockpath2 = doesWallBlockPath(tmp, dir, 2);
 
-//                    System.out.println("path 1 blocked: " + blockpath1);
-//                    System.out.println("path 2 blocked: " + blockpath2);
-
                     if (!blockpath1 && !blockpath2) { //if not then we can place the wall
                         return "TESUJI [(" + tmp.x + ", " + tmp.y + "), " + dir + "]";
                     }
@@ -437,7 +434,7 @@ public class AI {
 
             } else if (deltaY != 0) { //here the player will be moving forward or backward
                 //here the ai will determine if the player will move from 
-                dir = 'h';
+                dir = 'v';
 
                 //check to see if the wall is a valid wall placement
                 valid = gameBoard.isWallPlacementValid(tmp, dir);
@@ -445,9 +442,6 @@ public class AI {
                     //check to see if the wall will block a player from being able to finish
                     blockpath1 = doesWallBlockPath(tmp, dir, 1);
                     blockpath2 = doesWallBlockPath(tmp, dir, 2);
-
-//                    System.out.println("path 1 blocked: " + blockpath1);
-//                    System.out.println("path 2 blocked: " + blockpath2);
 
                     if (!blockpath1 && !blockpath2) { //if not then we can place the wall
                         {
@@ -471,7 +465,6 @@ public class AI {
                 //get the next node to look at
                 count--;
                 tmp = o1.get(count);
-//                System.out.println("now looking at node " + tmp);
             }
             //if we get here we will check the next space to see if it would be 
             //a good place to place a wall

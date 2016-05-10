@@ -43,6 +43,8 @@ public class Main extends Application {
     // Gridpane for horizontal walls.
     static GridPane hWallGrid;
 
+    static GridPane wallFillGrid;
+
     // Gridpane for pawn locations.
     static GridPane pawns;
 
@@ -134,8 +136,6 @@ public class Main extends Application {
                 mainPane.setLeft(setLeftRegion());
             }
         });
-        // if (currentPlayer == 2)
-        //     player2walls --;
     }
 
     // Calls removePlayer when gote is recieved.
@@ -174,39 +174,6 @@ public class Main extends Application {
         scene.getStylesheets().add("Main.css");
         // Display primaryStage
         primaryStage.show();
-
-        // Handles click events for the game
-        /*root.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-
-                // returns coordinate on the board when a square is clicked
-                for (Node node : pawns.getChildren()) {
-                    //node.setOpacity(0.0);
-
-                    if (node.getBoundsInParent().contains(e.getSceneX(), e.getSceneY())) {
-                        System.out.println(GridPane.getColumnIndex(node) + "," + GridPane.getRowIndex(node));
-                        //node.setOpacity(1.0);
-                    }
-                }
-
-                // returns coordinate on the board when a vertical wall is clicked
-                for (Node node : vWallGrid.getChildren()) {
-
-                    if (node.getBoundsInParent().contains(e.getSceneX(), e.getSceneY())) {
-                        System.out.println("v " + GridPane.getColumnIndex(node) + "," + GridPane.getRowIndex(node));
-                    }
-                }
-
-                // returns coordinate on the board when a horizontal wall is clicked
-                for (Node node : hWallGrid.getChildren()) {
-
-                    if (node.getBoundsInParent().contains(e.getSceneX(), e.getSceneY())) {
-                        System.out.println("h " + GridPane.getColumnIndex(node) + "," + GridPane.getRowIndex(node));
-                    }
-                }
-            }
-        });*/
     }
 
     // Draws the inital board, spaces and possible wall locations,
@@ -255,11 +222,24 @@ public class Main extends Application {
             }
         }
 
+        // Gridpane to handle the empty space between walls
+        wallFillGrid = new GridPane();
+        wallFillGrid.setAlignment(Pos.CENTER);
+        wallFillGrid.setHgap(50);
+        wallFillGrid.setVgap(50);
+        wallFillGrid.setPadding(new Insets(75, 25, 25, 75));
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                wallFillGrid.add(new Rectangle(10, 10, Color.TRANSPARENT), i, j);
+            }
+        }
+
         // Adds the gridpanes to the root pane which will be displayed
         root.getChildren().add(board);
         root.getChildren().add(vWallGrid);
         root.getChildren().add(hWallGrid);
-        //root.getChildren().add(bp);
+        root.getChildren().add(wallFillGrid);
     }
 
     // sets up locations for possible pawn movement.
@@ -341,35 +321,19 @@ public class Main extends Application {
                     System.out.println("Player " + currentPlayer + " vWall = " + key);
                      vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y);
                      vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y + 1);
+                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);
                 } else {
                     System.out.println("Player " + currentPlayer + " hWall = " + key);
                      hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x, key.y);
                      hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x + 1, key.y);
+                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);
                 }
             }
         }
     }
 
-    /*private Region setTitleRegion() {
-        Text text = new Text("QUORIDOR");
-        text.setStyle("-fx-background-color: gray");
-        text.setId("title_text");
-        text.setFont(Font.font("Arial", FontWeight.BOLD, 50));
-        
-        StackPane stackPane = new StackPane();
-        Insets inset = new Insets(20, 20, 20, 20);
-        stackPane.setPadding(inset);
-        
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.getChildren().add(text);
-        // set the max width 
-        stackPane.setMinHeight(135);
-        //stackPane.getStylesheets().addAll(this.getClass().getResource("Layout.css").toExternalForm());
-        stackPane.setId("title");
-        return stackPane;
-    }*/
-
-  private static Region setLeftRegion() {
+    // Displays players remaining walls on the left side of the board
+    private static Region setLeftRegion() {
         VBox vb = new VBox();
         vb.setPadding(new Insets(100, 0, 0, 0));
         vb.setSpacing(20);

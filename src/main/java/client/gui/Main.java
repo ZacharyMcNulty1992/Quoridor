@@ -43,6 +43,8 @@ public class Main extends Application {
     // Gridpane for horizontal walls.
     static GridPane hWallGrid;
 
+    static GridPane wallFillGrid;
+
     // Gridpane for pawn locations.
     static GridPane pawns;
 
@@ -255,10 +257,23 @@ public class Main extends Application {
             }
         }
 
+        wallFillGrid = new GridPane();
+        wallFillGrid.setAlignment(Pos.CENTER);
+        wallFillGrid.setHgap(50);
+        wallFillGrid.setVgap(50);
+        wallFillGrid.setPadding(new Insets(75, 25, 25, 75));
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                wallFillGrid.add(new Rectangle(10, 10, Color.TRANSPARENT), i, j);
+            }
+        }
+
         // Adds the gridpanes to the root pane which will be displayed
         root.getChildren().add(board);
         root.getChildren().add(vWallGrid);
         root.getChildren().add(hWallGrid);
+        root.getChildren().add(wallFillGrid);
         //root.getChildren().add(bp);
     }
 
@@ -341,10 +356,12 @@ public class Main extends Application {
                     System.out.println("Player " + currentPlayer + " vWall = " + key);
                      vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y);
                      vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y + 1);
+                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);
                 } else {
                     System.out.println("Player " + currentPlayer + " hWall = " + key);
                      hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x, key.y);
                      hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x + 1, key.y);
+                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);
                 }
             }
         }

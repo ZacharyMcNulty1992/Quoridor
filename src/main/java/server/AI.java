@@ -962,7 +962,8 @@ public class AI {
 
         System.out.println("placed pseudo wall at " + wallPos.x + ", " + wallPos.y);
         System.out.println("player " + playerNum + " path.get(0) is: " + target);
-
+        System.out.println("target.y = " + target.y + "   targetY = " + targetY);
+        
         //if we check the path for the players 1 and 2
         if (playerNum == 1 || playerNum == 2) {
             if ((target.y == targetY) && spath.contains(startingPos)) {

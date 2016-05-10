@@ -421,18 +421,16 @@ public class AI {
                 //ie) it doesnt intersect other walls and it is not placed off the board
                 for (int i = 0; i < 2; i++) {
 
-                    valid = gameBoard.isWallPlacementValid(tmp2, dir);
-
                     if (valid) {
 
                         //check to see if this wall will block any players from being
                         //able to finish
                         blockpath1 = doesWallBlockPath(tmp2, dir, 1);
                         blockpath2 = doesWallBlockPath(tmp2, dir, 2);
-
+                        
                         System.out.println("player 1 path blocked = " + blockpath1);
                         System.out.println("player 2 path blocked = " + blockpath2);
-
+                        
                         if (blockpath1 == false && blockpath2 == false) { //if not then we can place the wall
                             return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
                         }
@@ -459,7 +457,9 @@ public class AI {
 
                         System.out.println("player 1 path blocked = " + blockpath1);
                         System.out.println("player 2 path blocked = " + blockpath2);
-
+                        
+                        
+                        
                         //if not then we can place the wall
                         if (blockpath1 == false && blockpath2 == false) {
                             {
@@ -946,14 +946,22 @@ public class AI {
         //variables for the target node location
         int targetY = 0;
         int targetX = 0;
-
+        
+        boolean isGucciWallPlacement = false;
+        
         //get the shortest path of the current player
         ArrayList<Space> spath = getShortestPath(playerNum);
-
         if (spath == null) {
             return true;
         }
+        
+        isGucciWallPlacement = getThatJulian(playerNum);
 
+        if(isGucciWallPlacement == false){
+            gameBoard.removeWall(wallPos, direction);
+            return true;
+        }
+        
         //target- should be the target node if it isnt then we dont have
         //a path to the end of the board
         Space target = spath.get(0);
@@ -998,5 +1006,25 @@ public class AI {
                 gameBoard.removeWall(wallPos, direction); //remove the wall
                 return true; //we do block the player with that wall placement
             }
+    }
+    
+    //used for 2 player ONLY 
+    public boolean getThatJulian(int playerNum){
+        
+        boolean Julian = false;
+        ArrayList<Space> ais = getShortestPath(1);
+        ArrayList<Space> bis = getShortestPath(2);
+        
+        if(playerNum == 1){
+            if(ais.size() < bis.size()){
+                Julian = true;
+            }
+        }else{
+            if(bis.size() < bis.size()){
+                Julian = true;
+            }
+        }
+        
+        return Julian;
     }
 }

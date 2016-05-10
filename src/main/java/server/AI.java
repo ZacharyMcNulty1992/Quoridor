@@ -209,7 +209,6 @@ public class AI {
         //based on the player number we see other players shortest path
         //the they are shorter than our path then we will want to place a wall
         //assuming we have some left.
-
         System.out.println("Number of Walls left: " + numWalls);
         if (r <= 6) {
 //        if (ais.size() > o2.size()) {
@@ -245,10 +244,10 @@ public class AI {
                         e.printStackTrace();
 
                     }
-                    
+
                     //decrement the number of walls we have
                     numWalls--;
-                    
+
                     //return the wall string
                     return wall;
                 }
@@ -256,7 +255,7 @@ public class AI {
                 //we are going to move
             }
         }
-        
+
         //compare the sizes of the arrays
         int aiSize = ais.size();
 
@@ -353,9 +352,9 @@ public class AI {
     private String makeGoodWallPlacement2(ArrayList<Space> ais, ArrayList<Space> o1) {
 
         //check to see if the list we are passing in is null
-        if(o1 == null)
+        if (o1 == null) {
             return null; //if it is we will not return a wall placement string
-        
+        }
         String wallPlacement = "";
         boolean done = false; //if we are done finding a wall to place
         boolean valid = false; //used to see if a wall placement is valid
@@ -366,9 +365,10 @@ public class AI {
         int pathSize = o1.size(); //size of the opponents path
         char dir; //direction the other player is going
         Space tmp; //current space of the player 2
+        Space tmp2; //working variable
 
         //variables for the x and y values we are looking for
-        int x = 0; 
+        int x = 0;
         int y = 0;
 
         //x and y of player 1 or 2
@@ -411,51 +411,68 @@ public class AI {
             deltaX = tmp.x - x;
             deltaY = tmp.y - y;
 
+            tmp2 = tmp;
+
             //if our change in x between the space we are checking and the next space
             if (deltaX != 0) {
                 //if we are here the shortest path says the ai will move either left or right
                 dir = 'v';
                 //see if the wall is a valid placement first
                 //ie) it doesnt intersect other walls and it is not placed off the board
-                valid = gameBoard.isWallPlacementValid(tmp, dir);
-                if (valid) {
+                for (int i = 0; i < 2; i++) {
 
-                    //check to see if this wall will block any players from being
-                    //able to finish
-                    blockpath1 = doesWallBlockPath(tmp, dir, 1);
-                    blockpath2 = doesWallBlockPath(tmp, dir, 2);
+                    valid = gameBoard.isWallPlacementValid(tmp2, dir);
 
-                    System.out.println("player 1 path blocked = " + blockpath1);
-                    System.out.println("player 2 path blocked = " + blockpath2);
-                    
-                    if (!blockpath1 && !blockpath2) { //if not then we can place the wall
-                        return "TESUJI [(" + tmp.x + ", " + tmp.y + "), " + dir + "]";
-                    }
-                } else {
-                    //do nothing and check next node
+                    if (valid) {
+
+                        //check to see if this wall will block any players from being
+                        //able to finish
+                        blockpath1 = doesWallBlockPath(tmp2, dir, 1);
+                        blockpath2 = doesWallBlockPath(tmp2, dir, 2);
+
+                        System.out.println("player 1 path blocked = " + blockpath1);
+                        System.out.println("player 2 path blocked = " + blockpath2);
+
+                        if (blockpath1 == false && blockpath2 == false) { //if not then we can place the wall
+                            return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
+                        }
+                    } else //try a wall next to the one we tried to place
+                     if (i == 0 && tmp.x - 1 > 0) //try to place a wall next to the 
+                        {
+                            tmp2 = gameBoard.getSpaceAt(tmp.x - 1, y);
+                        } else if (i == 1 && tmp.x +1 <= 7) //try to place a wall to the other side of the original wall position
+                        {
+                            tmp2 = gameBoard.getSpaceAt(tmp.x + 1, y);
+                        }
                 }
-
             } else if (deltaY != 0) { //here the player will be moving forward or backward
                 //here the ai will determine if the player will move from 
                 dir = 'h';
 
-                //check to see if the wall is a valid wall placement
-                valid = gameBoard.isWallPlacementValid(tmp, dir);
-                if (valid) {
-                    //check to see if the wall will block a player from being able to finish
-                    blockpath1 = doesWallBlockPath(tmp, dir, 1);
-                    blockpath2 = doesWallBlockPath(tmp, dir, 2);
-                    
-                    System.out.println("player 1 path blocked = " + blockpath1);
-                    System.out.println("player 2 path blocked = " + blockpath2);
-                    
-                    if (!blockpath1 && !blockpath2) { //if not then we can place the wall
-                        {
-                            return "TESUJI [(" + tmp.x + ", " + tmp.y + "), " + dir + "]";
+                for (int i = 0; i < 2; i++) {
+                    //check to see if the wall is a valid wall placement
+                    valid = gameBoard.isWallPlacementValid(tmp2, dir);
+                    if (valid) {
+                        //check to see if the wall will block a player from being able to finish
+                        blockpath1 = doesWallBlockPath(tmp2, dir, 1);
+                        blockpath2 = doesWallBlockPath(tmp2, dir, 2);
+
+                        System.out.println("player 1 path blocked = " + blockpath1);
+                        System.out.println("player 2 path blocked = " + blockpath2);
+
+                        //if not then we can place the wall
+                        if (blockpath1 == false && blockpath2 == false) {
+                            {
+                                return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
+                            }
                         }
+                    } else if (i == 0 && tmp.y - 1 > 0 ) //try to place a wall next to the 
+                    {
+                        tmp2 = gameBoard.getSpaceAt(tmp.x - 1, y);
+                    } else if (i == 1 && tmp.y + 1 <= 7) //try to place a wall to the other side of the original wall position
+                    {
+                        tmp2 = gameBoard.getSpaceAt(tmp.x + 1, y);
                     }
-                } else {
-                    //do nothing and check next node
                 }
             }
 
@@ -963,7 +980,7 @@ public class AI {
         System.out.println("placed pseudo wall at " + wallPos.x + ", " + wallPos.y);
         System.out.println("player " + playerNum + " path.get(0) is: " + target);
         System.out.println("target.y = " + target.y + "   targetY = " + targetY);
-        
+
         //if we check the path for the players 1 and 2
         if (playerNum == 1 || playerNum == 2) {
             if ((target.y == targetY) && spath.contains(startingPos)) {

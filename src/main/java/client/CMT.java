@@ -19,6 +19,7 @@ public class CMT {
   static String move = "";
   static int playerNumber;
   static int playerCount;
+  static int delay = 1;
   static GuiThread gt;
   private static Interpreter pr = new Interpreter();
   static Main gui = null;
@@ -31,7 +32,7 @@ public class CMT {
   public static void main(String[] args) throws Exception {
 
     playerNumber = 1;
-    playerCount = args.length;
+    //playerCount = args.length;
     Socket clientSocket;
 
     try {
@@ -47,11 +48,21 @@ public class CMT {
     // command line. Adds the thread to our list of threads (threadList) and
     // starts each thread.
     for (int i = 0; i < args.length; i++) {
-      String[] temp = args[i].split(":");
-      clientSocket = errorCheck(temp);
-      ClientThread client = new ClientThread(clientSocket);
-      threadList.add(client);
-      client.start();
+      if(args[i].equals("--delay")){
+        try{
+          delay = Integer.parseInt(args[i+1]);
+          i++;
+        }catch(NumberFormatException e){
+          System.out.println(e);
+        }
+      }else{
+        String[] temp = args[i].split(":");
+        clientSocket = errorCheck(temp);
+        playerCount++;
+        ClientThread client = new ClientThread(clientSocket);
+        threadList.add(client);
+        client.start();
+      }
     }
 
     // Creates a thread to run / launch the GUI. Facilitates sending messages
@@ -159,6 +170,7 @@ public class CMT {
     String moveResult = "";
     while (true) {
       for (ClientThread c : threadList) {
+        c.sleep(delay);
         tesuji = c.Myoushu();
         pr.parse(tesuji);
         if (pr.isValid()) {
@@ -246,7 +258,7 @@ public class CMT {
     }
     System.out.println("Kicking Player#: " + g.getPlayerNumber() +
                        " for " + tesuji);
-    gui.setPlayerCount(playerCount);
+    gui.setPlayerCount(--playerCount);
     gui.gote(g.getPlayerNumber());
     threadList.remove(g);
   }

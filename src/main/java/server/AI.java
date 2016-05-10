@@ -416,7 +416,7 @@ public class AI {
             //if our change in x between the space we are checking and the next space
             if (deltaX != 0) {
                 //if we are here the shortest path says the ai will move either left or right
-                dir = 'h';
+                dir = 'v';
                 //see if the wall is a valid placement first
                 //ie) it doesnt intersect other walls and it is not placed off the board
                 for (int i = 0; i < 2; i++) {
@@ -437,17 +437,17 @@ public class AI {
                             return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
                         }
                     } else //try a wall next to the one we tried to place
-                     if (i == 0 && (tmp.x - 1) > 0) //try to place a wall next to the 
+                     if (i == 0 && (tmp.y - 1) > 0) //try to place a wall next to the 
                         {
-                            tmp2 = gameBoard.getSpaceAt(tmp.x - 1, y);
-                        } else if (i == 1 && tmp.x +1 <= 7) //try to place a wall to the other side of the original wall position
+                            tmp2 = gameBoard.getSpaceAt(tmp.x, tmp.y - 1);
+                        } else if (i == 1 && tmp.x + 1 <= 7) //try to place a wall to the other side of the original wall position
                         {
-                            tmp2 = gameBoard.getSpaceAt(tmp.x + 1, y);
+                            tmp2 = gameBoard.getSpaceAt(tmp.x, tmp.y + 1);
                         }
                 }
             } else if (deltaY != 0) { //here the player will be moving forward or backward
                 //here the ai will determine if the player will move from 
-                dir = 'v';
+                dir = 'h';
 
                 for (int i = 0; i < 2; i++) {
                     //check to see if the wall is a valid wall placement
@@ -466,12 +466,12 @@ public class AI {
                                 return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
                             }
                         }
-                    } else if (i == 0 && (tmp.y - 1) > 0 ) //try to place a wall next to the 
+                    } else if (i == 0 && (tmp.x - 1) > 0 ) //try to place a wall next to the 
                     {
-                        tmp2 = gameBoard.getSpaceAt(tmp.x - 1, y);
-                    } else if (i == 1 && tmp.y + 1 <= 7) //try to place a wall to the other side of the original wall position
+                        tmp2 = gameBoard.getSpaceAt(tmp.x -1, tmp.y);
+                    } else if (i == 1 && tmp.x + 1 <= 7) //try to place a wall to the other side of the original wall position
                     {
-                        tmp2 = gameBoard.getSpaceAt(tmp.x + 1, y);
+                        tmp2 = gameBoard.getSpaceAt(tmp.x + 1, tmp.y);
                     }
                 }
             }

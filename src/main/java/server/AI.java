@@ -440,7 +440,7 @@ public class AI {
                      if (i == 0 && (tmp.y - 1) > 0) //try to place a wall next to the 
                         {
                             tmp2 = gameBoard.getSpaceAt(tmp.x, tmp.y - 1);
-                        } else if (i == 1 && tmp.x + 1 <= 7) //try to place a wall to the other side of the original wall position
+                        } else if (i == 1 && tmp.y + 1 <= 7) //try to place a wall to the other side of the original wall position
                         {
                             tmp2 = gameBoard.getSpaceAt(tmp.x, tmp.y + 1);
                         }

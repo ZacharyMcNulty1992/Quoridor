@@ -155,7 +155,7 @@ public class GameBoard {
      */
     public void placeWall(Point wallPos, char direction) {
 
-        wallsMap.put(wallPos, new Character(direction));
+        wallsMap.put(wallPos, direction);
         if (direction == 'v') {
             //Point temp = new Point(wallPos.x, wallPos.y + 1);
             //wallsMap.put(temp, new Character(direction));
@@ -233,11 +233,11 @@ public class GameBoard {
             getSpaceAt(wallPos.x + 1, wallPos.y).edges
                     .add(getSpaceAt(wallPos.x + 1, wallPos.y + 1));
 
+            getSpaceAt(wallPos.x, wallPos.y + 1).edges
+                    .add(getSpaceAt(wallPos.x, wallPos.y));
+
             getSpaceAt(wallPos.x + 1, wallPos.y + 1).edges
                     .add(getSpaceAt(wallPos.x + 1, wallPos.y));
-
-            getSpaceAt(wallPos.x + 1, wallPos.y).edges
-                    .add(getSpaceAt(wallPos.x, wallPos.y));
         }
     }
 

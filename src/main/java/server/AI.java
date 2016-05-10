@@ -984,7 +984,7 @@ public class AI {
                 targetX = 0;
                 break;
         }
-
+        
         System.out.println("placed pseudo wall at " + wallPos.x + ", " + wallPos.y);
         System.out.println("player " + playerNum + " path.get(0) is: " + target);
         System.out.println("target.y = " + target.y + "   targetY = " + targetY);

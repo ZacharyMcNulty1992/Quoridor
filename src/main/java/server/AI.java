@@ -360,6 +360,7 @@ public class AI {
         boolean valid = false; //used to see if a wall placement is valid
         boolean blockpath1 = false;
         boolean blockpath2 = false;
+        boolean isGucciWallPlacement = false;
         int opponent = 0; //number of the opponent
         int count = 0; //counter variable used later on
         int pathSize = o1.size(); //size of the opponents path
@@ -430,8 +431,10 @@ public class AI {
 
                         System.out.println("player 1 path blocked = " + blockpath1);
                         System.out.println("player 2 path blocked = " + blockpath2);
-
-                        if (blockpath1 == false && blockpath2 == false) { //if not then we can place the wall
+                        
+                        isGucciWallPlacement = crankThatJulian(tmp2, dir, playerNum);
+                        
+                        if (blockpath1 == false && blockpath2 == false && isGucciWallPlacement) { //if not then we can place the wall
                             return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
                         }
                     } else //try a wall next to the one we tried to place
@@ -460,8 +463,10 @@ public class AI {
                         System.out.println("player 1 path blocked = " + blockpath1);
                         System.out.println("player 2 path blocked = " + blockpath2);
 
+                        isGucciWallPlacement = crankThatJulian(tmp2, dir, playerNum);
+                        
                         //if not then we can place the wall
-                        if (blockpath1 == false && blockpath2 == false) {
+                        if (blockpath1 == false && blockpath2 == false && isGucciWallPlacement) {
                             {
                                 return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
                             }
@@ -1011,8 +1016,10 @@ public class AI {
     }
 
     //used for 2 player ONLY 
-    public boolean getThatJulian(int playerNum) {
+    public boolean crankThatJulian(Point wallPos, char dir,int playerNum) {
 
+        gameBoard.placeWall(wallPos, dir);
+        
         boolean Julian = false;
         ArrayList<Space> ais = getShortestPath(1);
         ArrayList<Space> bis = getShortestPath(2);
@@ -1025,6 +1032,8 @@ public class AI {
             Julian = true;
         }
 
+        gameBoard.removeWall(wallPos, dir);
+        
         return Julian;
     }
 }

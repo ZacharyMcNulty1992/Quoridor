@@ -169,7 +169,7 @@ public class Main extends Application {
         }
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
-        Scene scene = new Scene(mainPane, 800, 800, Color.GREY);
+        Scene scene = new Scene(mainPane, 800, 600, Color.GREY);
         primaryStage.setScene(scene);
         scene.getStylesheets().add("Main.css");
         // Display primaryStage
@@ -191,6 +191,8 @@ public class Main extends Application {
             for (int j = 0; j < 9; j++) {
                 Rectangle r = new Rectangle(50, 50, Color.GREEN);
                 board.add(r, i, j);
+                r.setId("r");
+
             }
         }
 

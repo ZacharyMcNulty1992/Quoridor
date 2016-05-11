@@ -277,9 +277,9 @@ public class GameBoard {
         }
 
         //see if the walls are with in the game board
-        if ((dir == 'v') && !((wall.y <= 8) && (wall.x <= 8))) {
+        if ((dir == 'v') && !((wall.y <= 7) && (wall.x <= 7))) {
             return false;
-        } else if ((dir == 'h') && !((wall.x <= 8) && (wall.y <= 8))) {
+        } else if ((dir == 'h') && !((wall.x <= 7) && (wall.y <= 7))) {
             return false;
         }
         
@@ -287,10 +287,10 @@ public class GameBoard {
         //in the direction, if vert the above and below the point 
         //if horz then to the left and the right of the point
         switch (dir) {
-            case 'v':
-                Point above = new Point(wall.x, wall.y + 1);
+            case 'v':        
                 Point below = new Point(wall.x, wall.y - 1);
-
+                Point above = new Point(wall.x, wall.y + 1);
+                
                 if (wallsMap.containsKey(above)) {
                     return false;
                 } else if (wallsMap.containsKey(below)) {
@@ -299,9 +299,9 @@ public class GameBoard {
                     return true;
                 }
             case 'h':
-                Point left = new Point(wall.x - 1, wall.y);
                 Point right = new Point(wall.x + 1, wall.y);
-
+                Point left = new Point(wall.x-1, wall.y);
+                
                 if (wallsMap.containsKey(right)) {
                     return false;
                 } else if (wallsMap.containsKey(left)) {

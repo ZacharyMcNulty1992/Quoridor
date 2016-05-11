@@ -349,6 +349,13 @@ public class AI {
         gameBoard.placeWall(p, direction);
     }
 
+    /**
+     * 
+     * @param ais - the shortest path of the current player
+     * @param o1 - the shortest path of the opponent player
+     * @return wallPlacement - a wall placement string
+     */
+    
     private String makeGoodWallPlacement2(ArrayList<Space> ais, ArrayList<Space> o1) {
 
         //check to see if the list we are passing in is null
@@ -432,9 +439,13 @@ public class AI {
                         System.out.println("player 1 path blocked = " + blockpath1);
                         System.out.println("player 2 path blocked = " + blockpath2);
                         
+                        //make sure we are not making a wall placement that will
+                        //increase the length of our path
                         isGucciWallPlacement = crankThatJulian(tmp2, dir, playerNum);
                         
-                        if (blockpath1 == false && blockpath2 == false && isGucciWallPlacement) { //if not then we can place the wall
+                        //we will return a wall placement if the wall does not block a player from
+                        //being able to finish the game and if the wall does not make our path longer
+                        if (blockpath1 == false && blockpath2 == false && isGucciWallPlacement) {
                             return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
                         }
                     } else //try a wall next to the one we tried to place
@@ -463,6 +474,7 @@ public class AI {
                         System.out.println("player 1 path blocked = " + blockpath1);
                         System.out.println("player 2 path blocked = " + blockpath2);
 
+                        //check to see if the wall placement will increase our path
                         isGucciWallPlacement = crankThatJulian(tmp2, dir, playerNum);
                         
                         //if not then we can place the wall
@@ -471,9 +483,14 @@ public class AI {
                                 return "TESUJI [(" + tmp2.x + ", " + tmp2.y + "), " + dir + "]";
                             }
                         }
-                    } else if (i == 0 && (tmp.x - 1) > 0) //try to place a wall next to the 
+                     
+                    } 
+                    //if the wall is not valid we will check to see if the wall
+                    //to the left or the right will work
+                    else if (i == 0 && (tmp.x - 1) > 0) //try to place a wall next to the 
                     {
                         tmp2 = gameBoard.getSpaceAt(tmp.x - 1, tmp.y);
+                        
                     } else if (i == 1 && tmp.x + 1 <= 7) //try to place a wall to the other side of the original wall position
                     {
                         tmp2 = gameBoard.getSpaceAt(tmp.x + 1, tmp.y);
@@ -498,13 +515,14 @@ public class AI {
             //a good place to place a wall
         }
 
+        //we sould only get here if there is no good wall placement to make
         return null;
 
     }
 
     private String makeGoodWallPlacement4(ArrayList<Space> ais, ArrayList<Space> o1, ArrayList<Space> o2, ArrayList<Space> o3) {
 
-        return null;
+        return null; //stub
     }
 
     private String makeValidWallPlacement(ArrayList<Space> ais) {
@@ -944,7 +962,7 @@ public class AI {
      */
     public boolean doesWallBlockPath(Point wallPos, char direction, int playerNum) {
 
-        //place a sudo wall
+        //place a pseudo wall
         System.out.println();
         gameBoard.placeWall(wallPos, direction);
 
@@ -952,20 +970,14 @@ public class AI {
         int targetY = 0;
         int targetX = 0;
 
-        boolean isGucciWallPlacement = false;
-
         //get the shortest path of the current player
         ArrayList<Space> spath = getShortestPath(playerNum);
+        
+        //if our shortest path is null then there are no valid wall placements
         if (spath == null) {
+            gameBoard.removeWall(wallPos, direction);
             return true;
         }
-
-//        isGucciWallPlacement = getThatJulian(playerNum);
-//
-//        if (isGucciWallPlacement == false) {
-//            gameBoard.removeWall(wallPos, direction);
-//            return true;
-//        }
 
         //target- should be the target node if it isnt then we dont have
         //a path to the end of the board
@@ -1015,25 +1027,42 @@ public class AI {
         }
     }
 
+    
+    /**
+     * 
+     * @param wallPos -- place where we are thinking about placing a wall
+     * @param dir -- the direction the wall will be placed
+     * @param playerNum -- the number of the current player
+     * @return Julian -- a boolean for if the wall increases the players path
+     */
     //used for 2 player ONLY 
     public boolean crankThatJulian(Point wallPos, char dir,int playerNum) {
 
+        //place the wall
         gameBoard.placeWall(wallPos, dir);
         
+        //create a boolean
         boolean Julian = false;
+        
+        //get both player's shortest path
         ArrayList<Space> ais = getShortestPath(1);
         ArrayList<Space> bis = getShortestPath(2);
 
+        //determine what player we are and weather or not our path is longer
+        //or shorter. if it is shorter then we will return that this is a good
+        //place to place a wall
         if (playerNum == 1) {
             if (ais.size() < bis.size()) {
                 Julian = true;
             }
-        } else if (bis.size() < bis.size()) {
+        } else if (bis.size() < ais.size()) {
             Julian = true;
         }
 
+        //now we remove the wall we placed from the game board
         gameBoard.removeWall(wallPos, dir);
         
+        //and return our boolean value of if the wall is a good wall to place
         return Julian;
     }
 }

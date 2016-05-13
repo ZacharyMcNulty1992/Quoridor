@@ -35,7 +35,7 @@ public class Main extends Application {
     static BorderPane mainPane;
 
     // root pane all other panes will be added to
-    static Pane root; // Making this a group will allow it to be dynamically centered
+    static Pane root; // Making this a Group will allow it to be dynamically centered
 
     // Gridpane for vertical walls.
     static GridPane vWallGrid;
@@ -43,11 +43,13 @@ public class Main extends Application {
     // Gridpane for horizontal walls.
     static GridPane hWallGrid;
 
+    // GridPane to fill gaps betwee walls
     static GridPane wallFillGrid;
 
     // Gridpane for pawn locations.
     static GridPane pawns;
 
+    // GridPane to represent board squares
     static GridPane board;
 
     // 4 cirlces to represnt th pawns
@@ -62,17 +64,18 @@ public class Main extends Application {
     static Player p3;
     static Player p4;
 
-    //public static int player2walls;
-
+    // HashMap to hold wall positions
     static HashMap<Point, Character> tempMap;
 
     public static Main gui = null;
     private static final CountDownLatch latch = new CountDownLatch(1);
 
+    // Main method of a javfx gui.
     public static void main(String[] args) {
         Application.launch(args);
     }
 
+    // Constructor for the main to give an instance of the gui.
     public Main() {
         tempMap = new HashMap<>();
         guiStartUpTest(this);
@@ -83,6 +86,7 @@ public class Main extends Application {
         playerCount = pc;
     }
 
+    // latch waits on countdown to start the gui, for run-loop access.
     public static Main waitForStartUp() {
         try {
             latch.await();
@@ -110,6 +114,7 @@ public class Main extends Application {
         currentPlayer = pn;
     }
 
+    // starts the latch countdown to instance the gui.
     public static void guiStartUpTest(Main g) {
         gui = g;
         latch.countDown();
@@ -172,6 +177,7 @@ public class Main extends Application {
         Scene scene = new Scene(mainPane, 800, 600, Color.GREY);
         primaryStage.setScene(scene);
         scene.getStylesheets().add("Main.css");
+
         // Display primaryStage
         primaryStage.show();
     }
@@ -329,6 +335,16 @@ public class Main extends Application {
                      hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x, key.y);
                      hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x + 1, key.y);
                      wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);
+
+                    /*Rectangle rect = new Rectangle(50, 10, Color.BLACK);
+                    Rectangle rect1 = new Rectangle(50, 10, Color.BLACK);
+                    Rectangle gap = new Rectangle(10, 10, Color.BLACK);
+                    rect.setId("wall");
+                    rect1.setId("wall");
+                    gap.setId("wall");
+                    hWallGrid.add(rect, key.x, key.y);
+                    hWallGrid.add(rect1, key.x + 1, key.y);
+                    wallFillGrid.add(gap, key.x, key.y);*/
                 }
             }
         }
@@ -350,6 +366,7 @@ public class Main extends Application {
         Label p2walls = new Label("Player 2: " + p2.wallCount);
         vb.getChildren().add(p2walls);
 
+        // Shows counter for players 3 and 4
         if (playerCount > 2){
             Label p3walls = new Label("Player 3: " + p3.wallCount);
             vb.getChildren().add(p3walls);

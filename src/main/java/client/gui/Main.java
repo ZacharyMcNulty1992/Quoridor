@@ -325,26 +325,32 @@ public class Main extends Application {
         for (Point key : wallsMap.keySet()) {
             if(!tempMap.containsKey(key)){
                 tempMap.put(key, wallsMap.get(key));
+                Rectangle gap = new Rectangle(10, 10, Color.BLACK);
+                gap.setId("wall");
                 if (tempMap.get(key) == 'v') {
                     System.out.println("Player " + currentPlayer + " vWall = " + key);
-                     vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y);
+                     /*vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y);
                      vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y + 1);
-                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);
-                } else {
-                    System.out.println("Player " + currentPlayer + " hWall = " + key);
-                     hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x, key.y);
-                     hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x + 1, key.y);
-                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);
-
-                    /*Rectangle rect = new Rectangle(50, 10, Color.BLACK);
-                    Rectangle rect1 = new Rectangle(50, 10, Color.BLACK);
-                    Rectangle gap = new Rectangle(10, 10, Color.BLACK);
+                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);*/
+                    Rectangle rect = new Rectangle(10, 50, Color.BLACK);
+                    Rectangle rect1 = new Rectangle(10, 50, Color.BLACK);
                     rect.setId("wall");
                     rect1.setId("wall");
-                    gap.setId("wall");
+                    vWallGrid.add(rect, key.x, key.y);
+                    vWallGrid.add(rect1, key.x, key.y + 1);
+                    wallFillGrid.add(gap, key.x, key.y);
+                } else {
+                    System.out.println("Player " + currentPlayer + " hWall = " + key);
+                     /*hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x, key.y);
+                     hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x + 1, key.y);
+                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);*/
+                    Rectangle rect = new Rectangle(50, 10, Color.BLACK);
+                    Rectangle rect1 = new Rectangle(50, 10, Color.BLACK);
+                    rect.setId("wall");
+                    rect1.setId("wall");
                     hWallGrid.add(rect, key.x, key.y);
                     hWallGrid.add(rect1, key.x + 1, key.y);
-                    wallFillGrid.add(gap, key.x, key.y);*/
+                    wallFillGrid.add(gap, key.x, key.y);
                 }
             }
         }

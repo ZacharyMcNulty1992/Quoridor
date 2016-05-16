@@ -1,9 +1,9 @@
-#r{
-  -fx-fill: url("wood.jpg");;
+#board{
+  -fx-fill: url("wood.jpg");
 }
 
 #wall{
-  -fx-fill: url("wallwood.jpg");;
+  -fx-fill: url("wallwood.jpg");
 }
 
 .root {
@@ -26,4 +26,20 @@
 
 .main {
   -fx-background-color: BLACK;
+}
+
+#pawn1{
+  -fx-fill: url("trump.jpg");
+}
+
+#pawn2{
+  -fx-fill: url("sanders.jpg");
+}
+
+#pawn3{
+  -fx-fill: url("clinton.jpg");
+}
+
+#pawn4{
+  -fx-fill: url("cruz.jpg");
 }

@@ -167,10 +167,14 @@ public class Main extends Application {
         handlePawns();
 
         pawns.add(pawn1, 4, 0);
+        pawn1.setId("pawn1");
         pawns.add(pawn2, 4, 8);
+        pawn2.setId("pawn2");
         if (playerCount > 2) {
             pawns.add(pawn3, 0, 4);
+            pawn3.setId("pawn3");
             pawns.add(pawn4, 8, 4);
+            pawn4.setId("pawn4");
         }
 
         // Creates a scene with a default size and sets the primaryStage(all panes so far) on it.
@@ -197,7 +201,7 @@ public class Main extends Application {
             for (int j = 0; j < 9; j++) {
                 Rectangle r = new Rectangle(50, 50, Color.GREEN);
                 board.add(r, i, j);
-                r.setId("r");
+                r.setId("board");
 
             }
         }

@@ -166,6 +166,7 @@ public class Main extends Application {
         drawBoard();
         handlePawns();
 
+        // adds pawns and sets the Id's for the css
         pawns.add(pawn1, 4, 0);
         pawn1.setId("pawn1");
         pawns.add(pawn2, 4, 8);
@@ -333,9 +334,6 @@ public class Main extends Application {
                 gap.setId("wall");
                 if (tempMap.get(key) == 'v') {
                     System.out.println("Player " + currentPlayer + " vWall = " + key);
-                     /*vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y);
-                     vWallGrid.add(new Rectangle(10, 50, Color.BLACK), key.x, key.y + 1);
-                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);*/
                     Rectangle rect = new Rectangle(10, 50, Color.BLACK);
                     Rectangle rect1 = new Rectangle(10, 50, Color.BLACK);
                     rect.setId("wall");
@@ -345,9 +343,6 @@ public class Main extends Application {
                     wallFillGrid.add(gap, key.x, key.y);
                 } else {
                     System.out.println("Player " + currentPlayer + " hWall = " + key);
-                     /*hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x, key.y);
-                     hWallGrid.add(new Rectangle(50, 10, Color.BLACK), key.x + 1, key.y);
-                     wallFillGrid.add(new Rectangle(10, 10, Color.BLACK), key.x, key.y);*/
                     Rectangle rect = new Rectangle(50, 10, Color.BLACK);
                     Rectangle rect1 = new Rectangle(50, 10, Color.BLACK);
                     rect.setId("wall");

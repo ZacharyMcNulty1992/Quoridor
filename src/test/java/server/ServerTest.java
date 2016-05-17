@@ -50,12 +50,18 @@ public class ServerTest {
     
   }
 
-  @Test
+  @Test // Test game initialization message handling
   public void testGameInit() {
     String gameMessage = "GAME 2 4tr:test1 4tr:test2";
     fc.gameInit(gameMessage);
     int pn = Whitebox.getInternalState(fc, "playerNumber");
     Assert.assertEquals(2,pn);
+  }
+
+  @Test // Tests ATARI message handling in Server
+  public void testUpdateAI(){
+    String gameMessage = "ATARI 1 (1,4)";
+    fc.updateAI(gameMessage);
   }
 
 }

@@ -20,6 +20,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.IOException;
 
+/**
+ * @author Michael Cataldo
+ * @ft.date 5/17/2016
+ * @ft.edited Michael Cataldo
+ */
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(CMT.class)
 public class ClientTest {

@@ -21,6 +21,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.IOException;
 
+/**
+ * @author Michael Cataldo
+ * @ft.date 5/17/16
+ * @ft.edited Michael
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EchoServer.class)
 public class ServerTest {

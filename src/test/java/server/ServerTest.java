@@ -1,4 +1,5 @@
 package server;
+import server.AI;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import java.io.IOException;
 public class ServerTest {
 
   private EchoServer fc;
+  private AI ai;  
 
   @Before // Runs when class is initialized
   public void setup() {
@@ -41,6 +43,14 @@ public class ServerTest {
     int delay = Whitebox.getInternalState(fc, "delay");
     Assert.assertEquals(1, delay);
     
+  }
+
+  @Test
+  public void testGameInit() {
+    String gameMessage = "GAME 2 4tr:test1 4tr:test2";
+    fc.gameInit(gameMessage);
+    int pn = Whitebox.getInternalState(fc, "playerNumber");
+    Assert.assertEquals(2,pn);
   }
 
 }

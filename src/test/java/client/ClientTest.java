@@ -37,7 +37,7 @@ public class ClientTest {
 
   }
 
-  @Test
+  @Test //Tests if Socket is returned from error check when passed valid port
   public void testSocketCheck() {
     int portNumber = 55555;
     String portString = "55555";

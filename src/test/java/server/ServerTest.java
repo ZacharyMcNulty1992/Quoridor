@@ -33,8 +33,14 @@ public class ServerTest {
 
   @Test
   public void testIfServerConstructed() {
-    assertNotNull(fc);
+    Assert.assertNotNull(fc);
 
+    int port = Whitebox.getInternalState(fc, "portNumber");
+    Assert.assertEquals(55555, port);
+
+    int delay = Whitebox.getInternalState(fc, "delay");
+    Assert.assertEquals(1, delay);
+    
   }
 
 }
